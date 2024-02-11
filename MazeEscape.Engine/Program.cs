@@ -47,7 +47,7 @@ namespace MazeEscape.Engine
             {
                 Console.Clear();
 
-                Console.WriteLine("\n" + mazeGame.PrintMaze());
+                Console.WriteLine("Use 'w', 'a' and 'd' to navigate\n\n" + mazeGame.PrintMaze());
 
                 Console.WriteLine(status);
 

@@ -1,9 +1,9 @@
 ﻿using System.Security.Cryptography;
-using MazeEscape.Engine.Helper;
-using MazeEscape.Engine.Interfaces;
+using MazeEscape.Encoder.Helper;
+using MazeEscape.Encoder.Interfaces;
 using MazeEscape.Engine.Model;
 
-namespace MazeEscape.Engine
+namespace MazeEscape.Encoder
 {
     public class MazeEncoder : IMazeEncoder
     {

@@ -85,29 +85,6 @@ public class MazeGenerator : IMazeGenerator
 
     public Maze GenerateRandom(int width, int height)
     {
-        var maze = new Maze();
-
-        maze.Width = width;
-        maze.Height = height;
-
-        for (var i = 0; i < maze.Height; i++)
-        {
-            for (var j = 0; j < maze.Width; j++)
-            {
-                maze.Squares.Add(new MazeSquare
-                {
-                    Location = new Location()
-                    {
-                        XCoordinate = i,
-                        YCoordinate = j
-                    },
-
-                    SquareType = (i + j) % 2 == 0 ? SquareType.Wall : SquareType.Corridor,
-                });
-
-            }
-        }
-
-        return maze;
+        throw new NotImplementedException();
     }
 }

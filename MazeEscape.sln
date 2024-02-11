@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.WebAPI.Integrati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.Engine", "MazeEscape.Engine\MazeEscape.Engine.csproj", "{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.Encoder", "MazeEscape.Encoder\MazeEscape.Encoder.csproj", "{2783CD02-C4E0-4C0C-A6EC-565B1B573BA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2783CD02-C4E0-4C0C-A6EC-565B1B573BA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2783CD02-C4E0-4C0C-A6EC-565B1B573BA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2783CD02-C4E0-4C0C-A6EC-565B1B573BA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2783CD02-C4E0-4C0C-A6EC-565B1B573BA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

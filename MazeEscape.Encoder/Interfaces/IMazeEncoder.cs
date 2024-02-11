@@ -1,6 +1,6 @@
 ﻿using MazeEscape.Engine.Model;
 
-namespace MazeEscape.Engine.Interfaces;
+namespace MazeEscape.Encoder.Interfaces;
 
 public interface IMazeEncoder
 {

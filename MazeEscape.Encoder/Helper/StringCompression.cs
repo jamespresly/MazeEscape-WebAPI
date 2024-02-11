@@ -1,7 +1,7 @@
 ﻿using System.IO.Compression;
 using System.Text;
 
-namespace MazeEscape.Engine.Helper
+namespace MazeEscape.Encoder.Helper
 {
     internal class StringCompression
     {
