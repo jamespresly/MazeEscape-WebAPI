@@ -1,7 +1,7 @@
-﻿using Maze_poc.Enums;
-using Maze_poc.Interfaces;
+﻿using MazeEscape.Engine.Enums;
+using MazeEscape.Engine.Interfaces;
 
-namespace Maze_poc
+namespace MazeEscape.Engine
 {
     internal class Program
     {
@@ -33,8 +33,6 @@ namespace Maze_poc
                 "+         +\n" +
                 "+++++++++++\n";
 
-
-
             IMazeGenerator mazeGenerator = new MazeGenerator();
             IPlayerController playerController = new PlayerController();
 
@@ -42,15 +40,6 @@ namespace Maze_poc
 
             mazeGame.Initialise(testmaze);
 
-
-
-            var key = "yNiPC0Se/P5fO2ie4mdmpIIk/IQbGg+AYKrOBGGX1q4=";
-
-            IMazeEncoder mazeEncoder = new MazeEncoder();
-            var encoded = mazeEncoder.MazeEncode(mazeGame.GetMaze(), key);
-
-            
-           
             var status = "";
 
 
@@ -64,11 +53,11 @@ namespace Maze_poc
 
                 if (status.Contains("escaped"))
                 {
-                     break;
+                    break;
                 }
 
                 status = "";
-                    
+
 
                 var vision = mazeGame.GetPlayerVision();
 
@@ -76,14 +65,14 @@ namespace Maze_poc
 
                 Console.WriteLine("\nAhead:" + vision.Ahead);
 
-                Console.WriteLine("\nLeft:" + vision.Left.ToString().PadRight(8) +  "    Right:" + vision.Right + "\n");
-                
+                Console.WriteLine("\nLeft:" + vision.Left.ToString().PadRight(8) + "    Right:" + vision.Right + "\n");
+
 
                 var x = Console.ReadKey();
 
                 if (x.KeyChar == 'w')
                 {
-                   status = mazeGame.MovePlayer(PlayerMove.Forward);
+                    status = mazeGame.MovePlayer(PlayerMove.Forward);
 
                 }
 
@@ -103,9 +92,6 @@ namespace Maze_poc
 
 
         }
-
-
-       
 
     }
 }
