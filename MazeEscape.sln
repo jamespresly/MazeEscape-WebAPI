@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.WebAPI", "MazeEscape.WebAPI\MazeEscape.WebAPI.csproj", "{97E2C63A-EAE7-4407-BBB3-72F73FF59AB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.WebAPI.IntegrationTests", "MazeEscape.WebAPI.IntegrationTests\MazeEscape.WebAPI.IntegrationTests.csproj", "{F2625BA3-4900-4C0A-94D0-254E9B70FD6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.WebAPI.IntegrationTests", "MazeEscape.WebAPI.IntegrationTests\MazeEscape.WebAPI.IntegrationTests.csproj", "{F2625BA3-4900-4C0A-94D0-254E9B70FD6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.Engine", "MazeEscape.Engine\MazeEscape.Engine.csproj", "{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F2625BA3-4900-4C0A-94D0-254E9B70FD6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2625BA3-4900-4C0A-94D0-254E9B70FD6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2625BA3-4900-4C0A-94D0-254E9B70FD6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
