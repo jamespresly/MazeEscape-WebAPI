@@ -2,6 +2,7 @@
 
 public enum PlayerMove
 {
+    None,
     TurnLeft,
     TurnRight,
     Forward

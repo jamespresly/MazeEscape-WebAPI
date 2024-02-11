@@ -1,5 +1,6 @@
 ﻿using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Enums;
+using MazeEscape.WebAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MazeEscape.WebAPI.Controllers
@@ -8,10 +9,18 @@ namespace MazeEscape.WebAPI.Controllers
     [ApiController]
     public class MazesController : ControllerBase
     {
+        private readonly IMazeManager _mazeManager;
+
+        public MazesController(IMazeManager mazeManager)
+        {
+            _mazeManager = mazeManager;
+        }
+
         [HttpGet]
         [Route("")]
         public IActionResult GetMazes()
         {
+            // todo hypermedia
             return Ok();
         }
 
@@ -20,34 +29,50 @@ namespace MazeEscape.WebAPI.Controllers
         [Route("presets")]
         public IActionResult GetPresets()
         {
-            var presets = new List<string>
-            {
-                "",
-            };
-
-            return Ok(presets);
+            return Ok(_mazeManager.GetPresets());
         }
 
         [HttpPost]
         [Route("")]
         public IActionResult CreateMaze([FromQuery] CreateMode createMode, [FromBody] CreateParams createParams)
         {
+            var mazeToken = "";
 
-            return Ok();
+            try
+            {
+                mazeToken = _mazeManager.CreateMaze(createMode, createParams);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (FileNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+
+            return Created("", new { mazeToken = mazeToken });
+
         }
 
-        [HttpGet]
-        [Route("player")]
-        public IActionResult GetPlayer()
-        {
-            return Ok();
-        }
+  
 
         [HttpPost]
         [Route("player")]
-        public IActionResult MovePlayer([FromQuery] PlayerMove playerMove)
+        public IActionResult MovePlayer([FromQuery] PlayerMove playerMove, [FromBody] MazeState? mazeState)
         {
-            return Ok();
+            PlayerInfo? playerInfo = null;
+            try
+            {
+                playerInfo = _mazeManager.GetPlayerInfo(mazeState);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+
+
+            return Ok(playerInfo);
         }
     }
 }
