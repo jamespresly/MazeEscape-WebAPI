@@ -10,6 +10,8 @@ namespace MazeEscape.Encoder
     {
         private readonly IMazeConverter _mazeConverter;
 
+        
+
         public MazeEncoder(IMazeConverter mazeConverter)
         {
             _mazeConverter = mazeConverter;
@@ -23,13 +25,8 @@ namespace MazeEscape.Encoder
 
             var key = Convert.FromBase64String(encryptionKey);
 
-            var iv = new byte[16];
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                rng.GetBytes(iv);
-            }
-
-
+            var iv = RandomNumberGenerator.GetBytes(16);
+            
             var encrypted = AesEncryption.Encrypt(compressed, key, iv);
 
             var encryptedBase64 = Convert.ToBase64String(encrypted);
@@ -64,7 +61,7 @@ namespace MazeEscape.Encoder
 
         }
 
-        private Dictionary<char, int> _charMap = 
+        private readonly Dictionary<char, int> _charMap = 
             new Dictionary<char, int>()
             {
                 {'+', 0},

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using FluentAssertions;
 using MazeEscape.Encoder.Interfaces;
 using System.Text;
+using MazeEscape.Engine;
 using MazeEscape.Engine.Interfaces;
 
 

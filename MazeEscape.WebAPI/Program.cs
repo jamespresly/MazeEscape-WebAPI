@@ -1,5 +1,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using MazeEscape.Encoder;
+using MazeEscape.Encoder.Interfaces;
+using MazeEscape.Engine;
+using MazeEscape.Engine.Interfaces;
 using MazeEscape.WebAPI.Fakes;
 using MazeEscape.WebAPI.Interfaces;
 
@@ -22,9 +26,15 @@ namespace MazeEscape.WebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<IMazeManager, FakeMazeManager>();
+            builder.Services.AddScoped<IMazeManager, MazeManager>();
 
-            
+            builder.Services.AddScoped<IMazeGame, MazeGame>();
+            builder.Services.AddScoped<IMazeEncoder, MazeEncoder>();
+            builder.Services.AddScoped<IMazeConverter, MazeConverter>();
+
+            builder.Services.AddScoped<IPlayerController, PlayerController>();
+            builder.Services.AddScoped<IMazeGenerator, MazeGenerator>();
+
 
             var app = builder.Build();
 

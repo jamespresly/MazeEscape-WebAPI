@@ -70,6 +70,7 @@ public class MazeConverter : IMazeConverter
                             YCoordinate = rowCount
                         }
                     };
+                    square.SquareType = SquareType.Corridor;
                 }
                 else if (c == '\u25b2' || c == '\u25ba' || c == '\u25bc' || c == '\u25c4')  
                 {
