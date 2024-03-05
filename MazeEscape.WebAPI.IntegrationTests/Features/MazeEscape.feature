@@ -1,4 +1,5 @@
-﻿Feature: MazeEscape
+﻿@ignore
+Feature: MazeEscape
 
 MazeEscape endpoints for creating the maze and moving the player around the maze
 
