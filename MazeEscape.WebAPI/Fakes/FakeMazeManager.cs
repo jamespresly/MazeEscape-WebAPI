@@ -1,7 +1,8 @@
 ﻿using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Enums;
+using MazeEscape.WebAPI.Interfaces;
 
-namespace MazeEscape.WebAPI.Interfaces;
+namespace MazeEscape.WebAPI.Fakes;
 
 public class FakeMazeManager : IMazeManager
 {

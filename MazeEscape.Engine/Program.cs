@@ -33,10 +33,11 @@ namespace MazeEscape.Engine
                 "+         +\n" +
                 "+++++++++++\n";
 
+            IMazeConverter mazeConverter = new MazeConverter();
             IMazeGenerator mazeGenerator = new MazeGenerator();
             IPlayerController playerController = new PlayerController();
 
-            IMazeGame mazeGame = new MazeGame(mazeGenerator, playerController);
+            IMazeGame mazeGame = new MazeGame(mazeConverter, mazeGenerator, playerController);
 
             mazeGame.Initialise(testmaze);
 

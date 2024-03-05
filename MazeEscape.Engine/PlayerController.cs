@@ -5,7 +5,7 @@ using MazeEscape.Engine.Model;
 
 namespace MazeEscape.Engine
 {
-    internal class PlayerController : IPlayerController
+    public class PlayerController : IPlayerController
     {
 
         private readonly Dictionary<Orientation, Tuple<int, int>> _orientationOffsetMap =

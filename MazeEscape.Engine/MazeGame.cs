@@ -9,13 +9,14 @@ namespace MazeEscape.Engine
         public Maze Maze { get; set; }
 
 
+        private readonly IMazeConverter _mazeConverter;
         private readonly IMazeGenerator _mazeGenerator;
         private readonly IPlayerController _playerController;
 
-      
-
-        public MazeGame(IMazeGenerator mazeGenerator, IPlayerController playerController)
+        
+        public MazeGame(IMazeConverter mazeConverter, IMazeGenerator mazeGenerator, IPlayerController playerController)
         {
+            _mazeConverter = mazeConverter;
             _mazeGenerator = mazeGenerator;
             _playerController = playerController;
         }
@@ -26,7 +27,7 @@ namespace MazeEscape.Engine
 
         public void Initialise(string text)
         {
-            Maze = _mazeGenerator.GenerateFromText(text);
+            Maze = _mazeConverter.GenerateFromText(text);
         }
 
         public void Initialise(int width, int height)
@@ -58,7 +59,7 @@ namespace MazeEscape.Engine
 
         public string PrintMaze()
         {
-            return Maze.ToString();
+            return _mazeConverter.ToText(Maze);
         }
 
 

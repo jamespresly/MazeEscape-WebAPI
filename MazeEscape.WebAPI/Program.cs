@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using MazeEscape.WebAPI.Fakes;
 using MazeEscape.WebAPI.Interfaces;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace MazeEscape.WebAPI
 {
@@ -23,6 +23,8 @@ namespace MazeEscape.WebAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<IMazeManager, FakeMazeManager>();
+
+            
 
             var app = builder.Build();
 

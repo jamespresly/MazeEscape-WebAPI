@@ -2,7 +2,7 @@
 
 namespace MazeEscape.Engine.Extensions;
 
-internal static class LocationExtensions
+public static class LocationExtensions
 {
     public static bool IsSame(this Location source, Location location)
     {
