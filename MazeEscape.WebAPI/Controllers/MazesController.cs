@@ -49,7 +49,10 @@ namespace MazeEscape.WebAPI.Controllers
 
             try
             {
-                mazeToken = _mazeManager.CreateMaze(createMode, createParams);
+                var path = _environment.ContentRootPath + _configuration["PresetsPath"];
+                var key = _configuration["MazeEncryptionKey"];
+
+                mazeToken = _mazeManager.CreateMaze(createMode, createParams, key, path);
             }
             catch (ArgumentException e)
             {

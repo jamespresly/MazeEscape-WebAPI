@@ -56,6 +56,9 @@ namespace MazeEscape.WebAPI
                 app.UseSwaggerUI();
 
                 app.UseHttpLogging();
+
+                // dev only encryption key - use a secrets manager for production
+                app.Configuration["MazeEncryptionKey"] = "yNiPC0Se/P5fO2ie4mdmpIIk/IQbGg+AYKrOBGGX1q4=";
             }
 
 

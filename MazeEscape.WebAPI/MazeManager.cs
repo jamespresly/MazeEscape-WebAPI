@@ -20,7 +20,6 @@ namespace MazeEscape.WebAPI
 
         public List<string> GetPresets(string path)
         {
-            //var directoryInfo = new DirectoryInfo(path + "\\..\\Presets");
             var directoryInfo = new DirectoryInfo(path);
             var files = directoryInfo.GetFiles();
 
@@ -29,14 +28,43 @@ namespace MazeEscape.WebAPI
             return fileNames.ToList();
         }
 
-        public string CreateMaze(CreateMode createMode, CreateParams createParams)
+        public string CreateMaze(CreateMode createMode, CreateParams createParams, string encryptionKey, string path = "")
         {
-            throw new NotImplementedException();
+            if (createMode == CreateMode.Preset)
+            {
+                var presetName = createParams.Preset?.PresetName;
+
+                if (string.IsNullOrEmpty(presetName))
+                    throw new ArgumentException("presetName is required");
+
+
+                if (!GetPresets(path).Contains(presetName))
+                {
+                    throw new FileNotFoundException("Preset:" + presetName + " not found");
+                }
+                else
+                {
+                    var text = File.ReadAllText(path + "\\" + presetName + ".txt");
+
+                    _mazeGame.Initialise(text);
+                    var maze = _mazeGame.GetMaze();
+
+                    var token = _mazeEncoder.MazeEncode(maze, encryptionKey);
+
+                    return token;
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public PlayerInfo GetPlayerInfo(MazeState? mazeState)
         {
             throw new NotImplementedException();
         }
+
+     
     }
 }

@@ -16,6 +16,8 @@ public class MazeConverter : IMazeConverter
 
         maze.Squares = new List<MazeSquare>();
 
+        text = text.Replace("\r", "");
+
         var rows = text.Split("\n", StringSplitOptions.RemoveEmptyEntries);
 
         maze.Width = rows[0].Length;

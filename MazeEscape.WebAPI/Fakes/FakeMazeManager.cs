@@ -11,7 +11,7 @@ public class FakeMazeManager : IMazeManager
         return new List<string>() { "spiral" };
     }
 
-    public string CreateMaze(CreateMode createMode, CreateParams createParams)
+    public string CreateMaze(CreateMode createMode, CreateParams createParams, string key, string path = "")
     {
         if (createMode == CreateMode.Preset)
         {
