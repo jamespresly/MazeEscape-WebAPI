@@ -3,6 +3,7 @@ using MazeEscape.Engine.Interfaces;
 using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Enums;
 using MazeEscape.WebAPI.Interfaces;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MazeEscape.WebAPI
 {
@@ -55,6 +56,37 @@ namespace MazeEscape.WebAPI
 
                     return token;
                 }
+            }
+            else if (createMode == CreateMode.Custom)
+            {
+                var mazeText = createParams.Custom?.MazeText;
+
+                if (string.IsNullOrEmpty(mazeText))
+                    throw new ArgumentException("mazeText is required");
+
+                var allowedChars = new char[] { '+', ' ', 'S', 'E', '\n' };
+
+
+
+                var chars = mazeText.ToCharArray();
+
+                for (int i = 0; i < chars.Length; i++)
+                {
+                    if (!allowedChars.Contains(chars[i]))
+                    {
+                        throw new ArgumentException("mazeText format is incorrect. "
+                                                    + "Must contain only '+' for walls, ' ' for corridor, 'S' for start point, 'E' for end point and '\\n' only." +
+                                                    " e.g. \n+E+\n+ +\n+S+\n+++");
+                    }
+                }
+
+
+                _mazeGame.Initialise(mazeText);
+                var maze = _mazeGame.GetMaze();
+
+                var token = _mazeEncoder.MazeEncode(maze, _managerConfig.MazeEncryptionKey);
+
+                return token;
             }
             else
             {
