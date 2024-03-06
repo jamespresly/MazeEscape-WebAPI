@@ -20,7 +20,8 @@ namespace MazeEscape.WebAPI
 
         public List<string> GetPresets(string path)
         {
-            var directoryInfo = new DirectoryInfo(path + "\\..\\Presets");
+            //var directoryInfo = new DirectoryInfo(path + "\\..\\Presets");
+            var directoryInfo = new DirectoryInfo(path);
             var files = directoryInfo.GetFiles();
 
             var fileNames = files.Select(x => Path.GetFileNameWithoutExtension(x.Name));

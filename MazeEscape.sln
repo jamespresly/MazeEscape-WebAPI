@@ -17,6 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.Engine.Tests", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presets", "Presets", "{E3837106-94CC-47AF-A2C5-76450A938452}"
 	ProjectSection(SolutionItems) = preProject
+		Presets\minmaze.txt = Presets\minmaze.txt
 		Presets\spiral.txt = Presets\spiral.txt
 	EndProjectSection
 EndProject
