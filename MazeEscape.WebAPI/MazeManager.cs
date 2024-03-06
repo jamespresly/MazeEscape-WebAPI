@@ -3,7 +3,8 @@ using MazeEscape.Engine.Interfaces;
 using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Enums;
 using MazeEscape.WebAPI.Interfaces;
-using static System.Net.Mime.MediaTypeNames;
+
+
 
 namespace MazeEscape.WebAPI
 {
@@ -33,65 +34,32 @@ namespace MazeEscape.WebAPI
 
         public string CreateMaze(CreateMode createMode, CreateParams createParams)
         {
+            string mazeText = "";
+
             if (createMode == CreateMode.Preset)
             {
-                var presetName = createParams.Preset?.PresetName;
-
-                if (string.IsNullOrEmpty(presetName))
-                    throw new ArgumentException("presetName is required");
-
-
-                if (!GetPresets().Contains(presetName))
-                {
-                    throw new FileNotFoundException("Preset:" + presetName + " not found");
-                }
-                else
-                {
-                    var text = File.ReadAllText(_managerConfig.FullPresetsPath + "\\" + presetName + ".txt");
-
-                    _mazeGame.Initialise(text);
-                    var maze = _mazeGame.GetMaze();
-
-                    var token = _mazeEncoder.MazeEncode(maze, _managerConfig.MazeEncryptionKey);
-
-                    return token;
-                }
+                mazeText = GetPresetMazeText(createParams);
             }
             else if (createMode == CreateMode.Custom)
             {
-                var mazeText = createParams.Custom?.MazeText;
-
-                if (string.IsNullOrEmpty(mazeText))
-                    throw new ArgumentException("mazeText is required");
-
-                var allowedChars = new char[] { '+', ' ', 'S', 'E', '\n' };
-
-
-
-                var chars = mazeText.ToCharArray();
-
-                for (int i = 0; i < chars.Length; i++)
-                {
-                    if (!allowedChars.Contains(chars[i]))
-                    {
-                        throw new ArgumentException("mazeText format is incorrect. "
-                                                    + "Must contain only '+' for walls, ' ' for corridor, 'S' for start point, 'E' for end point and '\\n' only." +
-                                                    " e.g. \n+E+\n+ +\n+S+\n+++");
-                    }
-                }
-
-
-                _mazeGame.Initialise(mazeText);
-                var maze = _mazeGame.GetMaze();
-
-                var token = _mazeEncoder.MazeEncode(maze, _managerConfig.MazeEncryptionKey);
-
-                return token;
+                mazeText = GetCustomMazeText(createParams);
             }
             else
             {
                 throw new NotImplementedException();
             }
+
+
+            if (string.IsNullOrEmpty(mazeText))
+                throw new ArgumentException("mazeText cannot be empty");
+
+
+            _mazeGame.Initialise(mazeText);
+            var maze = _mazeGame.GetMaze();
+
+            var token = _mazeEncoder.MazeEncode(maze, _managerConfig.MazeEncryptionKey);
+
+            return token;
         }
 
         public PlayerInfo GetPlayerInfo(MazeState? mazeState)
@@ -99,6 +67,54 @@ namespace MazeEscape.WebAPI
             throw new NotImplementedException();
         }
 
-     
+        private static string GetCustomMazeText(CreateParams createParams)
+        {
+        
+            var mazeText = createParams.Custom?.MazeText;
+
+            if (string.IsNullOrEmpty(mazeText))
+                throw new ArgumentException("mazeText is required");
+
+            var allowedChars = new char[] { '+', ' ', 'S', 'E', '\n' };
+
+
+            var chars = mazeText.ToCharArray();
+
+            for (var i = 0; i < chars.Length; i++)
+            {
+                if (!allowedChars.Contains(chars[i]))
+                {
+                    throw new ArgumentException("mazeText format is incorrect. "
+                                                + "Must contain only '+' for walls, ' ' for corridor, 'S' for start point, 'E' for end point and '\\n' only." +
+                                                " e.g. \n+E+\n+ +\n+S+\n+++");
+                }
+            }
+
+            return mazeText;
+        }
+
+        private string GetPresetMazeText(CreateParams createParams)
+        {
+            
+            var presetName = createParams.Preset?.PresetName;
+
+            if (string.IsNullOrEmpty(presetName))
+                throw new ArgumentException("presetName is required");
+
+
+            if (!GetPresets().Contains(presetName))
+            {
+                throw new FileNotFoundException("Preset:" + presetName + " not found");
+            }
+
+            var mazeText = File.ReadAllText(_managerConfig.FullPresetsPath + "\\" + presetName + ".txt");
+
+            return mazeText;
+        }
+
+       
+
+
+    
     }
 }
