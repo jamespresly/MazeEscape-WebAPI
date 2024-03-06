@@ -10,10 +10,13 @@ namespace MazeEscape.WebAPI.Controllers
     public class MazesController : ControllerBase
     {
         private readonly IMazeManager _mazeManager;
+        private readonly IWebHostEnvironment _environment;
 
-        public MazesController(IMazeManager mazeManager)
+
+        public MazesController(IMazeManager mazeManager, IWebHostEnvironment environment)
         {
             _mazeManager = mazeManager;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -29,7 +32,11 @@ namespace MazeEscape.WebAPI.Controllers
         [Route("presets")]
         public IActionResult GetPresets()
         {
-            return Ok(_mazeManager.GetPresets());
+            var path = _environment.ContentRootPath;
+
+            var x = _environment.WebRootPath;
+
+            return Ok(_mazeManager.GetPresets(path));
         }
 
         [HttpPost]

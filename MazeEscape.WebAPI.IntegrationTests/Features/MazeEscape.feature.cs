@@ -21,14 +21,12 @@ namespace MazeEscape.WebAPI.IntegrationTests.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("MazeEscape")]
-    [NUnit.Framework.IgnoreAttribute("Ignored feature")]
     public partial class MazeEscapeFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private static string[] featureTags = new string[] {
-                "ignore"};
+        private static string[] featureTags = ((string[])(null));
         
 #line 1 "MazeEscape.feature"
 #line hidden
@@ -110,9 +108,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create maze from preset")]
+        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void CreateMazeFromPreset()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create maze from preset", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 15
@@ -144,9 +144,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create maze from empty preset")]
+        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void CreateMazeFromEmptyPreset()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create maze from empty preset", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 21
@@ -178,9 +180,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create maze from a non-existent preset")]
+        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void CreateMazeFromANon_ExistentPreset()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create maze from a non-existent preset", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 27
@@ -212,9 +216,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create maze from custom string")]
+        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void CreateMazeFromCustomString()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create maze from custom string", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 35
@@ -246,9 +252,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create maze from custom string with empty mazeText")]
+        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void CreateMazeFromCustomStringWithEmptyMazeText()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create maze from custom string with empty mazeText", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 41
@@ -280,9 +288,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create maze from custom string with empty invalid mazeText")]
+        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void CreateMazeFromCustomStringWithEmptyInvalidMazeText()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create maze from custom string with empty invalid mazeText", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 47
@@ -314,9 +324,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create a random maze")]
+        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void CreateARandomMaze()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a random maze", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 55
@@ -348,9 +360,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create a random maze with missing height")]
+        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void CreateARandomMazeWithMissingHeight()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a random maze with missing height", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 61
@@ -382,9 +396,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create a random maze with height and width out of range")]
+        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void CreateARandomMazeWithHeightAndWidthOutOfRange()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a random maze with height and width out of range", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 67
@@ -416,9 +432,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Get Player Info without mazeToken")]
+        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void GetPlayerInfoWithoutMazeToken()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get Player Info without mazeToken", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 75

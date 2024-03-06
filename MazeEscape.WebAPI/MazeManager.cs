@@ -18,9 +18,14 @@ namespace MazeEscape.WebAPI
         }
 
 
-        public List<string> GetPresets()
+        public List<string> GetPresets(string path)
         {
-            throw new NotImplementedException();
+            var directoryInfo = new DirectoryInfo(path + "\\..\\Presets");
+            var files = directoryInfo.GetFiles();
+
+            var fileNames = files.Select(x => Path.GetFileNameWithoutExtension(x.Name));
+
+            return fileNames.ToList();
         }
 
         public string CreateMaze(CreateMode createMode, CreateParams createParams)

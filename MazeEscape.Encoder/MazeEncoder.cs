@@ -61,6 +61,15 @@ namespace MazeEscape.Encoder
 
         }
 
+        public List<string> GetPresets(string path)
+        {
+            var presets = Directory.EnumerateFiles(path + "\\Presets");
+
+            return presets.ToList();
+        }
+
+
+
         private readonly Dictionary<char, int> _charMap = 
             new Dictionary<char, int>()
             {

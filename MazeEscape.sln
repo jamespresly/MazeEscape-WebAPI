@@ -7,13 +7,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.WebAPI", "MazeEs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.WebAPI.IntegrationTests", "MazeEscape.WebAPI.IntegrationTests\MazeEscape.WebAPI.IntegrationTests.csproj", "{F2625BA3-4900-4C0A-94D0-254E9B70FD6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.Engine", "MazeEscape.Engine\MazeEscape.Engine.csproj", "{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.Engine", "MazeEscape.Engine\MazeEscape.Engine.csproj", "{B1F6DD7C-201B-46B8-9C52-7C0A7B46B154}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.Encoder", "MazeEscape.Encoder\MazeEscape.Encoder.csproj", "{2783CD02-C4E0-4C0C-A6EC-565B1B573BA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.Encoder", "MazeEscape.Encoder\MazeEscape.Encoder.csproj", "{2783CD02-C4E0-4C0C-A6EC-565B1B573BA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.Encoder.Tests", "MazeEscape.Encoder.Tests\MazeEscape.Encoder.Tests.csproj", "{A7324E01-ABFE-4111-AE64-579DA24BA9E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.Encoder.Tests", "MazeEscape.Encoder.Tests\MazeEscape.Encoder.Tests.csproj", "{A7324E01-ABFE-4111-AE64-579DA24BA9E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.Engine.Tests", "MazeEscape.Engine.Tests\MazeEscape.Engine.Tests.csproj", "{D6D50E11-2780-4EBF-8834-CE2813EF85B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.Engine.Tests", "MazeEscape.Engine.Tests\MazeEscape.Engine.Tests.csproj", "{D6D50E11-2780-4EBF-8834-CE2813EF85B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presets", "Presets", "{E3837106-94CC-47AF-A2C5-76450A938452}"
+	ProjectSection(SolutionItems) = preProject
+		Presets\spiral.txt = Presets\spiral.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{58D078E4-0B7B-4287-9FB6-0BAE74F23BE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +55,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F2625BA3-4900-4C0A-94D0-254E9B70FD6E} = {58D078E4-0B7B-4287-9FB6-0BAE74F23BE0}
+		{A7324E01-ABFE-4111-AE64-579DA24BA9E4} = {58D078E4-0B7B-4287-9FB6-0BAE74F23BE0}
+		{D6D50E11-2780-4EBF-8834-CE2813EF85B2} = {58D078E4-0B7B-4287-9FB6-0BAE74F23BE0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E00404C-4B95-41B3-A63B-173814AF1EE1}
