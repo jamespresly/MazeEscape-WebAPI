@@ -10,17 +10,19 @@ namespace MazeEscape.WebAPI
     {
         private readonly IMazeGame _mazeGame;
         private readonly IMazeEncoder _mazeEncoder;
+        private readonly MazeManagerConfig _managerConfig;
 
-        public MazeManager(IMazeGame mazeGame, IMazeEncoder mazeEncoder)
+        public MazeManager(IMazeGame mazeGame, IMazeEncoder mazeEncoder, MazeManagerConfig managerConfig)
         {
             _mazeGame = mazeGame;
             _mazeEncoder = mazeEncoder;
+            _managerConfig = managerConfig;
         }
 
 
-        public List<string> GetPresets(string path)
+        public List<string> GetPresets()
         {
-            var directoryInfo = new DirectoryInfo(path);
+            var directoryInfo = new DirectoryInfo(_managerConfig.FullPresetsPath);
             var files = directoryInfo.GetFiles();
 
             var fileNames = files.Select(x => Path.GetFileNameWithoutExtension(x.Name));
@@ -28,7 +30,7 @@ namespace MazeEscape.WebAPI
             return fileNames.ToList();
         }
 
-        public string CreateMaze(CreateMode createMode, CreateParams createParams, string encryptionKey, string path = "")
+        public string CreateMaze(CreateMode createMode, CreateParams createParams)
         {
             if (createMode == CreateMode.Preset)
             {
@@ -38,18 +40,18 @@ namespace MazeEscape.WebAPI
                     throw new ArgumentException("presetName is required");
 
 
-                if (!GetPresets(path).Contains(presetName))
+                if (!GetPresets().Contains(presetName))
                 {
                     throw new FileNotFoundException("Preset:" + presetName + " not found");
                 }
                 else
                 {
-                    var text = File.ReadAllText(path + "\\" + presetName + ".txt");
+                    var text = File.ReadAllText(_managerConfig.FullPresetsPath + "\\" + presetName + ".txt");
 
                     _mazeGame.Initialise(text);
                     var maze = _mazeGame.GetMaze();
 
-                    var token = _mazeEncoder.MazeEncode(maze, encryptionKey);
+                    var token = _mazeEncoder.MazeEncode(maze, _managerConfig.MazeEncryptionKey);
 
                     return token;
                 }

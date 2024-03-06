@@ -6,12 +6,12 @@ namespace MazeEscape.WebAPI.Fakes;
 
 public class FakeMazeManager : IMazeManager
 {
-    public List<string> GetPresets(string path)
+    public List<string> GetPresets()
     {
         return new List<string>() { "spiral" };
     }
 
-    public string CreateMaze(CreateMode createMode, CreateParams createParams, string key, string path = "")
+    public string CreateMaze(CreateMode createMode, CreateParams createParams)
     {
         if (createMode == CreateMode.Preset)
         {
@@ -21,7 +21,7 @@ public class FakeMazeManager : IMazeManager
                 throw new ArgumentException("presetName is required");
 
 
-            if (!GetPresets("").Contains(presetName))
+            if (!GetPresets().Contains(presetName))
             {
                 throw new FileNotFoundException("Preset:" + presetName + " not found");
             }

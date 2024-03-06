@@ -4,6 +4,7 @@ using MazeEscape.Encoder;
 using MazeEscape.Encoder.Interfaces;
 using MazeEscape.Engine;
 using MazeEscape.Engine.Interfaces;
+using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Interfaces;
 using Microsoft.AspNetCore.HttpLogging;
 using Serilog;
@@ -46,8 +47,16 @@ namespace MazeEscape.WebAPI
             builder.Host.UseSerilog((ctx, lc) => lc
                 .WriteTo.File("Logs/MazeEscapeHttpLogs.txt", rollingInterval: RollingInterval.Day));
 
+            
+            var mazeConfig = new MazeManagerConfig();
+            builder.Configuration.GetSection("MazeManager").Bind(mazeConfig);
+            builder.Services.AddSingleton(mazeConfig);
+
 
             var app = builder.Build();
+
+            mazeConfig.FullPresetsPath = builder.Environment.ContentRootPath + mazeConfig.PresetsPath;
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -58,9 +67,8 @@ namespace MazeEscape.WebAPI
                 app.UseHttpLogging();
 
                 // dev only encryption key - use a secrets manager for production
-                app.Configuration["MazeEncryptionKey"] = "yNiPC0Se/P5fO2ie4mdmpIIk/IQbGg+AYKrOBGGX1q4=";
+                mazeConfig.MazeEncryptionKey = "yNiPC0Se/P5fO2ie4mdmpIIk/IQbGg+AYKrOBGGX1q4=";
             }
-
 
             app.UseAuthorization();
 

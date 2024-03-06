@@ -10,15 +10,10 @@ namespace MazeEscape.WebAPI.Controllers
     public class MazesController : ControllerBase
     {
         private readonly IMazeManager _mazeManager;
-        private readonly IWebHostEnvironment _environment;
-        private readonly IConfiguration _configuration;
-
-
-        public MazesController(IMazeManager mazeManager, IWebHostEnvironment environment, IConfiguration configuration)
+        
+        public MazesController(IMazeManager mazeManager)
         {
             _mazeManager = mazeManager;
-            _environment = environment;
-            _configuration = configuration;
         }
 
         [HttpGet]
@@ -34,9 +29,7 @@ namespace MazeEscape.WebAPI.Controllers
         [Route("presets")]
         public IActionResult GetPresets()
         {
-            var path = _environment.ContentRootPath + _configuration["PresetsPath"];
-
-            var presets = _mazeManager.GetPresets(path);
+            var presets = _mazeManager.GetPresets();
 
             return Ok(presets);
         }
@@ -49,10 +42,7 @@ namespace MazeEscape.WebAPI.Controllers
 
             try
             {
-                var path = _environment.ContentRootPath + _configuration["PresetsPath"];
-                var key = _configuration["MazeEncryptionKey"];
-
-                mazeToken = _mazeManager.CreateMaze(createMode, createParams, key, path);
+                mazeToken = _mazeManager.CreateMaze(createMode, createParams);
             }
             catch (ArgumentException e)
             {
