@@ -4,8 +4,9 @@ using MazeEscape.Encoder;
 using MazeEscape.Encoder.Interfaces;
 using MazeEscape.Engine;
 using MazeEscape.Engine.Interfaces;
-using MazeEscape.WebAPI.Fakes;
 using MazeEscape.WebAPI.Interfaces;
+using Microsoft.AspNetCore.HttpLogging;
+using Serilog;
 
 namespace MazeEscape.WebAPI
 {
@@ -36,6 +37,16 @@ namespace MazeEscape.WebAPI
             builder.Services.AddScoped<IMazeGenerator, MazeGenerator>();
 
 
+            builder.Services.AddHttpLogging(x =>
+            {
+                x.LoggingFields = HttpLoggingFields.All;
+                x.CombineLogs = true;
+            });
+
+            builder.Host.UseSerilog((ctx, lc) => lc
+                .WriteTo.File("Logs/MazeEscapeHttpLogs.txt", rollingInterval: RollingInterval.Day));
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -43,7 +54,10 @@ namespace MazeEscape.WebAPI
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                app.UseHttpLogging();
             }
+
 
             app.UseAuthorization();
 
