@@ -31,11 +31,24 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
             _response = Get(endpoint);
         }
 
+        [When(@"I make a GET request with body to:(.*) body:(.*)")]
+        public void GetEndpointWithBody(string endpoint, string body)
+        {
+            throw new NotImplementedException();
+        }
+
         [When(@"I make a POST request to:(.*) with body:(.*)")]
         public void PostEndpoint(string endpoint, string body)
         {
             _response = Post(endpoint, body);
         }
+
+        [When(@"I save the mazeToken")]
+        public void WhenISaveTheMazeToken()
+        {
+            throw new PendingStepException();
+        }
+
 
         [Then(@"the status code is:(.*)")]
         public void GetResponse(string statusCode)
@@ -77,6 +90,39 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
             resp.Should().Contain(value);
         }
 
+        [Then(@"the response contains the following:(.*)")]
+        public void ThenTheResponseContainsTheFollowing(string arrayName, Table table)
+        {
+
+            var response = _response.Content.ReadAsStringAsync().Result;
+
+            var links = JObject.Parse(response)[arrayName];
+
+            var i = 0;
+
+            foreach (var row in table.Rows)
+            {
+                var link = links[i++];
+
+                var desc = row["description"];
+                var href = row["href"];
+                var method = row["method"];
+                var body = row["body"];
+
+                var linkDescription = link["description"].ToString();
+                var linkHref = link["href"].ToString();
+                var linkMethod = link["method"].ToString();
+                var linkBody = link["body"]?.ToString(Newtonsoft.Json.Formatting.None);
+
+                if(linkBody == null)
+                    linkBody = "";
+
+                linkDescription.Should().BeEquivalentTo(desc);
+                linkHref.Should().BeEquivalentTo(href);
+                linkMethod.Should().BeEquivalentTo(method);
+                linkBody.Should().BeEquivalentTo(body);
+            }
+        }
 
         private HttpResponseMessage Get(string endpoint)
         {
