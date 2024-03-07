@@ -105,12 +105,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table1.AddRow(new string[] {
-                            "get-maze-root",
+                            "get-mazes-root",
                             "/mazes",
                             "GET",
                             ""});
                 table1.AddRow(new string[] {
-                            "get-maze-presets-list",
+                            "get-mazes-presets-list",
                             "/mazes/presets",
                             "GET",
                             ""});
@@ -176,7 +176,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table3.AddRow(new string[] {
-                            "get-maze-root",
+                            "get-mazes-root",
                             "/mazes",
                             "GET",
                             ""});
@@ -190,7 +190,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "body"});
                 table4.AddRow(new string[] {
                             "create-maze-from-preset",
-                            "/mazes/createMode=preset",
+                            "/mazes?createMode=preset",
                             "POST",
                             "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
 #line 27
@@ -233,55 +233,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table5.AddRow(new string[] {
-                            "get-maze-root",
+                            "get-mazes-root",
                             "/mazes",
                             "GET",
                             ""});
-                table5.AddRow(new string[] {
-                            "get-player",
-                            "/mazes/player",
-                            "GET",
-                            "{\"mazeToken\": \"{mazeToken}\"}"});
 #line 35
  testRunner.And("the response contains the following:links", ((string)(null)), table5, "And ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Get Player")]
-        public void GetPlayer()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get Player", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 40
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 41
- testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 42
- testRunner.When("I make a POST request to:/mazes?createMode=preset with body:{\"preset\": {\"presetNa" +
-                        "me\": \"spiral\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 43
- testRunner.And("I save the mazeToken", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 44
- testRunner.And("I make a GET request with body to:/mazes/player body:{\"mazeToken\": \"{mazeToken}\"}" +
-                        "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 45
- testRunner.Then("the status code is:OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -289,40 +246,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table6.AddRow(new string[] {
-                            "get-maze-root",
-                            "/mazes",
-                            "GET",
-                            ""});
-                table6.AddRow(new string[] {
-                            "get-player",
+                            "post-player",
                             "/mazes/player",
-                            "GET",
-                            "{\"mazeToken\": \"{mazeToken}\"}"});
-#line 46
- testRunner.And("the response contains the following:links", ((string)(null)), table6, "And ");
-#line hidden
-                TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
-                            "description",
-                            "href",
-                            "method",
-                            "body"});
-                table7.AddRow(new string[] {
-                            "player-turn-left",
-                            "/mazes/player?playerMove=turnLeft",
                             "POST",
-                            "{\"mazeToken\": \"{mazeToken}\"}"});
-                table7.AddRow(new string[] {
-                            "player-turn-right",
-                            "/mazes/player?playerMove=turnRight",
-                            "POST",
-                            "{\"mazeToken\": \"{mazeToken}\"}"});
-                table7.AddRow(new string[] {
-                            "player-move-forward",
-                            "/mazes/player?playerMove=forward",
-                            "POST",
-                            "{\"mazeToken\": \"{mazeToken}\"}"});
-#line 50
- testRunner.And("the response contains the following:actions", ((string)(null)), table7, "And ");
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+#line 38
+ testRunner.And("the response contains the following:actions", ((string)(null)), table6, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -335,7 +264,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Post Player", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 56
+#line 43
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -345,22 +274,35 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 57
+#line 44
  testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 58
+#line 45
  testRunner.When("I make a POST request to:/mazes?createMode=preset with body:{\"preset\": {\"presetNa" +
                         "me\": \"spiral\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 59
+#line 46
  testRunner.And("I save the mazeToken", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 60
- testRunner.And("I make a POST request to:/mazes/player?playerMove=turnLeft with body:{\"mazeToken\"" +
-                        ": \"{mazeToken}\"}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 47
+ testRunner.And("I make a POST request to:/mazes/player with saved mazeToken and body:{\"mazeToken\"" +
+                        ":\"{mazeToken}\"}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 61
+#line 48
  testRunner.Then("the status code is:OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                            "description",
+                            "href",
+                            "method",
+                            "body"});
+                table7.AddRow(new string[] {
+                            "get-mazes-root",
+                            "/mazes",
+                            "GET",
+                            ""});
+#line 49
+ testRunner.And("the response contains the following:links", ((string)(null)), table7, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -368,40 +310,27 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table8.AddRow(new string[] {
-                            "get-maze-root",
-                            "/mazes",
-                            "GET",
-                            ""});
-                table8.AddRow(new string[] {
-                            "get-player",
+                            "post-player",
                             "/mazes/player",
-                            "GET",
-                            "{\"mazeToken\": \"{mazeToken}\"}"});
-#line 62
- testRunner.And("the response contains the following:links", ((string)(null)), table8, "And ");
-#line hidden
-                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
-                            "description",
-                            "href",
-                            "method",
-                            "body"});
-                table9.AddRow(new string[] {
+                            "POST",
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                table8.AddRow(new string[] {
                             "player-turn-left",
                             "/mazes/player?playerMove=turnLeft",
                             "POST",
-                            "{\"mazeToken\": \"{mazeToken}\"}"});
-                table9.AddRow(new string[] {
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                table8.AddRow(new string[] {
                             "player-turn-right",
                             "/mazes/player?playerMove=turnRight",
                             "POST",
-                            "{\"mazeToken\": \"{mazeToken}\"}"});
-                table9.AddRow(new string[] {
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                table8.AddRow(new string[] {
                             "player-move-forward",
                             "/mazes/player?playerMove=forward",
                             "POST",
-                            "{\"mazeToken\": \"{mazeToken}\"}"});
-#line 66
- testRunner.And("the response contains the following:actions", ((string)(null)), table9, "And ");
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+#line 52
+ testRunner.And("the response contains the following:actions", ((string)(null)), table8, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

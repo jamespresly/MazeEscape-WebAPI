@@ -64,7 +64,13 @@ namespace MazeEscape.WebAPI
 
         public PlayerInfo GetPlayerInfo(MazeState? mazeState)
         {
-            throw new NotImplementedException();
+            var token = mazeState?.MazeToken;
+
+            if (string.IsNullOrEmpty(token))
+                throw new ArgumentException("mazeToken is required");
+
+
+            return new PlayerInfo();
         }
 
         private static string GetCustomMazeText(CreateParams createParams)

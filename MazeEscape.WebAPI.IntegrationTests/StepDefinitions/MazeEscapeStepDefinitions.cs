@@ -11,6 +11,8 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
         private HttpClient _httpClient;
         private HttpResponseMessage _response;
 
+        private string _mazeToken;
+
 
         [Given(@"the MazeEscape client is running")]
         public void GivenIAmAClient()
@@ -31,22 +33,26 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
             _response = Get(endpoint);
         }
 
-        [When(@"I make a GET request with body to:(.*) body:(.*)")]
-        public void GetEndpointWithBody(string endpoint, string body)
-        {
-            throw new NotImplementedException();
-        }
-
         [When(@"I make a POST request to:(.*) with body:(.*)")]
         public void PostEndpoint(string endpoint, string body)
         {
             _response = Post(endpoint, body);
         }
 
+        [When(@"I make a POST request to:(.*) with saved mazeToken and body:(.*)")]
+        public void PostEndpointWithMazeToken(string endpoint, string body)
+        {
+            body = body.Replace("{mazeToken}", _mazeToken);
+
+            _response = Post(endpoint, body);
+        }
+
         [When(@"I save the mazeToken")]
         public void WhenISaveTheMazeToken()
         {
-            throw new PendingStepException();
+            var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
+
+            _mazeToken = obj["data"]["mazeToken"].ToString();
         }
 
 
@@ -62,7 +68,11 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
         [Then(@"the response data is an array which contains value:(.*)")]
         public void CheckDataIsListContaining(string value)
         {
-            var arr = JArray.Parse(_response.Content.ReadAsStringAsync().Result);
+            var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
+
+            var data = obj["data"].ToString();
+
+            var arr = JArray.Parse(data);
 
             var results = arr.ToObject<List<string>>();
 
@@ -76,10 +86,12 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
         {
             var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
 
-            obj.Should().NotBeNull();
-            obj.Should().Contain(c => c.Key == value);
+            var data = JObject.Parse(obj["data"].ToString());
 
-            obj.Value<string>(value).Should().NotBeNullOrEmpty();
+            data.Should().NotBeNull();
+            data.Should().Contain(c => c.Key == value);
+
+            data.Value<string>(value).Should().NotBeNullOrEmpty();
 
         }
 

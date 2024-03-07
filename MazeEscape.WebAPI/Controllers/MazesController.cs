@@ -1,5 +1,6 @@
 ﻿using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Enums;
+using MazeEscape.WebAPI.Hypermedia;
 using MazeEscape.WebAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace MazeEscape.WebAPI.Controllers
     public class MazesController : ControllerBase
     {
         private readonly IMazeManager _mazeManager;
+
         
         public MazesController(IMazeManager mazeManager)
         {
@@ -20,8 +22,22 @@ namespace MazeEscape.WebAPI.Controllers
         [Route("")]
         public IActionResult GetMazes()
         {
-            // todo hypermedia
-            return Ok();
+            var response = new HypermediaResponse()
+            {
+                Actions = new List<Link>()
+                {
+                    CreateLink(LinkType.CreatePresetMaze, nameof(CreateMaze)),
+                    CreateLink(LinkType.CreateCustomMaze, nameof(CreateMaze)),
+                    CreateLink(LinkType.CreateRandomMaze, nameof(CreateMaze)),
+                },
+                Links = new List<Link>
+                {   
+                    CreateLink(LinkType.GetMazeRoot, nameof(GetMazes)),
+                    CreateLink(LinkType.GetPresetsList, nameof(GetPresets))
+                }
+            };
+
+            return Ok(response);
         }
 
 
@@ -29,15 +45,42 @@ namespace MazeEscape.WebAPI.Controllers
         [Route("presets")]
         public IActionResult GetPresets()
         {
+            var response = new HypermediaResponse()
+            {
+                Actions = new List<Link>()
+                {
+                    CreateLink(LinkType.CreatePresetMaze, nameof(CreateMaze))
+                },
+                Links = new List<Link>
+                {
+                    CreateLink(LinkType.GetMazeRoot, nameof(GetMazes)),
+                }
+
+            };
+
             var presets = _mazeManager.GetPresets();
 
-            return Ok(presets);
+            response.Data = presets;
+
+            return Ok(response);
         }
 
         [HttpPost]
         [Route("")]
         public IActionResult CreateMaze([FromQuery] CreateMode createMode, [FromBody] CreateParams createParams)
         {
+            var response = new HypermediaResponse()
+            {
+                Actions = new List<Link>()
+                {
+                    CreateLink(LinkType.PostPlayer, nameof(PostPlayer))
+                },
+                Links = new List<Link>
+                {
+                    CreateLink(LinkType.GetMazeRoot, nameof(GetMazes))
+                }
+            };
+
             var mazeToken = "";
 
             try
@@ -53,16 +96,33 @@ namespace MazeEscape.WebAPI.Controllers
                 return NotFound(e.Message);
             }
 
-            return Created("", new { mazeToken = mazeToken });
+            response.Data = new { mazeToken = mazeToken };
+
+            return Created("", response);
 
         }
 
-  
+        
 
         [HttpPost]
         [Route("player")]
-        public IActionResult MovePlayer([FromQuery] PlayerMove playerMove, [FromBody] MazeState? mazeState)
+        public IActionResult PostPlayer([FromQuery] PlayerMove playerMove, [FromBody] MazeState? mazeState)
         {
+            var response = new HypermediaResponse()
+            {
+                Actions = new List<Link>()
+                {
+                    CreateLink(LinkType.PostPlayer, nameof(PostPlayer)),
+                    CreateLink(LinkType.PlayerTurnLeft, nameof(PostPlayer)),
+                    CreateLink(LinkType.PlayerTurnRight, nameof(PostPlayer)),
+                    CreateLink(LinkType.PlayerMoveForward, nameof(PostPlayer)),
+                },
+                Links = new List<Link>
+                {
+                    CreateLink(LinkType.GetMazeRoot, nameof(GetMazes))
+                }
+            };
+
             PlayerInfo? playerInfo = null;
             try
             {
@@ -73,8 +133,22 @@ namespace MazeEscape.WebAPI.Controllers
                 return BadRequest(e.Message);
             }
 
+            response.Data = playerInfo;
 
-            return Ok(playerInfo);
+            return Ok(response);
+        }
+
+        private Link CreateLink(LinkType linkType, string name, object? values = null)
+        {
+            var link = HypermediaDefinitions.LinksMap[linkType];
+            link.Href = Url.Action(name, values) + link.QueryParams;
+
+            if (HypermediaDefinitions.BodyMap.ContainsKey(linkType))
+            {
+                link.Body = HypermediaDefinitions.BodyMap[linkType];
+            }
+
+            return link;
         }
     }
 }
