@@ -12,7 +12,7 @@ namespace MazeEscape.WebAPI.Controllers
     {
         private readonly IMazeManager _mazeManager;
 
-        
+
         public MazesController(IMazeManager mazeManager)
         {
             _mazeManager = mazeManager;
@@ -31,7 +31,7 @@ namespace MazeEscape.WebAPI.Controllers
                     CreateLink(LinkType.CreateRandomMaze, nameof(CreateMaze)),
                 },
                 Links = new List<Link>
-                {   
+                {
                     CreateLink(LinkType.GetMazeRoot, nameof(GetMazes)),
                     CreateLink(LinkType.GetPresetsList, nameof(GetPresets))
                 }
@@ -102,11 +102,11 @@ namespace MazeEscape.WebAPI.Controllers
 
         }
 
-        
+
 
         [HttpPost]
         [Route("player")]
-        public IActionResult PostPlayer([FromQuery] PlayerMove playerMove, [FromBody] MazeState? mazeState)
+        public IActionResult PostPlayer([FromQuery] PlayerMove? playerMove, [FromBody] MazeState? mazeState)
         {
             var response = new HypermediaResponse()
             {
@@ -126,7 +126,9 @@ namespace MazeEscape.WebAPI.Controllers
             PlayerInfo? playerInfo = null;
             try
             {
-                playerInfo = _mazeManager.GetPlayerInfo(mazeState);
+
+                playerInfo = _mazeManager.GetPlayerInfo(mazeState, playerMove);
+
             }
             catch (ArgumentException e)
             {

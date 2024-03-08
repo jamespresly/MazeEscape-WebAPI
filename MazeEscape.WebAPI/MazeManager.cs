@@ -1,9 +1,10 @@
 ﻿using MazeEscape.Encoder.Interfaces;
+using MazeEscape.Engine.Enums;
 using MazeEscape.Engine.Interfaces;
 using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Enums;
 using MazeEscape.WebAPI.Interfaces;
-
+using PlayerMove = MazeEscape.Engine.Enums.PlayerMove;
 
 
 namespace MazeEscape.WebAPI
@@ -58,11 +59,17 @@ namespace MazeEscape.WebAPI
             var maze = _mazeGame.GetMaze();
 
             var token = _mazeEncoder.MazeEncode(maze, _managerConfig.MazeEncryptionKey);
-
             return token;
         }
 
-        public PlayerInfo GetPlayerInfo(MazeState? mazeState)
+        private readonly Dictionary<Enums.PlayerMove, PlayerMove> _moveMap = new()
+        {
+            { Enums.PlayerMove.Forward, PlayerMove.Forward},
+            { Enums.PlayerMove.TurnLeft, PlayerMove.Left},
+            { Enums.PlayerMove.TurnRight, PlayerMove.Right}
+        };
+
+        public PlayerInfo GetPlayerInfo(MazeState? mazeState, Enums.PlayerMove? playerMove)
         {
             var token = mazeState?.MazeToken;
 
@@ -70,8 +77,49 @@ namespace MazeEscape.WebAPI
                 throw new ArgumentException("mazeToken is required");
 
 
-            return new PlayerInfo();
+            var maze = _mazeEncoder.MazeDecode(mazeState.MazeToken, _managerConfig.MazeEncryptionKey);
+
+            _mazeGame.Initialise(maze);
+
+            var status = "";
+
+            if (playerMove != null)
+            {
+                var move = _moveMap[(Enums.PlayerMove)playerMove];
+
+                status = _mazeGame.MovePlayer(move);
+            }
+            
+            var encoded = _mazeEncoder.MazeEncode(_mazeGame.GetMaze(), _managerConfig.MazeEncryptionKey);
+
+            var info = new PlayerInfo()
+            {
+                MazeToken = encoded,
+                Facing = maze.Player.FacingDirection.ToString(),
+                Info = status,
+                Position = new Position()
+                {
+                    X = maze.Player.Location.XCoordinate,
+                    Y = maze.Player.Location.YCoordinate
+                }
+            };
+
+            if (!status.Contains("escaped"))
+            {
+                var vision = _mazeGame.GetPlayerVision();
+                info.Vision = new Vision
+                {
+                    Ahead = vision.Ahead.ToString(),
+                    Left = vision.Left.ToString(),
+                    Right = vision.Right.ToString(),
+                };
+
+            }
+
+            return info;
         }
+
+ 
 
         private static string GetCustomMazeText(CreateParams createParams)
         {

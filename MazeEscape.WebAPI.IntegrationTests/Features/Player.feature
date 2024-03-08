@@ -8,11 +8,15 @@ Scenario: Get Player Info without mazeToken
 	Then the status code is:BadRequest
 	And the response message is:mazeToken is required
 
-@ignore
 Scenario: Move player through the smallest maze
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=preset with body:{"preset": {"presetName": "minmaze"}}
-	Then the status code is:Created
-	And the response data is an object which contains non-null value:mazeToken
+	And I save the mazeToken
+	And I make a POST request to:/mazes/player with saved mazeToken and body:{"mazeToken":"{mazeToken}"}
+	And I save the mazeToken
+	And I make a POST request to:/mazes/player?playerMove=forward with saved mazeToken and body:{"mazeToken":"{mazeToken}"}
+	And I save the mazeToken
+	And I make a POST request to:/mazes/player?playerMove=forward with saved mazeToken and body:{"mazeToken":"{mazeToken}"}
+	Then the response message is:You escaped
 	
 	

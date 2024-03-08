@@ -7,6 +7,6 @@ namespace MazeEscape.Engine.Model
         public Location Location { get; set; }
         
         public SquareType SquareType { get; set; }
-
+        public bool IsExit { get; set; }
     }
 }

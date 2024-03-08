@@ -7,5 +7,6 @@ public interface IMazeManager
 {
     List<string> GetPresets();
     string CreateMaze(CreateMode createMode, CreateParams createParams);
-    PlayerInfo GetPlayerInfo(MazeState? mazeState);
+    PlayerInfo GetPlayerInfo(MazeState? mazeState, PlayerMove? playerMove);
+
 }

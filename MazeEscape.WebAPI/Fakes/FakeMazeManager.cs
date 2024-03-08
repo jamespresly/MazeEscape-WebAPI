@@ -80,7 +80,7 @@ public class FakeMazeManager : IMazeManager
         return null;
     }
 
-    public PlayerInfo GetPlayerInfo(MazeState? mazeState)
+    public PlayerInfo GetPlayerInfo(MazeState? mazeState, PlayerMove? playerMove)
     {
         var token = mazeState?.MazeToken;
 
@@ -91,4 +91,6 @@ public class FakeMazeManager : IMazeManager
         return new PlayerInfo();
 
     }
+
+
 }
