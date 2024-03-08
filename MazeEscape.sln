@@ -23,6 +23,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presets", "Presets", "{E383
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{58D078E4-0B7B-4287-9FB6-0BAE74F23BE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.TestClient", "MazeEscape.TestClient\MazeEscape.TestClient.csproj", "{B062451C-7D12-45CA-91AB-AF22975FDF7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{5CD75DBD-B233-4CD7-9D80-7843E52791FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +57,10 @@ Global
 		{D6D50E11-2780-4EBF-8834-CE2813EF85B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6D50E11-2780-4EBF-8834-CE2813EF85B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6D50E11-2780-4EBF-8834-CE2813EF85B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B062451C-7D12-45CA-91AB-AF22975FDF7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B062451C-7D12-45CA-91AB-AF22975FDF7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B062451C-7D12-45CA-91AB-AF22975FDF7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B062451C-7D12-45CA-91AB-AF22975FDF7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
