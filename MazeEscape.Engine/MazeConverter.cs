@@ -54,6 +54,7 @@ public class MazeConverter : IMazeConverter
                 else if (c == 'E')
                 {
                     square.SquareType = SquareType.Exit;
+                    square.IsExit = true;
                     maze.ExitLocation = new Location()
                     {
                         XCoordinate = colCount,
@@ -76,6 +77,8 @@ public class MazeConverter : IMazeConverter
                 }
                 else if (c == '\u25b2' || c == '\u25ba' || c == '\u25bc' || c == '\u25c4')  
                 {
+                    square.SquareType = SquareType.Corridor;
+
                     var revCharMap = _arrowMap.ToDictionary(x => x.Value, x => x.Key);
 
                     var direction = revCharMap[c.ToString()];
@@ -120,6 +123,13 @@ public class MazeConverter : IMazeConverter
             { Orientation.West, "\u25c4" },
         };
 
+    private readonly Dictionary<SquareType, char> _squareMap = new()
+    {
+        { SquareType.Wall, '+'},
+        { SquareType.Corridor, ' '},
+        { SquareType.Exit, 'E'}
+    };
+
     public string ToText(Maze maze)
     {
         var sb = new StringBuilder();
@@ -144,7 +154,7 @@ public class MazeConverter : IMazeConverter
                 }
                 else
                 {
-                    squareText = square.SquareType == SquareType.Wall ? "+" : " ";
+                    squareText = _squareMap[square.SquareType].ToString();
                 }
 
                 sb.Append(squareText);

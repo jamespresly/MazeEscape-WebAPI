@@ -8,7 +8,7 @@ using MazeEscape.Engine.Interfaces;
 
 namespace MazeEscape.Encoder.Tests
 {
-    public class Tests
+    public class EncoderTests
     {
 
         private string testKey = "yNiPC0Se/P5fO2ie4mdmpIIk/IQbGg+AYKrOBGGX1q4=";
@@ -16,6 +16,32 @@ namespace MazeEscape.Encoder.Tests
         [SetUp]
         public void Setup()
         {
+        }
+
+        [Test]
+        public void EncoderTest()
+        {
+            IMazeConverter mazeConverter = new MazeConverter();
+            IMazeEncoder mazeEncoder = new MazeEncoder(mazeConverter);
+
+            var minmaze = "+E+\n" + 
+                                "+ +\n" +
+                                "+S+\n" +
+                                "+++";
+
+            var inMaze = mazeConverter.GenerateFromText(minmaze);
+
+            var encoded = mazeEncoder.MazeEncode(inMaze, testKey);
+
+            var outMaze = mazeEncoder.MazeDecode(encoded, testKey);
+
+            var text = mazeConverter.ToText(outMaze);
+
+
+            outMaze.Height.Should().Be(inMaze.Height);
+            outMaze.Width.Should().Be(inMaze.Width);
+            outMaze.Should().BeEquivalentTo(inMaze);
+
         }
 
         [Test]
