@@ -12,6 +12,8 @@
 
         public string Info { get; set; }
 
+        public bool IsEscaped { get; set; }
+
     }
 
     public class Vision

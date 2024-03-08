@@ -1,5 +1,4 @@
 ﻿using MazeEscape.Encoder.Interfaces;
-using MazeEscape.Engine.Enums;
 using MazeEscape.Engine.Interfaces;
 using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Enums;
@@ -114,6 +113,10 @@ namespace MazeEscape.WebAPI
                     Right = vision.Right.ToString(),
                 };
 
+            }
+            else
+            {
+                info.IsEscaped = true;
             }
 
             return info;

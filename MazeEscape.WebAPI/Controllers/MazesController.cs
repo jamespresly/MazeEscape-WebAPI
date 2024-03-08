@@ -126,8 +126,10 @@ namespace MazeEscape.WebAPI.Controllers
             PlayerInfo? playerInfo = null;
             try
             {
-
                 playerInfo = _mazeManager.GetPlayerInfo(mazeState, playerMove);
+
+                if (playerInfo.IsEscaped)
+                    response.Actions = null;
 
             }
             catch (ArgumentException e)
