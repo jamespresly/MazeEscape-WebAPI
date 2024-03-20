@@ -12,7 +12,6 @@ namespace MazeEscape.WebAPI.Controllers
     {
         private readonly IMazeAppManager _mazeAppManager;
 
-
         public MazesController(IMazeAppManager mazeAppManager)
         {
             _mazeAppManager = mazeAppManager;
@@ -39,7 +38,6 @@ namespace MazeEscape.WebAPI.Controllers
 
             return Ok(response);
         }
-
 
         [HttpGet]
         [Route("presets")]

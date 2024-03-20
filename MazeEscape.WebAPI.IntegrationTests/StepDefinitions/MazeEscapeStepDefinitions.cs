@@ -95,15 +95,28 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
 
         }
 
+        [Then(@"the response message contains error message:(.*)")]
+        public void ResponseContainsErrorMessage(string value)
+        {
+            var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
+
+            var error = JObject.Parse(obj["error"].ToString());
+
+            error.Should().NotBeNull();
+            error.Should().Contain(c => c.Key == value);
+
+            error.Value<string>(value).Should().NotBeNullOrEmpty();
+        }
+
         [Then(@"the response message contains:(.*)")]
-        public void TheResponseMessageContains(string value)
+        public void ResponseMessageContains(string value)
         {
             var resp = _response.Content.ReadAsStringAsync().Result;
             resp.Should().Contain(value);
         }
 
-        [Then(@"the response contains the following array with values:(.*)")]
-        public void ThenTheResponseContainsTheFollowing(string arrayName, Table table)
+        [Then(@"the response contains the following hypermedia array:(.*) with values:")]
+        public void ResponseContainsTheFollowingHypermediaArrayWithValues(string arrayName, Table table)
         {
 
             var response = _response.Content.ReadAsStringAsync().Result;
