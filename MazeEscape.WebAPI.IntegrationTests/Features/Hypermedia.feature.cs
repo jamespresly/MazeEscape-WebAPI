@@ -105,17 +105,22 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table1.AddRow(new string[] {
-                            "get-mazes-root",
-                            "/mazes",
-                            "GET",
-                            ""});
+                            "create-maze-from-preset",
+                            "/mazes?createMode=preset",
+                            "POST",
+                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
                 table1.AddRow(new string[] {
-                            "get-mazes-presets-list",
-                            "/mazes/presets",
-                            "GET",
-                            ""});
+                            "create-maze-from-text",
+                            "/mazes?createMode=custom",
+                            "POST",
+                            "{\"custom\":{\"mazeText\":\"{mazeText}\"}}"});
+                table1.AddRow(new string[] {
+                            "create-random-maze",
+                            "/mazes?createMode=random",
+                            "POST",
+                            "{\"random\":{\"width\":null,\"height\":null}}"});
 #line 10
- testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table1, "And ");
+ testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table1, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -123,22 +128,17 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table2.AddRow(new string[] {
-                            "create-maze-from-preset",
-                            "/mazes?createMode=preset",
-                            "POST",
-                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
+                            "get-mazes-root",
+                            "/mazes",
+                            "GET",
+                            ""});
                 table2.AddRow(new string[] {
-                            "create-maze-from-text",
-                            "/mazes?createMode=custom",
-                            "POST",
-                            "{\"custom\":{\"mazeText\":\"{mazeText}\"}}"});
-                table2.AddRow(new string[] {
-                            "create-random-maze",
-                            "/mazes?createMode=random",
-                            "POST",
-                            "{\"random\":{\"width\":null,\"height\":null}}"});
-#line 14
- testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table2, "And ");
+                            "get-mazes-presets-list",
+                            "/mazes/presets",
+                            "GET",
+                            ""});
+#line 15
+ testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table2, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -176,12 +176,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table3.AddRow(new string[] {
-                            "get-mazes-root",
-                            "/mazes",
-                            "GET",
-                            ""});
+                            "create-maze-from-preset",
+                            "/mazes?createMode=preset",
+                            "POST",
+                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
 #line 24
- testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table3, "And ");
+ testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table3, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -189,12 +189,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table4.AddRow(new string[] {
-                            "create-maze-from-preset",
-                            "/mazes?createMode=preset",
-                            "POST",
-                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
+                            "get-mazes-root",
+                            "/mazes",
+                            "GET",
+                            ""});
 #line 27
- testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table4, "And ");
+ testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table4, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -202,14 +202,12 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Error Scenario: Create maze from empty preset - Still returns hypermedia")]
-        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void ErrorScenarioCreateMazeFromEmptyPreset_StillReturnsHypermedia()
         {
-            string[] tagsOfScenario = new string[] {
-                    "ignore"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Error Scenario: Create maze from empty preset - Still returns hypermedia", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 32
+#line 31
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -219,14 +217,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 33
+#line 32
  testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 34
+#line 33
  testRunner.When("I make a POST request to:/mazes?createMode=preset with body:{\"preset\": {\"presetNa" +
                         "me\": \"\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 35
+#line 34
  testRunner.Then("the status code is:BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
@@ -235,12 +233,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table5.AddRow(new string[] {
-                            "get-mazes-root",
-                            "/mazes",
-                            "GET",
-                            ""});
-#line 36
- testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table5, "And ");
+                            "create-maze-from-preset",
+                            "/mazes?createMode=preset",
+                            "POST",
+                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
+#line 35
+ testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table5, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -248,12 +246,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table6.AddRow(new string[] {
-                            "create-maze-from-preset",
-                            "/mazes?createMode=preset",
-                            "POST",
-                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
-#line 39
- testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table6, "And ");
+                            "get-mazes-root",
+                            "/mazes",
+                            "GET",
+                            ""});
+#line 38
+ testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table6, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -262,15 +260,13 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Error Scenario: Create maze from a non-existent preset - Still returns hypermedia" +
             "")]
-        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void ErrorScenarioCreateMazeFromANon_ExistentPreset_StillReturnsHypermedia()
         {
-            string[] tagsOfScenario = new string[] {
-                    "ignore"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Error Scenario: Create maze from a non-existent preset - Still returns hypermedia" +
                     "", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 44
+#line 42
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -280,14 +276,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 45
+#line 43
  testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 46
+#line 44
  testRunner.When("I make a POST request to:/mazes?createMode=preset with body:{\"preset\": {\"presetNa" +
                         "me\": \"doesntExist\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 47
+#line 45
  testRunner.Then("the status code is:NotFound", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
@@ -296,12 +292,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table7.AddRow(new string[] {
-                            "get-mazes-root",
-                            "/mazes",
-                            "GET",
-                            ""});
-#line 48
- testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table7, "And ");
+                            "create-maze-from-preset",
+                            "/mazes?createMode=preset",
+                            "POST",
+                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
+#line 46
+ testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table7, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -309,12 +305,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table8.AddRow(new string[] {
-                            "create-maze-from-preset",
-                            "/mazes?createMode=preset",
-                            "POST",
-                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
-#line 51
- testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table8, "And ");
+                            "get-mazes-root",
+                            "/mazes",
+                            "GET",
+                            ""});
+#line 49
+ testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table8, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -327,7 +323,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Post mazes", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 55
+#line 53
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -337,14 +333,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 56
+#line 54
  testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 57
+#line 55
  testRunner.When("I make a POST request to:/mazes?createMode=preset with body:{\"preset\": {\"presetNa" +
                         "me\": \"spiral\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 58
+#line 56
  testRunner.Then("the status code is:Created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
@@ -353,12 +349,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table9.AddRow(new string[] {
-                            "get-mazes-root",
-                            "/mazes",
-                            "GET",
-                            ""});
-#line 59
- testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table9, "And ");
+                            "post-player",
+                            "/mazes/player",
+                            "POST",
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+#line 57
+ testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table9, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -366,12 +362,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table10.AddRow(new string[] {
-                            "post-player",
-                            "/mazes/player",
-                            "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
-#line 62
- testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table10, "And ");
+                            "get-mazes-root",
+                            "/mazes",
+                            "GET",
+                            ""});
+#line 60
+ testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table10, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -379,14 +375,12 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Error Scenario: Get Player Info without mazeToken  - Still returns hypermedia")]
-        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public void ErrorScenarioGetPlayerInfoWithoutMazeToken_StillReturnsHypermedia()
         {
-            string[] tagsOfScenario = new string[] {
-                    "ignore"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Error Scenario: Get Player Info without mazeToken  - Still returns hypermedia", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 67
+#line 64
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -396,13 +390,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 68
+#line 65
  testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 69
+#line 66
  testRunner.When("I make a POST request to:/mazes/player with body:{\"mazeToken\": \"\"}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 70
+#line 67
  testRunner.Then("the status code is:BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
@@ -411,12 +405,27 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table11.AddRow(new string[] {
-                            "get-mazes-root",
-                            "/mazes",
-                            "GET",
-                            ""});
-#line 71
- testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table11, "And ");
+                            "post-player",
+                            "/mazes/player",
+                            "POST",
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                table11.AddRow(new string[] {
+                            "player-turn-left",
+                            "/mazes/player?playerMove=turnLeft",
+                            "POST",
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                table11.AddRow(new string[] {
+                            "player-turn-right",
+                            "/mazes/player?playerMove=turnRight",
+                            "POST",
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                table11.AddRow(new string[] {
+                            "player-move-forward",
+                            "/mazes/player?playerMove=forward",
+                            "POST",
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+#line 68
+ testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table11, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -424,12 +433,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table12.AddRow(new string[] {
-                            "create-maze-from-preset",
-                            "/mazes?createMode=preset",
-                            "POST",
-                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
+                            "get-mazes-root",
+                            "/mazes",
+                            "GET",
+                            ""});
 #line 74
- testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table12, "And ");
+ testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table12, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -475,12 +484,27 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table13.AddRow(new string[] {
-                            "get-mazes-root",
-                            "/mazes",
-                            "GET",
-                            ""});
+                            "post-player",
+                            "/mazes/player",
+                            "POST",
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                table13.AddRow(new string[] {
+                            "player-turn-left",
+                            "/mazes/player?playerMove=turnLeft",
+                            "POST",
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                table13.AddRow(new string[] {
+                            "player-turn-right",
+                            "/mazes/player?playerMove=turnRight",
+                            "POST",
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                table13.AddRow(new string[] {
+                            "player-move-forward",
+                            "/mazes/player?playerMove=forward",
+                            "POST",
+                            "{\"mazeToken\":\"{mazeToken}\"}"});
 #line 84
- testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table13, "And ");
+ testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table13, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -488,27 +512,12 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
                 table14.AddRow(new string[] {
-                            "post-player",
-                            "/mazes/player",
-                            "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
-                table14.AddRow(new string[] {
-                            "player-turn-left",
-                            "/mazes/player?playerMove=turnLeft",
-                            "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
-                table14.AddRow(new string[] {
-                            "player-turn-right",
-                            "/mazes/player?playerMove=turnRight",
-                            "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
-                table14.AddRow(new string[] {
-                            "player-move-forward",
-                            "/mazes/player?playerMove=forward",
-                            "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
-#line 87
- testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table14, "And ");
+                            "get-mazes-root",
+                            "/mazes",
+                            "GET",
+                            ""});
+#line 90
+ testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table14, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -567,21 +576,21 @@ this.ScenarioInitialize(scenarioInfo);
                             "href",
                             "method",
                             "body"});
-                table15.AddRow(new string[] {
-                            "get-mazes-root",
-                            "/mazes",
-                            "GET",
-                            ""});
 #line 104
- testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table15, "And ");
+ testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table15, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
                             "href",
                             "method",
                             "body"});
-#line 107
- testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table16, "And ");
+                table16.AddRow(new string[] {
+                            "get-mazes-root",
+                            "/mazes",
+                            "GET",
+                            ""});
+#line 106
+ testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table16, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

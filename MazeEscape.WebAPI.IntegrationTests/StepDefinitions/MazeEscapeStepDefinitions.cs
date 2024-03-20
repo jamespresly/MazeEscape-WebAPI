@@ -95,17 +95,15 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
 
         }
 
-        [Then(@"the response message contains error message:(.*)")]
+        [Then(@"the response contains error message:(.*)")]
         public void ResponseContainsErrorMessage(string value)
         {
             var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
 
-            var error = JObject.Parse(obj["error"].ToString());
+            var error = obj["error"].ToString();
 
             error.Should().NotBeNull();
-            error.Should().Contain(c => c.Key == value);
-
-            error.Value<string>(value).Should().NotBeNullOrEmpty();
+            error.Should().Contain(value);
         }
 
         [Then(@"the response message contains:(.*)")]
@@ -122,6 +120,10 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
             var response = _response.Content.ReadAsStringAsync().Result;
 
             var links = JObject.Parse(response)[arrayName];
+
+            var linksCount = links?.Count() ?? 0;
+
+            linksCount.Should().Be(table.RowCount);
 
             var i = 0;
 

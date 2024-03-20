@@ -87,13 +87,23 @@ namespace MazeEscape.WebAPI.Controllers
             }
             catch (ArgumentException e)
             {
-                return BadRequest(e.Message);
+                response.Error = e.Message;
+                response.Actions = new List<Link>()
+                {
+                    CreateLink(LinkType.CreatePresetMaze, nameof(CreateMaze))
+                };
+                return BadRequest(response);
             }
             catch (FileNotFoundException e)
             {
-                return NotFound(e.Message);
+                response.Error = e.Message;
+                response.Actions = new List<Link>()
+                {
+                    CreateLink(LinkType.CreatePresetMaze, nameof(CreateMaze))
+                };
+                return NotFound(response);
             }
-
+            
             response.Data = new { mazeToken = mazeToken };
 
             return Created("", response);
@@ -132,7 +142,8 @@ namespace MazeEscape.WebAPI.Controllers
             }
             catch (ArgumentException e)
             {
-                return BadRequest(e.Message);
+                response.Error = e.Message;
+                return BadRequest(response);
             }
 
             response.Data = playerInfo;

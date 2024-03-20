@@ -14,11 +14,11 @@ Scenario: Error Scenario: Create a random maze with missing height
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=random with body:{"random": {"width": 10 }}
 	Then the status code is:BadRequest
-	And the response message contains:"width and height are required"
+	And the response contains error message:"width and height are required"
 
 @ignore
 Scenario: Error Scenario: Create a random maze with height and width out of range
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=random with body:{"random": {"width": 101, "height": 101 }}
 	Then the status code is:BadRequest
-	And the response message contains:"width and height must be between 3 and 100"
+	And the response contains error message:"width and height must be between 3 and 100"
