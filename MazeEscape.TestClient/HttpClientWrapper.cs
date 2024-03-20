@@ -10,7 +10,6 @@ namespace MazeEscape.TestClient
         private HttpClient _httpClient;
         private HttpResponseMessage _response;
 
- 
         public Root Root { get; set; }
         public string MazeToken { get; set; }
 

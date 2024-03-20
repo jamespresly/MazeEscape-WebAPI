@@ -9,12 +9,46 @@ namespace MazeEscape.Engine;
 public class MazeConverter : IMazeConverter
 {
 
+    private readonly Dictionary<Orientation, char> _arrowMap = new()
+    {
+        { Orientation.North, '▲' },
+        { Orientation.East, '►' },
+        { Orientation.South, '▼' },
+        { Orientation.West, '◄' },
+    };
+
+    private readonly Dictionary<SquareType, char> _squareMap = new()
+    {
+        { SquareType.Wall, '+'},
+        { SquareType.Corridor, ' '},
+        { SquareType.Exit, 'E'}
+    };
+
+    private readonly Dictionary<char, SquareType> _charMap = new()
+    {
+        { '+',SquareType.Wall},
+        { ' ',SquareType.Corridor},
+        { 'E', SquareType.Exit },
+        { 'S', SquareType.Corridor},
+        { '▲', SquareType.Corridor},
+        { '►', SquareType.Corridor},
+        { '▼', SquareType.Corridor},
+        { '◄', SquareType.Corridor},
+    };
+
+    private readonly List<char> _playerArrows = new()
+    {
+        '▲', '►', '▼', '◄'
+    };
+
+
     public Maze GenerateFromText(string text)
     {
 
-        var maze = new Maze();
-
-        maze.Squares = new List<MazeSquare>();
+        var maze = new Maze
+        {
+            Squares = new List<MazeSquare>()
+        };
 
         text = text.Replace("\r", "");
 
@@ -27,80 +61,48 @@ public class MazeConverter : IMazeConverter
 
         foreach (var row in rows)
         {
-
             var colCount = 0;
 
-            foreach (var c in row)
+            foreach (var col in row)
             {
+                var location = new Location()
+                {
+                    XCoordinate = colCount,
+                    YCoordinate = rowCount
+                };
 
                 var square = new MazeSquare()
                 {
-                    Location = new Location()
-                    {
-                        XCoordinate = colCount,
-                        YCoordinate = rowCount
-                    },
-
+                    Location = location,
+                    SquareType = _charMap[col]
                 };
 
-                if (c == '+')
+                if (col == 'E')
                 {
-                    square.SquareType = SquareType.Wall;
-                }
-                else if(c == ' ')
-                {
-                    square.SquareType = SquareType.Corridor;
-                }
-                else if (c == 'E')
-                {
-                    square.SquareType = SquareType.Exit;
                     square.IsExit = true;
-                    maze.ExitLocation = new Location()
-                    {
-                        XCoordinate = colCount,
-                        YCoordinate = rowCount
-
-                    };
+                    maze.ExitLocation = location;
                 }
-                else if (c == 'S')
+                else if (col == 'S')
                 {
                     maze.Player = new Player()
                     {
+                        // todo make this configurable
                         FacingDirection = Orientation.North,
-                        Location = new Location()
-                        {
-                            XCoordinate = colCount,
-                            YCoordinate = rowCount
-                        }
+                        Location = location
                     };
-                    square.SquareType = SquareType.Corridor;
                 }
-                else if (c == '\u25b2' || c == '\u25ba' || c == '\u25bc' || c == '\u25c4')  
+                else if (_playerArrows.Contains(col))
                 {
-                    square.SquareType = SquareType.Corridor;
-
                     var revCharMap = _arrowMap.ToDictionary(x => x.Value, x => x.Key);
-
-                    var direction = revCharMap[c.ToString()];
+                    var direction = revCharMap[col];
 
                     maze.Player = new Player()
                     {
-
                         FacingDirection = direction,
-                        Location = new Location()
-                        {
-                            XCoordinate = colCount,
-                            YCoordinate = rowCount
-                        }
+                        Location = location
                     };
                 }
-                else
-                {
-                    throw new InvalidDataException("Invalid character:" + c + " found in maze");
-                }
-
-
-
+             
                 maze.Squares.Add(square);
 
                 colCount++;
@@ -113,23 +115,6 @@ public class MazeConverter : IMazeConverter
     }
 
 
-
-    private readonly Dictionary<Orientation, string> _arrowMap =
-        new()
-        {
-            { Orientation.North, "\u25b2" },
-            { Orientation.East, "\u25ba" },
-            { Orientation.South, "\u25bc" },
-            { Orientation.West, "\u25c4" },
-        };
-
-    private readonly Dictionary<SquareType, char> _squareMap = new()
-    {
-        { SquareType.Wall, '+'},
-        { SquareType.Corridor, ' '},
-        { SquareType.Exit, 'E'}
-    };
-
     public string ToText(Maze maze)
     {
         var sb = new StringBuilder();
@@ -138,19 +123,16 @@ public class MazeConverter : IMazeConverter
 
         for (var i = 0; i < maze.Height; i++)
         {
-
             for (var j = 0; j < maze.Width; j++)
             {
-
                 var index = i * maze.Width + j;
-
                 var square = maze.Squares[index];
 
                 var squareText = "";
 
                 if (player.Location.IsSame(square.Location))
                 {
-                    squareText = _arrowMap[player.FacingDirection];
+                    squareText = _arrowMap[player.FacingDirection].ToString();
                 }
                 else
                 {

@@ -10,7 +10,17 @@ namespace MazeEscape.Encoder
     {
         private readonly IMazeConverter _mazeConverter;
 
-        
+        private readonly Dictionary<char, int> _charMap = new()
+        {
+            { '+', 0},
+            { ' ', 1},
+            { '\n', 2},
+            { 'E',4},
+            { '▲', 5},
+            { '►', 6},
+            { '▼', 7},
+            { '◄', 8},
+        };
 
         public MazeEncoder(IMazeConverter mazeConverter)
         {
@@ -35,7 +45,6 @@ namespace MazeEscape.Encoder
             var result = ivBase64 + encryptedBase64;
 
             return result;
-
         }
 
         public Maze MazeDecode(string mazeToken, string encryptionKey)
@@ -50,7 +59,6 @@ namespace MazeEscape.Encoder
 
             var decrypted = AesEncryption.Decrypt(encrypted, key, iv);
 
-
             var decompressed = StringCompression.DecompressString(decrypted);
 
             var mazText= FromBase64String(decompressed);
@@ -58,32 +66,7 @@ namespace MazeEscape.Encoder
             var maze = _mazeConverter.GenerateFromText(mazText);
 
             return maze;
-
         }
-
-        public List<string> GetPresets(string path)
-        {
-            var presets = Directory.EnumerateFiles(path + "\\Presets");
-
-            return presets.ToList();
-        }
-
-
-
-        private readonly Dictionary<char, int> _charMap = 
-            new Dictionary<char, int>()
-            {
-                {'+', 0},
-                {' ', 1},
-                {'\n', 2},
-                {'E',4},
-                {'\u25b2', 5},
-                {'\u25ba', 6},
-                {'\u25bc', 7},
-                {'\u25c4', 8},
-            };
-
-     
 
         private string FromBase64String(string base64String)
         {

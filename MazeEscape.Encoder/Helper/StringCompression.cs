@@ -44,6 +44,7 @@ namespace MazeEscape.Encoder.Helper
             var gZipBuffer = new byte[compressedData.Length + 4];
             Buffer.BlockCopy(compressedData, 0, gZipBuffer, 4, compressedData.Length);
             Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gZipBuffer, 0, 4);
+
             return Convert.ToBase64String(gZipBuffer);
         }
 

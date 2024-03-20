@@ -37,11 +37,7 @@ namespace MazeEscape.Encoder.Tests
 
             var text = mazeConverter.ToText(outMaze);
 
-
-            outMaze.Height.Should().Be(inMaze.Height);
-            outMaze.Width.Should().Be(inMaze.Width);
             outMaze.Should().BeEquivalentTo(inMaze);
-
         }
 
         [Test]
