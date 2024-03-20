@@ -2,5 +2,5 @@
 
 public class MazeState
 {
-    public string? MazeToken { get; set; }
+    public string MazeToken { get; set; }
 }

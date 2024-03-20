@@ -1,8 +1,4 @@
-﻿using MazeEscape.Engine.Enums;
-using MazeEscape.Engine.Extensions;
-using System.Text;
-
-namespace MazeEscape.Engine.Model
+﻿namespace MazeEscape.Engine.Model
 {
     public class Maze
     {
@@ -17,9 +13,5 @@ namespace MazeEscape.Engine.Model
         public Player Player { get; set; }
 
 
-        public override string ToString()
-        {
-            return base.ToString();
-        }
     }
 }

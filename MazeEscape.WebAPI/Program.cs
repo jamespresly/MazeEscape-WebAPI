@@ -4,6 +4,7 @@ using MazeEscape.Engine;
 using MazeEscape.Engine.Interfaces;
 using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Interfaces;
+using MazeEscape.WebAPI.Main;
 using Microsoft.AspNetCore.HttpLogging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -33,7 +34,7 @@ namespace MazeEscape.WebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<IMazeManager, MazeManager>();
+            builder.Services.AddScoped<IMazeAppManager, MazeAppManager>();
 
             builder.Services.AddScoped<IMazeGame, MazeGame>();
             builder.Services.AddScoped<IMazeEncoder, MazeEncoder>();
@@ -41,6 +42,14 @@ namespace MazeEscape.WebAPI
 
             builder.Services.AddScoped<IPlayerController, PlayerController>();
             builder.Services.AddScoped<IMazeGenerator, MazeGenerator>();
+
+            builder.Services.AddScoped<IPresetFileManager, PresetMazeCreator>();
+
+            builder.Services.AddScoped<IMazeCreator, PresetMazeCreator>();
+            builder.Services.AddScoped<IMazeCreator, CustomMazeCreator>();
+            builder.Services.AddScoped<IMazeCreator, RandomMazeCreator>();
+
+            builder.Services.AddScoped<IMazeEngineManager, MazeEngineManager>();
 
 
             builder.Services.AddHttpLogging(x =>

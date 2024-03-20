@@ -5,56 +5,72 @@ namespace MazeEscape.WebAPI.Hypermedia
 {
     public static class HypermediaDefinitions
     {
+
         public static Dictionary<LinkType, Link> LinksMap = new()
         {
-            { LinkType.GetMazeRoot, new (){ Description = "get-mazes-root", Method = "GET"}},
-            { LinkType.GetPresetsList,  new (){ Description = "get-mazes-presets-list", Method = "GET"}},
+            { LinkType.GetMazeRoot, new(){ Description = "get-mazes-root", Method = "GET"}},
+            { LinkType.GetPresetsList,  new(){ Description = "get-mazes-presets-list", Method = "GET"}},
 
             { LinkType.CreatePresetMaze, new() { Description = "create-maze-from-preset", Method = "POST", QueryParams = "?createMode=preset"}},
-            { LinkType.CreateCustomMaze, new Link() {Description = "create-maze-from-text", Method = "POST", QueryParams = "?createMode=custom" }},
-            { LinkType.CreateRandomMaze, new Link() {Description = "create-random-maze", Method = "POST", QueryParams = "?createMode=random" }},
+            { LinkType.CreateCustomMaze, new() {Description = "create-maze-from-text", Method = "POST", QueryParams = "?createMode=custom" }},
+            { LinkType.CreateRandomMaze, new() {Description = "create-random-maze", Method = "POST", QueryParams = "?createMode=random" }},
 
-            { LinkType.PostPlayer, new Link(){Description = "post-player", Method = "POST"}},
-            { LinkType.PlayerTurnLeft, new Link(){Description = "player-turn-left", Method = "POST", QueryParams = "?playerMove=turnLeft" }},
-            { LinkType.PlayerTurnRight, new Link(){Description = "player-turn-right", Method = "POST", QueryParams = "?playerMove=turnRight" }},
-            { LinkType.PlayerMoveForward, new Link(){Description = "player-move-forward", Method = "POST", QueryParams = "?playerMove=forward" }},
+            { LinkType.PostPlayer, new(){Description = "post-player", Method = "POST"}},
+            { LinkType.PlayerTurnLeft, new(){Description = "player-turn-left", Method = "POST", QueryParams = "?playerMove=turnLeft" }},
+            { LinkType.PlayerTurnRight, new(){Description = "player-turn-right", Method = "POST", QueryParams = "?playerMove=turnRight" }},
+            { LinkType.PlayerMoveForward, new(){Description = "player-move-forward", Method = "POST", QueryParams = "?playerMove=forward" }},
         };
+
+        private static readonly string CreateParamsPreset = nameof(CreateParams.Preset).ToCamelCase();
+        private static readonly string BuildPresetName = nameof(BuildPreset.PresetName).ToCamelCase();
+
+        private static readonly string CreateParamsCustom = nameof(CreateParams.Custom).ToCamelCase();
+        private static readonly string BuildCustomMazeTest = nameof(BuildCustom.MazeText).ToCamelCase();
+
+        private static readonly string CreateParamsRandom = nameof(CreateParams.Random).ToCamelCase();
+
+        private static readonly string MazeStateMazeToken = nameof(MazeState.MazeToken).ToCamelCase();
+
 
         public static Dictionary<LinkType, Dictionary<string, object>> BodyMap = new()
         {
-            { LinkType.CreatePresetMaze, new Dictionary<string, object>() 
+            { LinkType.CreatePresetMaze, new() 
                 {
-                    { nameof(CreateParams.Preset).ToCamelCase(), new BuildPreset(){ PresetName = "{" + nameof(BuildPreset.PresetName).ToCamelCase() + "}"}}
+                    { CreateParamsPreset, new BuildPreset(){ PresetName = "{" +BuildPresetName + "}"}}
                 }
             },
-            { LinkType.CreateCustomMaze, new Dictionary<string, object>()
+            { LinkType.CreateCustomMaze, new()
                 {
-                    { nameof(CreateParams.Custom).ToCamelCase(), new BuildCustom(){ MazeText = "{" + nameof(BuildCustom.MazeText).ToCamelCase() + "}"}}
+                    { CreateParamsCustom, new BuildCustom(){ MazeText = "{" + BuildCustomMazeTest + "}"}}
                 }
             },
-            { LinkType.CreateRandomMaze, new Dictionary<string, object>()
+            { LinkType.CreateRandomMaze, new()
                 {
-                    { nameof(CreateParams.Random).ToCamelCase(), new BuildRandom()}
+                    { CreateParamsRandom, new BuildRandom()}
                 }
             },
-            { LinkType.PostPlayer, new Dictionary<string, object>()
+            { LinkType.PostPlayer, new()
                 {
-                    { nameof(MazeState.MazeToken).ToCamelCase(), "{" + nameof(MazeState.MazeToken).ToCamelCase() + "}"}
-                }
-            },{ LinkType.PlayerTurnLeft, new Dictionary<string, object>()
-                {
-                    { nameof(MazeState.MazeToken).ToCamelCase(), "{" + nameof(MazeState.MazeToken).ToCamelCase() + "}"}
-                }
-            },{ LinkType.PlayerTurnRight, new Dictionary<string, object>()
-                {
-                    { nameof(MazeState.MazeToken).ToCamelCase(), "{" + nameof(MazeState.MazeToken).ToCamelCase() + "}"}
-                }
-            },{ LinkType.PlayerMoveForward, new Dictionary<string, object>()
-                {
-                    { nameof(MazeState.MazeToken).ToCamelCase(), "{" + nameof(MazeState.MazeToken).ToCamelCase() + "}"}
+                    { MazeStateMazeToken, "{" + MazeStateMazeToken + "}"}
                 }
             },
+            { LinkType.PlayerTurnLeft, new()
+                {
+                    { MazeStateMazeToken, "{" + MazeStateMazeToken + "}"}
+                }
+            },
+            { LinkType.PlayerTurnRight, new()
+                {
+                    { MazeStateMazeToken, "{" + MazeStateMazeToken + "}"}
+                }
+            },
+            { LinkType.PlayerMoveForward, new()
+                {
+                    { MazeStateMazeToken, "{" + MazeStateMazeToken + "}"}
+                }
+            }
         };
+
 
         public static string ToCamelCase(this string name)
         {

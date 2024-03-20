@@ -10,12 +10,12 @@ namespace MazeEscape.WebAPI.Controllers
     [ApiController]
     public class MazesController : ControllerBase
     {
-        private readonly IMazeManager _mazeManager;
+        private readonly IMazeAppManager _mazeAppManager;
 
 
-        public MazesController(IMazeManager mazeManager)
+        public MazesController(IMazeAppManager mazeAppManager)
         {
-            _mazeManager = mazeManager;
+            _mazeAppManager = mazeAppManager;
         }
 
         [HttpGet]
@@ -58,7 +58,7 @@ namespace MazeEscape.WebAPI.Controllers
 
             };
 
-            var presets = _mazeManager.GetPresets();
+            var presets = _mazeAppManager.GetPresets();
 
             response.Data = presets;
 
@@ -85,7 +85,7 @@ namespace MazeEscape.WebAPI.Controllers
 
             try
             {
-                mazeToken = _mazeManager.CreateMaze(createMode, createParams);
+                mazeToken = _mazeAppManager.CreateMaze(createMode, createParams);
             }
             catch (ArgumentException e)
             {
@@ -106,7 +106,7 @@ namespace MazeEscape.WebAPI.Controllers
 
         [HttpPost]
         [Route("player")]
-        public IActionResult PostPlayer([FromQuery] PlayerMove? playerMove, [FromBody] MazeState? mazeState)
+        public IActionResult PostPlayer([FromQuery] PlayerMove? playerMove, [FromBody] MazeState mazeState)
         {
             var response = new HypermediaResponse()
             {
@@ -126,7 +126,7 @@ namespace MazeEscape.WebAPI.Controllers
             PlayerInfo? playerInfo = null;
             try
             {
-                playerInfo = _mazeManager.GetPlayerInfo(mazeState, playerMove);
+                playerInfo = _mazeAppManager.GetPlayerInfo(mazeState, playerMove);
 
                 if (playerInfo.IsEscaped)
                     response.Actions = null;
