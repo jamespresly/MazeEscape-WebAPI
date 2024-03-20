@@ -115,7 +115,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "GET",
                             ""});
 #line 10
- testRunner.And("the response contains the following:links", ((string)(null)), table1, "And ");
+ testRunner.And("the response contains the following array with values:links", ((string)(null)), table1, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -138,7 +138,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "POST",
                             "{\"random\":{\"width\":null,\"height\":null}}"});
 #line 14
- testRunner.And("the response contains the following:actions", ((string)(null)), table2, "And ");
+ testRunner.And("the response contains the following array with values:actions", ((string)(null)), table2, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -181,7 +181,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "GET",
                             ""});
 #line 24
- testRunner.And("the response contains the following:links", ((string)(null)), table3, "And ");
+ testRunner.And("the response contains the following array with values:links", ((string)(null)), table3, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -194,7 +194,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "POST",
                             "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
 #line 27
- testRunner.And("the response contains the following:actions", ((string)(null)), table4, "And ");
+ testRunner.And("the response contains the following array with values:actions", ((string)(null)), table4, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -238,7 +238,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "GET",
                             ""});
 #line 35
- testRunner.And("the response contains the following:links", ((string)(null)), table5, "And ");
+ testRunner.And("the response contains the following array with values:links", ((string)(null)), table5, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -251,7 +251,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "POST",
                             "{\"mazeToken\":\"{mazeToken}\"}"});
 #line 38
- testRunner.And("the response contains the following:actions", ((string)(null)), table6, "And ");
+ testRunner.And("the response contains the following array with values:actions", ((string)(null)), table6, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -302,7 +302,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "GET",
                             ""});
 #line 49
- testRunner.And("the response contains the following:links", ((string)(null)), table7, "And ");
+ testRunner.And("the response contains the following array with values:links", ((string)(null)), table7, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -330,7 +330,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "POST",
                             "{\"mazeToken\":\"{mazeToken}\"}"});
 #line 52
- testRunner.And("the response contains the following:actions", ((string)(null)), table8, "And ");
+ testRunner.And("the response contains the following array with values:actions", ((string)(null)), table8, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -382,7 +382,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "d body:{\"mazeToken\":\"{mazeToken}\"}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 68
- testRunner.Then("the response message is:You escaped", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the response message contains:You escaped", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -395,7 +395,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "GET",
                             ""});
 #line 69
- testRunner.And("the response contains the following:links", ((string)(null)), table9, "And ");
+ testRunner.And("the response contains the following array with values:links", ((string)(null)), table9, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                             "description",
@@ -403,7 +403,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "method",
                             "body"});
 #line 72
- testRunner.And("the response contains the following:actions", ((string)(null)), table10, "And ");
+ testRunner.And("the response contains the following array with values:actions", ((string)(null)), table10, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

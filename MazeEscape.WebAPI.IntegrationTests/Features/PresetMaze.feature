@@ -18,10 +18,10 @@ Scenario: Create maze from empty preset
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=preset with body:{"preset": {"presetName": ""}}
 	Then the status code is:BadRequest
-	And the response message is:presetName is required
+	And the response message contains:presetName is required
 
 Scenario: Create maze from a non-existent preset
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=preset with body:{"preset": {"presetName": "doesntExist"}}
 	Then the status code is:NotFound
-	And the response message is:Preset:doesntExist not found
+	And the response message contains:Preset:doesntExist not found

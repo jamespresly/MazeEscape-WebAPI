@@ -13,10 +13,10 @@ Scenario: Create maze from custom string with empty mazeText
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=custom with body:{"custom": {"mazeText": ""}}
 	Then the status code is:BadRequest
-	And the response message is:mazeText is required
+	And the response message contains:mazeText is required
 
 Scenario: Create maze from custom string with empty invalid mazeText
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=custom with body:{"custom": {"mazeText": "abcd"}}
 	Then the status code is:BadRequest
-	And the response message is:mazeText format is incorrect
+	And the response message contains:mazeText format is incorrect

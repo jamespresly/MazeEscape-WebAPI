@@ -15,7 +15,7 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
 
 
         [Given(@"the MazeEscape client is running")]
-        public void GivenIAmAClient()
+        public void MazeClientIsRunning()
         {
             _httpClient = new HttpClient()
             {
@@ -48,7 +48,7 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
         }
 
         [When(@"I save the mazeToken")]
-        public void WhenISaveTheMazeToken()
+        public void SaveTheMazeToken()
         {
             var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
 
@@ -57,7 +57,7 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
 
 
         [Then(@"the status code is:(.*)")]
-        public void GetResponse(string statusCode)
+        public void StatusCodeIs(string statusCode)
         {
             Console.WriteLine(statusCode);
             Console.WriteLine(_response.ReasonPhrase);
@@ -66,7 +66,7 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
         }
 
         [Then(@"the response data is an array which contains value:(.*)")]
-        public void CheckDataIsListContaining(string value)
+        public void ResponseDataContainsArrayByName(string value)
         {
             var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
 
@@ -82,7 +82,7 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
         }
 
         [Then(@"the response data is an object which contains non-null value:(.*)")]
-        public void CheckDataIsObjectContaining(string value)
+        public void ResponseDataContainsNonNullValueByName(string value)
         {
             var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
 
@@ -95,14 +95,14 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
 
         }
 
-        [Then(@"the response message is:(.*)")]
-        public void TheResponseMessageIs(string value)
+        [Then(@"the response message contains:(.*)")]
+        public void TheResponseMessageContains(string value)
         {
             var resp = _response.Content.ReadAsStringAsync().Result;
             resp.Should().Contain(value);
         }
 
-        [Then(@"the response contains the following:(.*)")]
+        [Then(@"the response contains the following array with values:(.*)")]
         public void ThenTheResponseContainsTheFollowing(string arrayName, Table table)
         {
 

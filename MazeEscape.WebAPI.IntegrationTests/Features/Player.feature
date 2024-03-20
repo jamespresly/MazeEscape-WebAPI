@@ -6,7 +6,7 @@ Scenario: Get Player Info without mazeToken
 	Given the MazeEscape client is running		
 	When I make a POST request to:/mazes/player with body:{"mazeToken": ""}
 	Then the status code is:BadRequest
-	And the response message is:mazeToken is required
+	And the response message contains:mazeToken is required
 
 Scenario: Move player through the smallest maze
 	Given the MazeEscape client is running
@@ -17,6 +17,6 @@ Scenario: Move player through the smallest maze
 	And I make a POST request to:/mazes/player?playerMove=forward with saved mazeToken and body:{"mazeToken":"{mazeToken}"}
 	And I save the mazeToken
 	And I make a POST request to:/mazes/player?playerMove=forward with saved mazeToken and body:{"mazeToken":"{mazeToken}"}
-	Then the response message is:You escaped
+	Then the response message contains:You escaped
 	
 	
