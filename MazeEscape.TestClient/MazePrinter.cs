@@ -34,6 +34,7 @@
         {
             _maze = new char[0, 0];
         }
+
         public void PrintMaze(dynamic rootData)
         {
             RemovePlayerSymbolFromMaze();
@@ -69,14 +70,11 @@
 
             var index = offsetList.IndexOf(new(facing, forwardOffset));
 
-            var rightOffset = offsetList[(index + 1) % offsetList.Count].Value;
+            var prevIndex = index == 0 ? offsetList.Count - 1 : index - 1;
+            var nextIndex = (index + 1) % offsetList.Count;
 
-            var prevIx = index - 1;
-            if (prevIx == -1)
-                prevIx = offsetList.Count - 1;
-
-            var leftOffset = offsetList[prevIx].Value;
-
+            var leftOffset = offsetList[prevIndex].Value;
+            var rightOffset = offsetList[nextIndex].Value;
 
             var xForwardOffset = forwardOffset.Item1;
             var yForwardOffset = forwardOffset.Item2;

@@ -3,8 +3,8 @@
 
     public class Root
     {
-        public dynamic data { get; set; }
-        public Link[] actions { get; set; }
-        public Link[] links { get; set; }
+        public dynamic Data { get; set; }
+        public Link[] Actions { get; set; }
+        public Link[] Links { get; set; }
     }
 }

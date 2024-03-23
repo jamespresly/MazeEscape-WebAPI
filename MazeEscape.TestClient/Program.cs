@@ -28,7 +28,7 @@ namespace MazeEscape.TestClient
                 var command = Console.ReadLine();
 
 
-                var link = _clientWrapper.Root.links.FirstOrDefault(x => x.Description == command);
+                var link = _clientWrapper.Root.Links.FirstOrDefault(x => x.Description == command);
 
                 if (link != null)
                 {
@@ -38,7 +38,7 @@ namespace MazeEscape.TestClient
                     continue;
                 }
 
-                var action = _clientWrapper.Root.actions.FirstOrDefault(x => x.Description == command);
+                var action = _clientWrapper.Root.Actions.FirstOrDefault(x => x.Description == command);
 
                 if (action != null)
                 {
@@ -102,12 +102,12 @@ namespace MazeEscape.TestClient
         {
             try
             {
-                var position = _clientWrapper.Root.data.position;
+                var position = _clientWrapper.Root.Data.position;
                 if (position != null)
                 {
                     try
                     {
-                        _mazePrinter.PrintMaze(_clientWrapper.Root.data);
+                        _mazePrinter.PrintMaze(_clientWrapper.Root.Data);
                     }
                     catch (Exception e)
                     {

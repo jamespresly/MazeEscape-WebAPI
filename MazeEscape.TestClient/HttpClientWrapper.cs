@@ -1,4 +1,5 @@
-﻿using MazeEscape.TestClient.DTO;
+﻿using System.Net;
+using MazeEscape.TestClient.DTO;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,6 +13,8 @@ namespace MazeEscape.TestClient
 
         public Root Root { get; set; }
         public string MazeToken { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
         public void Initialise()
         {
@@ -41,7 +44,13 @@ namespace MazeEscape.TestClient
             {
                 Root = JsonConvert.DeserializeObject<Root>(resp);
 
-                MazeToken = Root.data.mazeToken;
+                MazeToken = Root.Data.mazeToken;
+
+                if (_response.StatusCode == HttpStatusCode.Created)
+                {
+                    Width = Root.Data.width;
+                    Height = Root.Data.height;
+                }
             }
 
             return resp;
