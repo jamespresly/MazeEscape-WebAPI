@@ -33,13 +33,27 @@ namespace MazeEscape.Engine
                 "+         +\n" +
                 "+++++++++++\n";
 
+            var test2 = 
+                "++++++++++\n" +
+                "+       ++\n" +
+                "+ +++++ ++\n" +
+                "+ +      +\n" +
+                "+ + ++++ +\n" +
+                "+ + +S   +\n" +
+                "+ +   ++++\n" +
+                "+ ++++++ E\n" +
+                "+        +\n" +
+                "++++++++++\n";
+
+
+
             IMazeConverter mazeConverter = new MazeConverter();
             IMazeGenerator mazeGenerator = new MazeGenerator();
-            IPlayerController playerController = new PlayerController();
+            IPlayerNavigator playerNavigator = new PlayerNavigator();
 
-            IMazeGame mazeGame = new MazeGame(mazeConverter, mazeGenerator, playerController);
+            IMazeGame mazeGame = new MazeGame(mazeConverter, mazeGenerator, playerNavigator);
 
-            mazeGame.Initialise(testmaze);
+            mazeGame.Initialise(test2);
 
             var status = "";
 

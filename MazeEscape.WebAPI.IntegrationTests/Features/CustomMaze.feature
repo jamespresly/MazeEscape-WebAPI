@@ -2,14 +2,13 @@
 
 Enpoint usage for creating a custom maze
 
-@ignore
 Scenario: Create maze from custom string
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=custom with body:{"custom": {"mazeText": "+E+\n+ +\n+S+\n+++"}}
 	Then the status code is:Created
 	And the response data contains a non-null variable named:mazeToken
 	And the response data contains an int named:width with value:3
-	And the response data contains an int named:height with value:3
+	And the response data contains an int named:height with value:4
 
 Scenario: Error Scenario: Create maze from custom string with empty mazeText
 	Given the MazeEscape client is running

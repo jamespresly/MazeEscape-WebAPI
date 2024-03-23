@@ -33,7 +33,7 @@ namespace MazeEscape.WebAPI.Main
 
         public PlayerInfo GetPlayerInfo(MazeState mazeState, PlayerMove? playerMove)
         {
-            _mazeEngineManager.InitialiseMaze(mazeState.MazeToken);
+            _mazeEngineManager.InitialiseMazeFromToken(mazeState.MazeToken);
 
             if (playerMove != null)
             {
@@ -55,12 +55,9 @@ namespace MazeEscape.WebAPI.Main
             if (string.IsNullOrEmpty(mazeText))
                 throw new ArgumentException("mazeText cannot be empty");
 
-            var token = _mazeEngineManager.CreateMazeToken(mazeText);
+            var created = _mazeEngineManager.CreateMazeFromText(mazeText);
 
-            return new MazeCreated()
-                {
-                    MazeToken = token
-                };
+            return created;
         }
 
     }

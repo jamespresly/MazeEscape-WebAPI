@@ -11,14 +11,14 @@ namespace MazeEscape.Engine
 
         private readonly IMazeConverter _mazeConverter;
         private readonly IMazeGenerator _mazeGenerator;
-        private readonly IPlayerController _playerController;
+        private readonly IPlayerNavigator _playerNavigator;
 
         
-        public MazeGame(IMazeConverter mazeConverter, IMazeGenerator mazeGenerator, IPlayerController playerController)
+        public MazeGame(IMazeConverter mazeConverter, IMazeGenerator mazeGenerator, IPlayerNavigator playerNavigator)
         {
             _mazeConverter = mazeConverter;
             _mazeGenerator = mazeGenerator;
-            _playerController = playerController;
+            _playerNavigator = playerNavigator;
         }
         public void Initialise(Maze maze)
         {
@@ -38,7 +38,8 @@ namespace MazeEscape.Engine
             if (width > 100 || height > 100)
                 throw new ArgumentException("Maximum size: 100 x 100");
 
-            Maze = _mazeGenerator.GenerateRandom(width, height);
+            var mazeText = _mazeGenerator.GenerateRandom(width, height);
+            Maze = _mazeConverter.GenerateFromText(mazeText);
 
         }
 
@@ -49,12 +50,12 @@ namespace MazeEscape.Engine
 
         public string MovePlayer(PlayerMove move)
         {
-           return _playerController.Move(move, Maze);
+           return _playerNavigator.Move(move, Maze);
         }
 
         public PlayerVision GetPlayerVision()
         {
-            return _playerController.GetVision(Maze);
+            return _playerNavigator.GetVision(Maze);
         }
 
         public string PrintMaze()

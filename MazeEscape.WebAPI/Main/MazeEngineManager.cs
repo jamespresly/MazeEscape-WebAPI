@@ -28,16 +28,22 @@ public class MazeEngineManager : IMazeEngineManager
         _managerConfig = managerConfig;
     }
 
-    public string CreateMazeToken(string mazeText)
+    public MazeCreated CreateMazeFromText(string mazeText)
     {
         _mazeGame.Initialise(mazeText);
         var maze = _mazeGame.GetMaze();
 
         var token = _mazeEncoder.MazeEncode(maze, _managerConfig.MazeEncryptionKey);
-        return token;
+
+        return new MazeCreated()
+        {
+            MazeToken = token,
+            Width = maze.Width,
+            Height = maze.Height,
+        };
     }
 
-    public void InitialiseMaze(string token)
+    public void InitialiseMazeFromToken(string token)
     {
         if (string.IsNullOrEmpty(token))
             throw new ArgumentException("mazeToken is required");
