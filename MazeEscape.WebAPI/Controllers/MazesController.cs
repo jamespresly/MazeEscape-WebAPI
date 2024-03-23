@@ -1,6 +1,5 @@
 ﻿using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Enums;
-using MazeEscape.WebAPI.Hypermedia;
 using MazeEscape.WebAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,30 +10,19 @@ namespace MazeEscape.WebAPI.Controllers
     public class MazesController : ControllerBase
     {
         private readonly IMazeAppManager _mazeAppManager;
+        private readonly IHypermediaManager _hypermediaManager;
 
-        public MazesController(IMazeAppManager mazeAppManager)
+        public MazesController(IMazeAppManager mazeAppManager, IHypermediaManager hypermediaManager)
         {
             _mazeAppManager = mazeAppManager;
+            _hypermediaManager = hypermediaManager;
         }
 
         [HttpGet]
         [Route("")]
         public IActionResult GetMazes()
         {
-            var response = new HypermediaResponse()
-            {
-                Actions = new List<Link>()
-                {
-                    CreateLink(LinkType.CreatePresetMaze, nameof(CreateMaze)),
-                    CreateLink(LinkType.CreateCustomMaze, nameof(CreateMaze)),
-                    CreateLink(LinkType.CreateRandomMaze, nameof(CreateMaze)),
-                },
-                Links = new List<Link>
-                {
-                    CreateLink(LinkType.GetMazeRoot, nameof(GetMazes)),
-                    CreateLink(LinkType.GetPresetsList, nameof(GetPresets))
-                }
-            };
+            var response = _hypermediaManager.GetEndpointHypermedia(nameof(GetMazes), Url);
 
             return Ok(response);
         }
@@ -43,22 +31,9 @@ namespace MazeEscape.WebAPI.Controllers
         [Route("presets")]
         public IActionResult GetPresets()
         {
-            var response = new HypermediaResponse()
-            {
-                Actions = new List<Link>()
-                {
-                    CreateLink(LinkType.CreatePresetMaze, nameof(CreateMaze))
-                },
-                Links = new List<Link>
-                {
-                    CreateLink(LinkType.GetMazeRoot, nameof(GetMazes)),
-                }
+            var response = _hypermediaManager.GetEndpointHypermedia(nameof(GetPresets), Url);
 
-            };
-
-            var presets = _mazeAppManager.GetPresets();
-
-            response.Data = presets;
+            response.Data = _mazeAppManager.GetPresets();
 
             return Ok(response);
         }
@@ -67,78 +42,44 @@ namespace MazeEscape.WebAPI.Controllers
         [Route("")]
         public IActionResult CreateMaze([FromQuery] CreateMode createMode, [FromBody] CreateParams createParams)
         {
-            var response = new HypermediaResponse()
-            {
-                Actions = new List<Link>()
-                {
-                    CreateLink(LinkType.PostPlayer, nameof(PostPlayer))
-                },
-                Links = new List<Link>
-                {
-                    CreateLink(LinkType.GetMazeRoot, nameof(GetMazes))
-                }
-            };
-
-            var mazeToken = "";
+            var response = _hypermediaManager.GetEndpointHypermedia(nameof(CreateMaze), Url);
 
             try
             {
-                mazeToken = _mazeAppManager.CreateMaze(createMode, createParams);
+                response.Data = _mazeAppManager.CreateMaze(createMode, createParams);
             }
             catch (ArgumentException e)
             {
+                response = _hypermediaManager.GetEndpointHypermedia(nameof(GetMazes), Url);
                 response.Error = e.Message;
-                response.Actions = new List<Link>()
-                {
-                    CreateLink(LinkType.CreatePresetMaze, nameof(CreateMaze))
-                };
+
                 return BadRequest(response);
             }
             catch (FileNotFoundException e)
             {
+                response = _hypermediaManager.GetEndpointHypermedia(nameof(GetMazes), Url);
                 response.Error = e.Message;
-                response.Actions = new List<Link>()
-                {
-                    CreateLink(LinkType.CreatePresetMaze, nameof(CreateMaze))
-                };
+                
                 return NotFound(response);
             }
-            
-            response.Data = new { mazeToken = mazeToken };
 
             return Created("", response);
-
         }
-
-
 
         [HttpPost]
         [Route("player")]
         public IActionResult PostPlayer([FromQuery] PlayerMove? playerMove, [FromBody] MazeState mazeState)
         {
-            var response = new HypermediaResponse()
-            {
-                Actions = new List<Link>()
-                {
-                    CreateLink(LinkType.PostPlayer, nameof(PostPlayer)),
-                    CreateLink(LinkType.PlayerTurnLeft, nameof(PostPlayer)),
-                    CreateLink(LinkType.PlayerTurnRight, nameof(PostPlayer)),
-                    CreateLink(LinkType.PlayerMoveForward, nameof(PostPlayer)),
-                },
-                Links = new List<Link>
-                {
-                    CreateLink(LinkType.GetMazeRoot, nameof(GetMazes))
-                }
-            };
+            var response = _hypermediaManager.GetEndpointHypermedia(nameof(PostPlayer), Url);
 
-            PlayerInfo? playerInfo = null;
             try
             {
-                playerInfo = _mazeAppManager.GetPlayerInfo(mazeState, playerMove);
+                var playerInfo = _mazeAppManager.GetPlayerInfo(mazeState, playerMove);
 
                 if (playerInfo.IsEscaped)
                     response.Actions = null;
 
+                response.Data = playerInfo;
             }
             catch (ArgumentException e)
             {
@@ -146,22 +87,9 @@ namespace MazeEscape.WebAPI.Controllers
                 return BadRequest(response);
             }
 
-            response.Data = playerInfo;
-
             return Ok(response);
         }
 
-        private Link CreateLink(LinkType linkType, string name, object? values = null)
-        {
-            var link = HypermediaDefinitions.LinksMap[linkType];
-            link.Href = Url.Action(name, values) + link.QueryParams;
-
-            if (HypermediaDefinitions.BodyMap.ContainsKey(linkType))
-            {
-                link.Body = HypermediaDefinitions.BodyMap[linkType];
-            }
-
-            return link;
-        }
+    
     }
 }

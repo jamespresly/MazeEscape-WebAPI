@@ -1,6 +1,7 @@
 ﻿using MazeEscape.Encoder.Interfaces;
 using MazeEscape.Engine.Interfaces;
 using MazeEscape.WebAPI.DTO;
+using MazeEscape.WebAPI.DTO.Internal;
 using MazeEscape.WebAPI.Interfaces;
 
 namespace MazeEscape.WebAPI.Main;

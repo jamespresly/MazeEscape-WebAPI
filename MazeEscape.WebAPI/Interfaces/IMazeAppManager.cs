@@ -6,7 +6,7 @@ namespace MazeEscape.WebAPI.Interfaces;
 public interface IMazeAppManager
 {
     List<string> GetPresets();
-    string CreateMaze(CreateMode createMode, CreateParams createParams);
+    MazeCreated CreateMaze(CreateMode createMode, CreateParams createParams);
     PlayerInfo GetPlayerInfo(MazeState mazeState, PlayerMove? playerMove);
 
 }

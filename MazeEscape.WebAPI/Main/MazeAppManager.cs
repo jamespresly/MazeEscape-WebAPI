@@ -43,7 +43,7 @@ namespace MazeEscape.WebAPI.Main
             return _mazeEngineManager.GetPlayerInfo();
         }
 
-        public string CreateMaze(CreateMode createMode, CreateParams createParams)
+        public MazeCreated CreateMaze(CreateMode createMode, CreateParams createParams)
         {
             var creator = _mazeCreators.FirstOrDefault(x => x.GetType() == _creatorMap[createMode]);
 
@@ -55,7 +55,12 @@ namespace MazeEscape.WebAPI.Main
             if (string.IsNullOrEmpty(mazeText))
                 throw new ArgumentException("mazeText cannot be empty");
 
-            return _mazeEngineManager.CreateMazeToken(mazeText);
+            var token = _mazeEngineManager.CreateMazeToken(mazeText);
+
+            return new MazeCreated()
+                {
+                    MazeToken = token
+                };
         }
 
     }

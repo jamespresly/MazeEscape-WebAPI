@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MazeEscape.WebAPI.Hypermedia
+namespace MazeEscape.WebAPI.DTO
 {
     public class HypermediaResponse
     {
@@ -10,7 +10,7 @@ namespace MazeEscape.WebAPI.Hypermedia
         public string Error { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<Link> Actions { get; set; }
+        public List<ActionLink> Actions { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<Link> Links { get; set; }
     }

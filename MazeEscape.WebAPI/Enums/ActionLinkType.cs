@@ -1,9 +1,7 @@
-﻿namespace MazeEscape.WebAPI.Hypermedia;
+﻿namespace MazeEscape.WebAPI.Enums;
 
-public enum LinkType
+public enum ActionLinkType
 {
-    GetMazeRoot,
-    GetPresetsList,
     CreatePresetMaze,
     CreateCustomMaze,
     CreateRandomMaze,

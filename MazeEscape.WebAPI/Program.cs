@@ -2,7 +2,8 @@ using MazeEscape.Encoder;
 using MazeEscape.Encoder.Interfaces;
 using MazeEscape.Engine;
 using MazeEscape.Engine.Interfaces;
-using MazeEscape.WebAPI.DTO;
+using MazeEscape.WebAPI.DTO.Internal;
+using MazeEscape.WebAPI.Hypermedia;
 using MazeEscape.WebAPI.Interfaces;
 using MazeEscape.WebAPI.Main;
 using Microsoft.AspNetCore.HttpLogging;
@@ -35,12 +36,13 @@ namespace MazeEscape.WebAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<IMazeAppManager, MazeAppManager>();
+            builder.Services.AddScoped<IHypermediaManager,HypermediaManager>();
 
             builder.Services.AddScoped<IMazeGame, MazeGame>();
             builder.Services.AddScoped<IMazeEncoder, MazeEncoder>();
             builder.Services.AddScoped<IMazeConverter, MazeConverter>();
 
-            builder.Services.AddScoped<IPlayerController, PlayerController>();
+            builder.Services.AddScoped<IPlayerNavigator, PlayerNavigator>();
             builder.Services.AddScoped<IMazeGenerator, MazeGenerator>();
 
             builder.Services.AddScoped<IPresetFileManager, PresetMazeCreator>();
