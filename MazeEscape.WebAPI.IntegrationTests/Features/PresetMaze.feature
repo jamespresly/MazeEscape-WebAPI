@@ -12,7 +12,9 @@ Scenario: Create maze from preset
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=preset with body:{"preset": {"presetName": "spiral"}}
 	Then the status code is:Created
-	And the response data is an object which contains non-null value:mazeToken
+	And the response data contains a non-null variable named:mazeToken
+	And the response data contains a non-null variable named:width
+	And the response data contains a non-null variable named:height
 
 Scenario: Error Scenario: Create maze from empty preset
 	Given the MazeEscape client is running

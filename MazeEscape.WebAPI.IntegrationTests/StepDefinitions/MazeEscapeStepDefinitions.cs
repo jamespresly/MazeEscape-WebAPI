@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
+using MazeEscape.WebAPI.IntegrationTests.Support;
 using Newtonsoft.Json.Linq;
 
 
@@ -8,10 +9,17 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
     [Binding]
     public sealed class MazeEscapeStepDefinitions
     {
+        private readonly ResponseContainer _responseContainer;
+
         private HttpClient _httpClient;
-        private HttpResponseMessage _response;
 
         private string _mazeToken;
+
+
+        public MazeEscapeStepDefinitions(ResponseContainer responseContainer)
+        {
+            _responseContainer = responseContainer;
+        }
 
 
         [Given(@"the MazeEscape client is running")]
@@ -30,13 +38,15 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
         [When(@"I make a GET request to:(.*)")]
         public void GetEndpoint(string endpoint)
         {
-            _response = Get(endpoint);
+            var response = Get(endpoint);
+            _responseContainer.SetHttpResponse(response);
         }
 
         [When(@"I make a POST request to:(.*) with body:(.*)")]
         public void PostEndpoint(string endpoint, string body)
         {
-            _response = Post(endpoint, body);
+            var response = Post(endpoint, body);
+            _responseContainer.SetHttpResponse(response);
         }
 
         [When(@"I make a POST request to:(.*) with saved mazeToken and body:(.*)")]
@@ -44,13 +54,14 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
         {
             body = body.Replace("{mazeToken}", _mazeToken);
 
-            _response = Post(endpoint, body);
+            var response = Post(endpoint, body);
+            _responseContainer.SetHttpResponse(response);
         }
 
         [When(@"I save the mazeToken")]
         public void SaveTheMazeToken()
         {
-            var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
+            var obj = JObject.Parse(_responseContainer.ResponseString);
 
             _mazeToken = obj["data"]["mazeToken"].ToString();
         }
@@ -60,15 +71,15 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
         public void StatusCodeIs(string statusCode)
         {
             Console.WriteLine(statusCode);
-            Console.WriteLine(_response.ReasonPhrase);
+            Console.WriteLine(_responseContainer.HttpResponse.ReasonPhrase);
 
-            _response.StatusCode.ToString().Should().Be(statusCode);
+            _responseContainer.HttpResponse.StatusCode.ToString().Should().Be(statusCode);
         }
 
         [Then(@"the response data is an array which contains value:(.*)")]
         public void ResponseDataContainsArrayByName(string value)
         {
-            var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
+            var obj = JObject.Parse(_responseContainer.ResponseString);
 
             var data = obj["data"].ToString();
 
@@ -78,27 +89,38 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
 
             results.Should().NotBeNull();
             results.Should().Contain(value);
-
         }
 
-        [Then(@"the response data is an object which contains non-null value:(.*)")]
-        public void ResponseDataContainsNonNullValueByName(string value)
+        [Then(@"the response data contains a non-null variable named:(.*)")]
+        public void ResponseDataContainsNonNullVariableByName(string name)
         {
-            var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
+            var obj = JObject.Parse(_responseContainer.ResponseString);
 
             var data = JObject.Parse(obj["data"].ToString());
 
             data.Should().NotBeNull();
-            data.Should().Contain(c => c.Key == value);
+            data.Should().Contain(c => c.Key == name);
 
-            data.Value<string>(value).Should().NotBeNullOrEmpty();
+            data.Value<string>(name).Should().NotBeNullOrEmpty();
+        }
 
+        [Then(@"the response data contains an int named:(.*) with value:(.*)")]
+        public void ResponseDataContainsVariableByName(string name, int value)
+        {
+            var obj = JObject.Parse(_responseContainer.ResponseString);
+
+            var data = JObject.Parse(obj["data"].ToString());
+
+            data.Should().NotBeNull();
+            data.Should().Contain(c => c.Key == name);
+
+            data.Value<int>(name).Should().Be(value);
         }
 
         [Then(@"the response contains error message:(.*)")]
         public void ResponseContainsErrorMessage(string value)
         {
-            var obj = JObject.Parse(_response.Content.ReadAsStringAsync().Result);
+            var obj = JObject.Parse(_responseContainer.ResponseString);
 
             var error = obj["error"].ToString();
 
@@ -109,46 +131,8 @@ namespace MazeEscape.WebAPI.IntegrationTests.StepDefinitions
         [Then(@"the response message contains:(.*)")]
         public void ResponseMessageContains(string value)
         {
-            var resp = _response.Content.ReadAsStringAsync().Result;
-            resp.Should().Contain(value);
-        }
-
-        [Then(@"the response contains the following hypermedia array:(.*) with values:")]
-        public void ResponseContainsTheFollowingHypermediaArrayWithValues(string arrayName, Table table)
-        {
-
-            var response = _response.Content.ReadAsStringAsync().Result;
-
-            var links = JObject.Parse(response)[arrayName];
-
-            var linksCount = links?.Count() ?? 0;
-
-            linksCount.Should().Be(table.RowCount);
-
-            var i = 0;
-
-            foreach (var row in table.Rows)
-            {
-                var link = links[i++];
-
-                var desc = row["description"];
-                var href = row["href"];
-                var method = row["method"];
-                var body = row["body"];
-
-                var linkDescription = link["description"].ToString();
-                var linkHref = link["href"].ToString();
-                var linkMethod = link["method"].ToString();
-                var linkBody = link["body"]?.ToString(Newtonsoft.Json.Formatting.None);
-
-                if(linkBody == null)
-                    linkBody = "";
-
-                linkDescription.Should().BeEquivalentTo(desc);
-                linkHref.Should().BeEquivalentTo(href);
-                linkMethod.Should().BeEquivalentTo(method);
-                linkBody.Should().BeEquivalentTo(body);
-            }
+            var response = _responseContainer.ResponseString;
+            response.Should().Contain(value);
         }
 
         private HttpResponseMessage Get(string endpoint)

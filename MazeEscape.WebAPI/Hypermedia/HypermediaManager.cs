@@ -22,13 +22,13 @@ namespace MazeEscape.WebAPI.Hypermedia
             return response;
         }
 
-        public List<DTO.ActionLink> GetActionsList(Dictionary<ActionLinkType, string> actions, IUrlHelper urlHelper)
+        public List<ActionLink> GetActionsList(Dictionary<ActionLinkType, string> actionDefinitions, IUrlHelper urlHelper)
         {
-           var actionList = new List<DTO.ActionLink>();
+           var actionList = new List<ActionLink>();
 
-           var pairsList = actions.ToList();
+           var definitions = actionDefinitions.ToList();
 
-           foreach (var keyValuePair in pairsList)
+           foreach (var keyValuePair in definitions)
            {
                var action = ActionLinkDefinitions.ActionsMap[keyValuePair.Key];
                action.Href = urlHelper.Action(keyValuePair.Value) + action.QueryParams;
@@ -44,13 +44,13 @@ namespace MazeEscape.WebAPI.Hypermedia
            return actionList;
         }
 
-        public List<Link> GetLinks(Dictionary<LinkType, string> hypermedia, IUrlHelper urlHelper)
+        public List<Link> GetLinks(Dictionary<LinkType, string> linkDefinitions, IUrlHelper urlHelper)
         {
             var links = new List<Link>();
 
-            var pairsList = hypermedia.ToList();
+            var definitions = linkDefinitions.ToList();
 
-            foreach (var keyValuePair in pairsList)
+            foreach (var keyValuePair in definitions)
             {
                 var link = LinkDefinitions.LinksMap[keyValuePair.Key];
                 link.Href = urlHelper.Action(keyValuePair.Value) + link.QueryParams;

@@ -7,7 +7,9 @@ Scenario: Create a random maze
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=random with body:{"random": {"width": 10, "height": 10}}
 	Then the status code is:Created
-	And the response data is an object which contains non-null value:mazeToken
+	And the response data contains a non-null variable named:mazeToken
+	And the response data contains an int named:width with value:10
+	And the response data contains an int named:height with value:10	
 
 @ignore
 Scenario: Error Scenario: Create a random maze with missing height
