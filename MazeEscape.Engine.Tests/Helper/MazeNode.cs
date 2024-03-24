@@ -72,7 +72,7 @@ public class MazeNode
 
                 if (child.IsExitPath)
                 {
-                    Console.WriteLine("exit path of length:" + path.Count);
+                    //Console.WriteLine("exit path of length:" + path.Count);
                 }
 
                 yield return path;

@@ -15,17 +15,4 @@
         public bool IsEscaped { get; set; }
 
     }
-
-    public class Vision
-    {
-        public string Ahead { get; set; }
-        public string Left { get; set; }
-        public string Right { get; set; }
-    }
-
-    public class Position
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-    }
 }

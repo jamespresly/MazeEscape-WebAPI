@@ -69,11 +69,14 @@ namespace MazeEscape.Engine.Tests.Helper
                         if (mazeSquare.IsExit)
                         {
                             corridor.MarkAsExitPath();
+                            break;
                         }
 
                         corridorCount++;
 
                         corridorNodes.Add(corridor);
+
+                        
                     }
                 }
             }
