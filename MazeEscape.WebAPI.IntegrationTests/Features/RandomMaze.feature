@@ -2,7 +2,6 @@
 
 Enpoint usage for creating a random maze
 
-@ignore
 Scenario: Create a random maze 
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=random with body:{"random": {"width": 10, "height": 10}}
@@ -11,16 +10,14 @@ Scenario: Create a random maze
 	And the response data contains an int named:width with value:10
 	And the response data contains an int named:height with value:10	
 
-@ignore
 Scenario: Error Scenario: Create a random maze with missing height
 	Given the MazeEscape client is running
 	When I make a POST request to:/mazes?createMode=random with body:{"random": {"width": 10 }}
 	Then the status code is:BadRequest
-	And the response contains error message:"width and height are required"
+	And the response contains error message:width and height are required parameters
 
-@ignore
 Scenario: Error Scenario: Create a random maze with height and width out of range
 	Given the MazeEscape client is running
-	When I make a POST request to:/mazes?createMode=random with body:{"random": {"width": 101, "height": 101 }}
+	When I make a POST request to:/mazes?createMode=random with body:{"random": {"width": 51, "height": 51 }}
 	Then the status code is:BadRequest
-	And the response contains error message:"width and height must be between 3 and 100"
+	And the response contains error message:width and height must be between 10 and 50

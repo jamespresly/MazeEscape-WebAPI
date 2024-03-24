@@ -16,7 +16,7 @@ namespace MazeEscape.WebAPI.Main
         {
             { CreateMode.Preset, typeof(PresetMazeCreator)},
             { CreateMode.Custom, typeof(CustomMazeCreator)},
-            { CreateMode.Random, typeof(Random)}
+            { CreateMode.Random, typeof(RandomMazeCreator)}
         };
 
         public MazeAppManager( IMazeEngineManager mazeEngineManager, IEnumerable<IMazeCreator> mazeCreators, IPresetFileManager presetFileManager)
