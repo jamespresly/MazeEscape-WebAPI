@@ -6,14 +6,22 @@ namespace MazeEscape.TestClient
 {
     internal class Program
     {
-        private readonly HttpClientWrapper _clientWrapper = new HttpClientWrapper();
-        private readonly MazePrinter _mazePrinter = new MazePrinter();
+        private readonly HttpClientWrapper _clientWrapper = new();
+        private readonly MazePrinter _mazePrinter = new();
 
         static void Main(string[] args)
         {
             Program p = new Program();
             p.Run();
         }
+
+
+        private Dictionary<string, string> _commandShortcuts = new()
+        {
+            {"w", "player-move-forward"},
+            {"a", "player-turn-left"},
+            {"d", "player-turn-right"}
+        };
 
         private void Run()
         {
@@ -27,6 +35,11 @@ namespace MazeEscape.TestClient
                 Console.WriteLine("Please enter next command:");
                 var command = Console.ReadLine();
 
+                var shortcut="";
+                _commandShortcuts.TryGetValue(command, out shortcut);
+
+                if(!string.IsNullOrEmpty(shortcut))
+                    command = shortcut;
 
                 var link = _clientWrapper.Root.Links.FirstOrDefault(x => x.Description == command);
 

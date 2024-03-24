@@ -37,6 +37,8 @@
 
         public void PrintMaze(dynamic rootData)
         {
+
+
             RemovePlayerSymbolFromMaze();
 
             if (!(bool)rootData.isEscaped)
