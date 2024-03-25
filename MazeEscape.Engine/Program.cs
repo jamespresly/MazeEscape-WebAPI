@@ -29,10 +29,9 @@ namespace MazeEscape.Engine
             
 
             IMazeConverter mazeConverter = new MazeConverter();
-            IMazeGenerator mazeGenerator = new MazeGenerator();
             IPlayerNavigator playerNavigator = new PlayerNavigator();
 
-            IMazeGame mazeGame = new MazeGame(mazeConverter, mazeGenerator, playerNavigator);
+            IMazeGame mazeGame = new MazeGame(mazeConverter, playerNavigator);
 
             mazeGame.Initialise(testmaze);
 

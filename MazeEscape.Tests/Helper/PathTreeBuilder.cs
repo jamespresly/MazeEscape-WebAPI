@@ -1,7 +1,7 @@
 ﻿using MazeEscape.Model.Domain;
 using MazeEscape.Model.Enums;
 
-namespace MazeEscape.Engine.Tests.Helper
+namespace MazeEscape.Tests.Helper
 {
     internal class PathTreeBuilder
     {

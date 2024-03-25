@@ -1,9 +1,10 @@
 using System.Diagnostics;
-using FluentAssertions;
-using MazeEscape.Encoder.Interfaces;
 using System.Text;
+using FluentAssertions;
+using MazeEscape.Encoder;
+using MazeEscape.Encoder.Interfaces;
 
-namespace MazeEscape.Encoder.Tests
+namespace MazeEscape.Tests
 {
     public class EncoderTests
     {

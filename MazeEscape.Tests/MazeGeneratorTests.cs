@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using FluentAssertions;
-using MazeEscape.Engine.Tests.Helper;
+using MazeEscape.Engine;
+using MazeEscape.Tests.Helper;
 
-namespace MazeEscape.Engine.Tests;
+namespace MazeEscape.Tests;
 
 public class MazeGeneratorTests
 {

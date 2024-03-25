@@ -1,6 +1,6 @@
 ﻿namespace MazeEscape.Engine.Struct;
 
-internal struct Offset
+public struct Offset
 {
     public Offset(int x, int y)
     {

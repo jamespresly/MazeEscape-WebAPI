@@ -1,8 +1,9 @@
 using FluentAssertions;
+using MazeEscape.Engine;
 using MazeEscape.Engine.Interfaces;
 using MazeEscape.Model.Enums;
 
-namespace MazeEscape.Engine.Tests
+namespace MazeEscape.Tests
 {
     public class PlayerNavigatorTests
     {
