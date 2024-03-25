@@ -1,5 +1,5 @@
-﻿using MazeEscape.Engine.Enums;
-using MazeEscape.Engine.Model;
+﻿using MazeEscape.Model.Domain;
+using MazeEscape.Model.Enums;
 
 namespace MazeEscape.Engine.Interfaces;
 

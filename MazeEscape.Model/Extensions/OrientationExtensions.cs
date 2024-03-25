@@ -1,8 +1,8 @@
-﻿using MazeEscape.Engine.Enums;
+﻿using MazeEscape.Model.Enums;
 
-namespace MazeEscape.Engine.Extensions;
+namespace MazeEscape.Model.Extensions;
 
-internal static class OrientationExtensions
+public static class OrientationExtensions
 {
 
     public static Orientation TurnClockwise(this Orientation src)

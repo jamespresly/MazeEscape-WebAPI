@@ -1,6 +1,6 @@
 using FluentAssertions;
-using MazeEscape.Engine.Enums;
 using MazeEscape.Engine.Interfaces;
+using MazeEscape.Model.Enums;
 
 namespace MazeEscape.Engine.Tests
 {

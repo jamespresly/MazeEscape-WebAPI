@@ -1,4 +1,4 @@
-﻿namespace MazeEscape.Engine.Model;
+﻿namespace MazeEscape.Model.Domain;
 
 public class Location
 {

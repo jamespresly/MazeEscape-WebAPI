@@ -1,14 +1,11 @@
 ﻿using System.Security.Cryptography;
 using MazeEscape.Encoder.Helper;
 using MazeEscape.Encoder.Interfaces;
-using MazeEscape.Engine.Interfaces;
-using MazeEscape.Engine.Model;
 
 namespace MazeEscape.Encoder
 {
     public class MazeEncoder : IMazeEncoder
     {
-        private readonly IMazeConverter _mazeConverter;
 
         private readonly Dictionary<char, int> _charMap = new()
         {
@@ -16,20 +13,16 @@ namespace MazeEscape.Encoder
             { ' ', 1},
             { '\n', 2},
             { 'E',4},
-            { '▲', 5},
-            { '►', 6},
-            { '▼', 7},
-            { '◄', 8},
+            { 'S',5},
+            { '▲', 6},
+            { '►', 7},
+            { '▼', 8},
+            { '◄', 9},
         };
 
-        public MazeEncoder(IMazeConverter mazeConverter)
+        public string MazeEncode(string mazeString, string encryptionKey)
         {
-            _mazeConverter = mazeConverter;
-        }
-
-        public string MazeEncode(Maze maze, string encryptionKey)
-        {
-            var encoded = ToBase64String(maze);
+            var encoded = ToBase64String(mazeString);
 
             var compressed = StringCompression.CompressString(encoded);
 
@@ -47,7 +40,7 @@ namespace MazeEscape.Encoder
             return result;
         }
 
-        public Maze MazeDecode(string mazeToken, string encryptionKey)
+        public string MazeDecode(string mazeToken, string encryptionKey)
         {
             var ivBase64 = mazeToken.Substring(0, 24);
             var encryptedBase64 = mazeToken.Substring(24, mazeToken.Length - 24);
@@ -61,11 +54,9 @@ namespace MazeEscape.Encoder
 
             var decompressed = StringCompression.DecompressString(decrypted);
 
-            var mazText= FromBase64String(decompressed);
+            var mazeText= FromBase64String(decompressed);
 
-            var maze = _mazeConverter.GenerateFromText(mazText);
-
-            return maze;
+            return mazeText;
         }
 
         private string FromBase64String(string base64String)
@@ -88,9 +79,9 @@ namespace MazeEscape.Encoder
             return new string(chars.ToArray()) ;
         }
 
-        private string ToBase64String(Maze maze)
+        private string ToBase64String(string maze)
         {
-            var mazeString = _mazeConverter.ToText(maze).Replace("\r", "");
+            var mazeString = maze.Replace("\r", "");
 
             var mazeChars = mazeString.ToCharArray();
 

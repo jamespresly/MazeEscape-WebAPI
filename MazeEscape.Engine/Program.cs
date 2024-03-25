@@ -1,5 +1,5 @@
-﻿using MazeEscape.Engine.Enums;
-using MazeEscape.Engine.Interfaces;
+﻿using MazeEscape.Engine.Interfaces;
+using MazeEscape.Model.Enums;
 
 namespace MazeEscape.Engine
 {
@@ -15,12 +15,6 @@ namespace MazeEscape.Engine
         private void Run()
         {
 
-            var minmaze =
-                "+E+\n" +
-                "+ +\n" +
-                "+S+\n" +
-                "+++";
-
             var testmaze =
                 "+E+++++++++\n" +
                 "+ +       +\n" +
@@ -32,20 +26,7 @@ namespace MazeEscape.Engine
                 "+ +++++++ +\n" +
                 "+         +\n" +
                 "+++++++++++\n";
-
-            var test2 = 
-                "++++++++++\n" +
-                "+       ++\n" +
-                "+ +++++ ++\n" +
-                "+ +      +\n" +
-                "+ + ++++ +\n" +
-                "+ + +S   +\n" +
-                "+ +   ++++\n" +
-                "+ ++++++ E\n" +
-                "+        +\n" +
-                "++++++++++\n";
-
-
+            
 
             IMazeConverter mazeConverter = new MazeConverter();
             IMazeGenerator mazeGenerator = new MazeGenerator();
@@ -53,7 +34,7 @@ namespace MazeEscape.Engine
 
             IMazeGame mazeGame = new MazeGame(mazeConverter, mazeGenerator, playerNavigator);
 
-            mazeGame.Initialise(test2);
+            mazeGame.Initialise(testmaze);
 
             var status = "";
 

@@ -2,9 +2,6 @@ using System.Diagnostics;
 using FluentAssertions;
 using MazeEscape.Encoder.Interfaces;
 using System.Text;
-using MazeEscape.Engine;
-using MazeEscape.Engine.Interfaces;
-
 
 namespace MazeEscape.Encoder.Tests
 {
@@ -21,23 +18,19 @@ namespace MazeEscape.Encoder.Tests
         [Test]
         public void EncoderTest()
         {
-            IMazeConverter mazeConverter = new MazeConverter();
-            IMazeEncoder mazeEncoder = new MazeEncoder(mazeConverter);
+            IMazeEncoder mazeEncoder = new MazeEncoder();
 
-            var minmaze = "+E+\n" + 
-                                "+ +\n" +
-                                "+S+\n" +
-                                "+++";
+            var input = "+E+\n" + 
+                        "+ +\n" +
+                        "+S+\n" +
+                        "+++";
 
-            var inMaze = mazeConverter.GenerateFromText(minmaze);
-
-            var encoded = mazeEncoder.MazeEncode(inMaze, testKey);
+          
+            var encoded = mazeEncoder.MazeEncode(input, testKey);
 
             var outMaze = mazeEncoder.MazeDecode(encoded, testKey);
 
-            var text = mazeConverter.ToText(outMaze);
-
-            outMaze.Should().BeEquivalentTo(inMaze);
+            outMaze.Should().BeEquivalentTo(input);
         }
 
         [Test]
@@ -45,8 +38,7 @@ namespace MazeEscape.Encoder.Tests
         {
             var st = new Stopwatch();
 
-            IMazeConverter mazeConverter = new MazeConverter();
-            IMazeEncoder mazeEncoder = new MazeEncoder(mazeConverter);
+            IMazeEncoder mazeEncoder = new MazeEncoder();
 
             var min = 3;
             var max = 100;
@@ -57,17 +49,15 @@ namespace MazeEscape.Encoder.Tests
             {
                 st.Reset();
 
-                var maze = GetRandom(i);
+                var mazeString = GetRandom(i);
 
                 st.Start();
 
-                var m = mazeConverter.GenerateFromText(maze);
-
-                var encoded = mazeEncoder.MazeEncode(m, testKey);
+                var encoded = mazeEncoder.MazeEncode(mazeString, testKey);
 
                 var decoded = mazeEncoder.MazeDecode(encoded, testKey);
 
-                var text = mazeConverter.ToText(decoded);
+                decoded.Should().BeEquivalentTo(mazeString);
 
                 st.Stop();
 

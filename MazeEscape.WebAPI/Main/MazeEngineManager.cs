@@ -1,5 +1,6 @@
 ﻿using MazeEscape.Encoder.Interfaces;
 using MazeEscape.Engine.Interfaces;
+using MazeEscape.Model.Enums;
 using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.DTO.Internal;
 using MazeEscape.WebAPI.Interfaces;
@@ -9,21 +10,23 @@ namespace MazeEscape.WebAPI.Main;
 public class MazeEngineManager : IMazeEngineManager
 {
     private readonly IMazeGame _mazeGame;
+    private readonly IMazeConverter _mazeConverter;
     private readonly IMazeEncoder _mazeEncoder;
     private readonly MazeManagerConfig _managerConfig;
 
     private string _playerStatus = "";
 
-    private readonly Dictionary<Enums.PlayerMove, Engine.Enums.PlayerMove> _moveMap = new()
+    private readonly Dictionary<Enums.PlayerMove,PlayerMove> _moveMap = new()
     {
-        { Enums.PlayerMove.Forward, Engine.Enums.PlayerMove.Forward},
-        { Enums.PlayerMove.TurnLeft, Engine.Enums.PlayerMove.Left},
-        { Enums.PlayerMove.TurnRight, Engine.Enums.PlayerMove.Right}
+        { Enums.PlayerMove.Forward, PlayerMove.Forward},
+        { Enums.PlayerMove.TurnLeft, PlayerMove.Left},
+        { Enums.PlayerMove.TurnRight, PlayerMove.Right}
     };
 
-    public MazeEngineManager(IMazeGame mazeGame, IMazeEncoder mazeEncoder, MazeManagerConfig managerConfig)
+    public MazeEngineManager(IMazeGame mazeGame, IMazeConverter mazeConverter, IMazeEncoder mazeEncoder, MazeManagerConfig managerConfig)
     {
         _mazeGame = mazeGame;
+        _mazeConverter = mazeConverter;
         _mazeEncoder = mazeEncoder;
         _managerConfig = managerConfig;
     }
@@ -33,7 +36,9 @@ public class MazeEngineManager : IMazeEngineManager
         _mazeGame.Initialise(mazeText);
         var maze = _mazeGame.GetMaze();
 
-        var token = _mazeEncoder.MazeEncode(maze, _managerConfig.MazeEncryptionKey);
+        var mazeString = _mazeConverter.ToText(maze);
+
+        var token = _mazeEncoder.MazeEncode(mazeString, _managerConfig.MazeEncryptionKey);
 
         return new MazeCreated()
         {
@@ -64,8 +69,10 @@ public class MazeEngineManager : IMazeEngineManager
     public PlayerInfo GetPlayerInfo()
     {
         var maze = _mazeGame.GetMaze();
-      
-        var encoded = _mazeEncoder.MazeEncode(maze, _managerConfig.MazeEncryptionKey);
+
+        var mazeString = _mazeConverter.ToText(maze);
+
+        var encoded = _mazeEncoder.MazeEncode(mazeString, _managerConfig.MazeEncryptionKey);
 
         var info = new PlayerInfo()
         {

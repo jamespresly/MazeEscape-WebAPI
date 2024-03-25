@@ -1,5 +1,5 @@
-﻿using MazeEscape.Engine.Enums;
-using MazeEscape.Engine.Model;
+﻿using MazeEscape.Model.Domain;
+using MazeEscape.Model.Enums;
 
 namespace MazeEscape.Engine.Tests.Helper
 {
@@ -34,7 +34,8 @@ namespace MazeEscape.Engine.Tests.Helper
 
         public string GetPathString(string mazeText, List<MazeSquare> path)
         {
-            var split = mazeText.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
+            mazeText = mazeText.Replace("\r", "");
+            var split = mazeText.Split("\n", StringSplitOptions.RemoveEmptyEntries);
             var charRows = split.Select(x => x.ToCharArray()).ToArray();
 
             foreach (var square in path)

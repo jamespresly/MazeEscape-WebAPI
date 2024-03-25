@@ -1,8 +1,8 @@
-﻿using MazeEscape.Engine.Enums;
-using MazeEscape.Engine.Extensions;
-using MazeEscape.Engine.Interfaces;
-using MazeEscape.Engine.Model;
+﻿using MazeEscape.Engine.Interfaces;
 using System.Text;
+using MazeEscape.Model.Domain;
+using MazeEscape.Model.Enums;
+using MazeEscape.Model.Extensions;
 
 namespace MazeEscape.Engine;
 
@@ -26,7 +26,7 @@ public class MazeConverter : IMazeConverter
 
     private readonly Dictionary<char, SquareType> _charMap = new()
     {
-        { '+',SquareType.Wall},
+        { '+', SquareType.Wall},
         { ' ',SquareType.Corridor},
         { 'E', SquareType.Exit },
         { 'S', SquareType.Corridor},
@@ -34,6 +34,7 @@ public class MazeConverter : IMazeConverter
         { '►', SquareType.Corridor},
         { '▼', SquareType.Corridor},
         { '◄', SquareType.Corridor},
+        
     };
 
     private readonly List<char> _playerArrows = new()

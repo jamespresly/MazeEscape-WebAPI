@@ -1,6 +1,6 @@
-﻿using MazeEscape.Engine.Model;
+﻿using MazeEscape.Model.Domain;
 
-namespace MazeEscape.Engine.Extensions;
+namespace MazeEscape.Model.Extensions;
 
 public static class LocationExtensions
 {

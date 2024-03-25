@@ -1,7 +1,7 @@
-﻿using MazeEscape.Engine.Enums;
-using MazeEscape.Engine.Extensions;
-using MazeEscape.Engine.Interfaces;
-using MazeEscape.Engine.Model;
+﻿using MazeEscape.Engine.Interfaces;
+using MazeEscape.Model.Domain;
+using MazeEscape.Model.Enums;
+using MazeEscape.Model.Extensions;
 
 namespace MazeEscape.Engine
 {

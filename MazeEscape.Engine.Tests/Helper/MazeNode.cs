@@ -1,4 +1,4 @@
-using MazeEscape.Engine.Model;
+using MazeEscape.Model.Domain;
 
 namespace MazeEscape.Engine.Tests.Helper;
 

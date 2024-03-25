@@ -1,6 +1,6 @@
-﻿using MazeEscape.Engine.Enums;
+﻿using MazeEscape.Model.Enums;
 
-namespace MazeEscape.Engine.Model;
+namespace MazeEscape.Model.Domain;
 
 public class PlayerVision
 {

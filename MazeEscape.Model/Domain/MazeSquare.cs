@@ -1,11 +1,10 @@
-﻿using MazeEscape.Engine.Enums;
+﻿using MazeEscape.Model.Enums;
 
-namespace MazeEscape.Engine.Model
+namespace MazeEscape.Model.Domain
 {
     public class MazeSquare
     {
         public Location Location { get; set; }
-        
         public SquareType SquareType { get; set; }
         public bool IsExit { get; set; }
     }

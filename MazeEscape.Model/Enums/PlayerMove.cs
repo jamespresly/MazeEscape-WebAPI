@@ -1,4 +1,4 @@
-﻿namespace MazeEscape.Engine.Enums;
+﻿namespace MazeEscape.Model.Enums;
 
 public enum PlayerMove
 {
