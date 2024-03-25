@@ -3,31 +3,32 @@ using MazeEscape.Engine.Interfaces;
 using MazeEscape.Engine.Struct;
 using System.Security.Cryptography;
 using MazeEscape.Model.Constants;
+using MazeEscape.Engine.Enums;
 
 namespace MazeEscape.Engine;
 
 public class MazeGenerator : IMazeGenerator
 {
 
-    private readonly Dictionary<int, Offset> _directionMap = new()
+    private readonly Dictionary<Direction, Offset> _directionMap = new()
     {
-        { 0, new Offset(0, -1) },
-        { 1, new Offset(1, 0) },
-        { 2, new Offset(0, 1) },
-        { 3, new Offset(-1, 0) },
+        { Direction.Up, new Offset(0, -1) },
+        { Direction.Right, new Offset(1, 0) },
+        { Direction.Down, new Offset(0, 1) },
+        { Direction.Left, new Offset(-1, 0) },
     };
 
-    private readonly Dictionary<int, Side> _sidesMap = new()
+    private readonly Dictionary<Direction, Side> _sidesMap = new()
     {
-        { 0, new Side(1,3)},
-        { 1, new Side(0,2)},
-        { 2, new Side(1,3)},
-        { 3, new Side(0,2)},
+        { Direction.Up, new Side(Direction.Left, Direction.Right)},
+        { Direction.Right, new Side(Direction.Up,Direction.Down)},
+        { Direction.Down, new Side(Direction.Right,Direction.Left)},
+        { Direction.Left, new Side(Direction.Down,Direction.Up)},
     };
 
     private readonly char[] _doNotOverwrite = new[]
     {
-        MazeChars.Corridor, BorderChar, MazeChars.PlayerStart
+        BorderChar, MazeChars.PlayerStart, MazeChars.Corridor
     };
 
     private const char UnvisitedChar = '=';
@@ -41,9 +42,9 @@ public class MazeGenerator : IMazeGenerator
 
     private int _relocateCount = 0;
 
-    private List<Tuple<int, int>> _unvisited;
-    private List<Tuple<int, int>> _corridorsToCheck;
-    private List<Tuple<int, int, int>> _remainingUnexploredOnPath;
+    private List<Coordinate> _unvisited;
+    private List<Coordinate> _corridorsToCheck;
+    private List<Vector> _remainingUnexploredOnPath;
 
 
 
@@ -75,18 +76,18 @@ public class MazeGenerator : IMazeGenerator
     {
 
 
-        var possibleExits = new List<Tuple<int, int>>();
+        var possibleExits = new List<Coordinate>();
 
         for (var y = 0; y < maze.Length; y++)
         {
             if (maze[y][1] == MazeChars.Corridor)
             {
-                possibleExits.Add(new Tuple<int, int>(0, y));
+                possibleExits.Add(new Coordinate(0, y));
             }
 
             if (maze[y][^2] == MazeChars.Corridor)
             {
-                possibleExits.Add(new Tuple<int, int>(maze[0].Length - 1, y));
+                possibleExits.Add(new Coordinate(maze[0].Length - 1, y));
             }
         }
 
@@ -94,12 +95,12 @@ public class MazeGenerator : IMazeGenerator
         {
             if (maze[1][x] == MazeChars.Corridor)
             {
-                possibleExits.Add(new Tuple<int, int>(x, 0));
+                possibleExits.Add(new Coordinate(x, 0));
             }
 
             if (maze[^2][x] == MazeChars.Corridor)
             {
-                possibleExits.Add(new Tuple<int, int>(x, maze.Length - 1));
+                possibleExits.Add(new Coordinate(x, maze.Length - 1));
             }
         }
 
@@ -107,7 +108,7 @@ public class MazeGenerator : IMazeGenerator
 
         var exit = possibleExits[random];
 
-        maze[exit.Item2][exit.Item1] = MazeChars.Exit;
+        maze[exit.Y][exit.X] = MazeChars.Exit;
 
         return maze;
 
@@ -134,7 +135,7 @@ public class MazeGenerator : IMazeGenerator
                 else
                 {
                     chars[y][x] = UnvisitedChar;
-                    _unvisited.Add(new Tuple<int, int>(x, y));
+                    _unvisited.Add(new Coordinate(x, y));
                 }
             }
         }
@@ -151,7 +152,7 @@ public class MazeGenerator : IMazeGenerator
         var direction = GetRandomDirection();
 
         CreateWallsAtSides(direction);
-        
+
 
         var relocated = false;
 
@@ -204,7 +205,7 @@ public class MazeGenerator : IMazeGenerator
                 //DebugPrint();
             }
 
-            var cantProcess = new List<Tuple<int, int, int>>();
+            var cantProcess = new List<Vector>();
 
             // edge cases
             if (_unvisited.Count > 0)
@@ -217,10 +218,10 @@ public class MazeGenerator : IMazeGenerator
 
                     var unvisited = _unvisited[random];
 
-                    _posX = unvisited.Item1;
-                    _posY = unvisited.Item2;
+                    _posX = unvisited.X;
+                    _posY = unvisited.Y;
 
-                    if (cantProcess.Contains(new Tuple<int, int, int>(_posX, _posY, direction)))
+                    if (cantProcess.Contains(new Vector(_posX, _posY, direction)))
                         continue;
 
                     var lookahead = GetLookAhead(direction);
@@ -273,7 +274,7 @@ public class MazeGenerator : IMazeGenerator
                         break;
                     }
 
-                    cantProcess.Add(new Tuple<int, int, int>(_posX, _posY, direction));
+                    cantProcess.Add(new Vector(_posX, _posY, direction));
 
                     DebugPrint();
 
@@ -295,16 +296,16 @@ public class MazeGenerator : IMazeGenerator
         return random == 0;
     }
 
-    private int Relocate()
+    private Direction Relocate()
     {
         var index = RandomNumberGenerator.GetInt32(_remainingUnexploredOnPath.Count);
 
         var unvisited = _remainingUnexploredOnPath[index];
 
-        _posX = unvisited.Item1;
-        _posY = unvisited.Item2;
+        _posX = unvisited.X;
+        _posY = unvisited.Y;
 
-        var direction = unvisited.Item3;
+        var direction = unvisited.Direction;
 
         if (_mazeChars[_posY][_posX] != MazeChars.Corridor)
         {
@@ -317,7 +318,7 @@ public class MazeGenerator : IMazeGenerator
         return direction;
     }
 
-    private int GetNewDirection(int direction)
+    private Direction GetNewDirection(Direction direction)
     {
 
         var sides = _sidesMap[direction];
@@ -343,7 +344,7 @@ public class MazeGenerator : IMazeGenerator
         return direction;
     }
 
-    private bool CanMoveLeftOrRight(int direction)
+    private bool CanMoveLeftOrRight(Direction direction)
     {
         var sides = _sidesMap[direction];
 
@@ -353,7 +354,7 @@ public class MazeGenerator : IMazeGenerator
         return canMoveLeft || canMoveRight;
     }
 
-    private bool CanMoveAhead(int direction)
+    private bool CanMoveAhead(Direction direction)
     {
         var lookahead = GetLookAhead(direction);
 
@@ -364,25 +365,25 @@ public class MazeGenerator : IMazeGenerator
                && lookahead.AheadRight != MazeChars.Corridor;
     }
 
-    private List<Tuple<int, int, int>> GetUnexploredConnectedToPath()
+    private List<Vector> GetUnexploredConnectedToPath()
     {
         var directions = _directionMap.ToList();
 
-        var next = new List<Tuple<int, int, int>>();
+        var next = new List<Vector>();
 
-        var corridorsWithAdjacentUnvisited = new List<Tuple<int, int>>();
+        var corridorsWithAdjacentUnvisited = new List<Coordinate>();
 
         foreach (var corridor in _corridorsToCheck)
         {
             var hasAdjacentUnvisited = false;
             foreach (var direction in directions)
             {
-                var adjacent = _mazeChars[corridor.Item2 + direction.Value.Y][corridor.Item1 + direction.Value.X];
+                var adjacent = _mazeChars[corridor.Y + direction.Value.Y][corridor.X + direction.Value.X];
                 if (adjacent == UnvisitedChar)
                 {
                     hasAdjacentUnvisited = true;
 
-                    next.Add(new Tuple<int, int, int>(corridor.Item1, corridor.Item2, direction.Key));
+                    next.Add(new Vector(corridor.X, corridor.Y, direction.Key));
                 }
             }
 
@@ -398,7 +399,7 @@ public class MazeGenerator : IMazeGenerator
     }
 
 
-    private LookAhead GetLookAhead(int direction)
+    private LookAhead GetLookAhead(Direction direction)
     {
         var aheadOffset = _directionMap[direction];
 
@@ -442,13 +443,13 @@ public class MazeGenerator : IMazeGenerator
 
         return ahead2;
     }
-    private int GetRandomDirection()
+    private Direction GetRandomDirection()
     {
-        return RandomNumberGenerator.GetInt32(4);
+        return (Direction)RandomNumberGenerator.GetInt32(4);
     }
 
 
-    private void MoveInDirection(int direction)
+    private void MoveInDirection(Direction direction)
     {
         var offsets = _directionMap[direction];
 
@@ -456,7 +457,7 @@ public class MazeGenerator : IMazeGenerator
         _posY += offsets.Y;
     }
 
-    private void CreateWallsAtSides(int direction)
+    private void CreateWallsAtSides(Direction direction)
     {
         var sides = _sidesMap[direction];
 
@@ -466,19 +467,19 @@ public class MazeGenerator : IMazeGenerator
         UpdateChar(_posX, _posY, MazeChars.Corridor);
     }
 
-    private void CreateWallAhead(int direction)
+    private void CreateWallAhead(Direction direction)
     {
         CreateCharInDirection(direction, MazeChars.Wall);
     }
 
-    private void CreateCorridorAhead(int direction)
+    private void CreateCorridorAhead(Direction direction)
     {
         CreateCharInDirection(direction, MazeChars.Corridor);
     }
 
 
 
-    private void CreateCharInDirection(int direction, char c)
+    private void CreateCharInDirection(Direction direction, char c)
     {
         var offset = _directionMap[direction];
 
@@ -495,12 +496,12 @@ public class MazeGenerator : IMazeGenerator
 
         if (_mazeChars[y][x] == UnvisitedChar)
         {
-            _unvisited.Remove(new Tuple<int, int>(x, y));
+            _unvisited.Remove(new Coordinate(x, y));
         }
 
         if (c == MazeChars.Corridor)
         {
-            _corridorsToCheck.Add(new Tuple<int, int>(x, y));
+            _corridorsToCheck.Add(new Coordinate(x, y));
         }
 
         _mazeChars[y][x] = c;

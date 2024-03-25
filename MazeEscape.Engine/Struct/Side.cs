@@ -1,12 +1,14 @@
-﻿namespace MazeEscape.Engine.Struct;
+﻿using MazeEscape.Engine.Enums;
+
+namespace MazeEscape.Engine.Struct;
 
 internal struct Side
 {
-    public Side(int left, int right)
+    public Side(Direction left, Direction right)
     {
         Left = left;
         Right = right;
     }
-    public int Left { get; set; }
-    public int Right { get; set; }
+    public Direction Left { get; set; }
+    public Direction Right { get; set; }
 }
