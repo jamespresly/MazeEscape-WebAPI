@@ -6,7 +6,7 @@ namespace MazeEscape.WebAPI.Main;
 
 public class CustomMazeCreator : IMazeCreator
 {
-    public string CreateMaze(CreateParams createParams)
+    public string GetMazeInputText(CreateParams createParams)
     {
         var mazeText = createParams.Custom?.MazeText;
 
@@ -34,4 +34,6 @@ public class CustomMazeCreator : IMazeCreator
 
         return mazeText;
     }
+
+    
 }

@@ -51,7 +51,7 @@ namespace MazeEscape.WebAPI
             builder.Services.AddScoped<IMazeCreator, CustomMazeCreator>();
             builder.Services.AddScoped<IMazeCreator, RandomMazeCreator>();
 
-            builder.Services.AddScoped<IMazeEngineManager, MazeEngineManager>();
+            builder.Services.AddScoped<IMazeOperator, MazeOperator>();
 
 
             builder.Services.AddHttpLogging(x =>

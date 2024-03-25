@@ -7,7 +7,7 @@ using MazeEscape.WebAPI.Interfaces;
 
 namespace MazeEscape.WebAPI.Main;
 
-public class MazeEngineManager : IMazeEngineManager
+public class MazeOperator : IMazeOperator
 {
     private readonly IMazeGame _mazeGame;
     private readonly IMazeConverter _mazeConverter;
@@ -23,7 +23,7 @@ public class MazeEngineManager : IMazeEngineManager
         { Enums.PlayerMove.TurnRight, PlayerMove.Right}
     };
 
-    public MazeEngineManager(IMazeGame mazeGame, IMazeConverter mazeConverter, IMazeEncoder mazeEncoder, MazeManagerConfig managerConfig)
+    public MazeOperator(IMazeGame mazeGame, IMazeConverter mazeConverter, IMazeEncoder mazeEncoder, MazeManagerConfig managerConfig)
     {
         _mazeGame = mazeGame;
         _mazeConverter = mazeConverter;

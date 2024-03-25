@@ -9,7 +9,7 @@ namespace MazeEscape.WebAPI.Main
     {
 
         private readonly IPresetFileManager _presetFileManager;
-        private readonly IMazeEngineManager _mazeEngineManager;
+        private readonly IMazeOperator _mazeOperator;
         private readonly IEnumerable<IMazeCreator> _mazeCreators;
 
         private readonly Dictionary<CreateMode, Type> _creatorMap = new()
@@ -19,9 +19,9 @@ namespace MazeEscape.WebAPI.Main
             { CreateMode.Random, typeof(RandomMazeCreator)}
         };
 
-        public MazeAppManager( IMazeEngineManager mazeEngineManager, IEnumerable<IMazeCreator> mazeCreators, IPresetFileManager presetFileManager)
+        public MazeAppManager( IMazeOperator mazeOperator, IEnumerable<IMazeCreator> mazeCreators, IPresetFileManager presetFileManager)
         {
-            _mazeEngineManager = mazeEngineManager;
+            _mazeOperator = mazeOperator;
             _mazeCreators = mazeCreators;
             _presetFileManager = presetFileManager;
         }
@@ -33,14 +33,14 @@ namespace MazeEscape.WebAPI.Main
 
         public PlayerInfo GetPlayerInfo(PlayerParams playerParams)
         {
-            _mazeEngineManager.InitialiseMazeFromToken(playerParams.MazeToken);
+            _mazeOperator.InitialiseMazeFromToken(playerParams.MazeToken);
 
             if (playerParams.PlayerMove != null)
             {
-                _mazeEngineManager.MovePlayer((PlayerMove)playerParams.PlayerMove);
+                _mazeOperator.MovePlayer((PlayerMove)playerParams.PlayerMove);
             }
 
-            return _mazeEngineManager.GetPlayerInfo();
+            return _mazeOperator.GetPlayerInfo();
         }
 
         public MazeCreated CreateMaze(CreateMode createMode, CreateParams createParams)
@@ -50,12 +50,12 @@ namespace MazeEscape.WebAPI.Main
             if (creator == null)
                 throw new ArgumentException("mazecreator not found");
 
-            var mazeText = creator.CreateMaze(createParams);
+            var mazeText = creator.GetMazeInputText(createParams);
 
             if (string.IsNullOrEmpty(mazeText))
                 throw new ArgumentException("mazeText cannot be empty");
 
-            var created = _mazeEngineManager.CreateMazeFromText(mazeText);
+            var created = _mazeOperator.CreateMazeFromText(mazeText);
 
             return created;
         }

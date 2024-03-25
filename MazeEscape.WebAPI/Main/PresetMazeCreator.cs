@@ -12,7 +12,8 @@ public class PresetMazeCreator : IMazeCreator, IPresetFileManager
     {
         _managerConfig = managerConfig;
     }
-    public string CreateMaze(CreateParams createParams)
+    
+    public string GetMazeInputText(CreateParams createParams)
     {
         var presetName = createParams.Preset?.PresetName;
 

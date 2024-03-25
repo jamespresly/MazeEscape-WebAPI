@@ -2,7 +2,7 @@
 
 namespace MazeEscape.WebAPI.Interfaces;
 
-public interface IMazeEngineManager
+public interface IMazeOperator
 {
     MazeCreated CreateMazeFromText(string mazeText);
 

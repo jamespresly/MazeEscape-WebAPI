@@ -4,5 +4,5 @@ namespace MazeEscape.WebAPI.Interfaces;
 
 public interface IMazeCreator
 {
-    string CreateMaze(CreateParams createParams);
+    string GetMazeInputText(CreateParams createParams);
 }

@@ -12,7 +12,7 @@ public class RandomMazeCreator : IMazeCreator
     {
         _mazeGenerator = mazeGenerator;
     }
-    public string CreateMaze(CreateParams createParams)
+    public string GetMazeInputText(CreateParams createParams)
     {
         var width = createParams?.Random?.Width;
         var height = createParams?.Random?.Height;
