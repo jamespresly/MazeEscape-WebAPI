@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
-using MazeEscape.Engine.Interfaces;
-using MazeEscape.Engine.Struct;
 using System.Security.Cryptography;
+using MazeEscape.Engine.Struct;
+using MazeEscape.Generator.Enums;
+using MazeEscape.Generator.Interfaces;
+using MazeEscape.Generator.Struct;
 using MazeEscape.Model.Constants;
-using MazeEscape.Engine.Enums;
 
-namespace MazeEscape.Engine;
+namespace MazeEscape.Generator;
 
 public class MazeGenerator : IMazeGenerator
 {

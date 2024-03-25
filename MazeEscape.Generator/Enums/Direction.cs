@@ -1,4 +1,4 @@
-﻿namespace MazeEscape.Engine.Enums;
+﻿namespace MazeEscape.Generator.Enums;
 
 public enum Direction
 {

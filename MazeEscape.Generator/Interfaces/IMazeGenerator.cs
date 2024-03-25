@@ -1,4 +1,4 @@
-﻿namespace MazeEscape.Engine.Interfaces;
+﻿namespace MazeEscape.Generator.Interfaces;
 
 public interface IMazeGenerator
 {

@@ -1,4 +1,4 @@
-﻿namespace MazeEscape.Engine.Struct;
+﻿namespace MazeEscape.Generator.Struct;
 
 internal struct Coordinate
 {

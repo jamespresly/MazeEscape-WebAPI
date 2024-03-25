@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using FluentAssertions;
 using MazeEscape.Engine;
+using MazeEscape.Generator;
 using MazeEscape.Tests.Helper;
 
 namespace MazeEscape.Tests;

@@ -1,4 +1,4 @@
-﻿namespace MazeEscape.Engine.Struct;
+﻿namespace MazeEscape.Model.Struct;
 
 public struct Offset
 {

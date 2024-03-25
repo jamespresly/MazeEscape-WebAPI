@@ -1,6 +1,6 @@
-﻿using MazeEscape.Engine.Enums;
+﻿using MazeEscape.Generator.Enums;
 
-namespace MazeEscape.Engine.Struct;
+namespace MazeEscape.Generator.Struct;
 
 internal struct Side
 {

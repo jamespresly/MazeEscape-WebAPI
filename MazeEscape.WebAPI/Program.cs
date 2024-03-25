@@ -2,6 +2,8 @@ using MazeEscape.Encoder;
 using MazeEscape.Encoder.Interfaces;
 using MazeEscape.Engine;
 using MazeEscape.Engine.Interfaces;
+using MazeEscape.Generator;
+using MazeEscape.Generator.Interfaces;
 using MazeEscape.WebAPI.DTO.Internal;
 using MazeEscape.WebAPI.Hypermedia;
 using MazeEscape.WebAPI.Interfaces;
