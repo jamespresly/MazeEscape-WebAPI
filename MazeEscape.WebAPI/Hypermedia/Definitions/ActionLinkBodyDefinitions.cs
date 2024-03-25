@@ -12,7 +12,7 @@ public static class ActionLinkBodyDefinitions
     private static readonly string BuildCustomMazeTest = nameof(BuildCustom.MazeText).ToCamelCase();
     private static readonly string CreateParamsRandom = nameof(CreateParams.Random).ToCamelCase();
 
-    private static readonly string MazeStateMazeToken = nameof(MazeState.MazeToken).ToCamelCase();
+    private static readonly string MazeStateMazeToken = nameof(PlayerParams.MazeToken).ToCamelCase();
 
 
     public static Dictionary<ActionLinkType, Dictionary<string, object>> ActionBodyMap = new()
@@ -23,9 +23,9 @@ public static class ActionLinkBodyDefinitions
           
         { ActionLinkType.PostPlayer, new() {{ MazeStateMazeToken, "{" + MazeStateMazeToken + "}" }}},
           
-        { ActionLinkType.PlayerTurnLeft, new() {{ MazeStateMazeToken, "{" + MazeStateMazeToken + "}" }}},
-        { ActionLinkType.PlayerTurnRight, new() {{ MazeStateMazeToken, "{" + MazeStateMazeToken + "}"}}},
-        { ActionLinkType.PlayerMoveForward, new() {{ MazeStateMazeToken, "{" + MazeStateMazeToken + "}"}}}
+        { ActionLinkType.PlayerTurnLeft, new() {{ MazeStateMazeToken, "{" + MazeStateMazeToken + "}" }, { nameof(PlayerMove), PlayerMove.TurnLeft.ToString().ToCamelCase()}}},
+        { ActionLinkType.PlayerTurnRight, new() {{ MazeStateMazeToken, "{" + MazeStateMazeToken + "}"}, { nameof(PlayerMove), PlayerMove.TurnRight.ToString().ToCamelCase()}}},
+        { ActionLinkType.PlayerMoveForward, new() {{ MazeStateMazeToken, "{" + MazeStateMazeToken + "}"}, { nameof(PlayerMove), PlayerMove.Forward.ToString().ToCamelCase()}}}
     };
 
     public static string ToCamelCase(this string name)

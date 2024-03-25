@@ -31,13 +31,13 @@ namespace MazeEscape.WebAPI.Main
             return _presetFileManager.GetPresetFileNames();
         }
 
-        public PlayerInfo GetPlayerInfo(MazeState mazeState, PlayerMove? playerMove)
+        public PlayerInfo GetPlayerInfo(PlayerParams playerParams)
         {
-            _mazeEngineManager.InitialiseMazeFromToken(mazeState.MazeToken);
+            _mazeEngineManager.InitialiseMazeFromToken(playerParams.MazeToken);
 
-            if (playerMove != null)
+            if (playerParams.PlayerMove != null)
             {
-                _mazeEngineManager.MovePlayer((PlayerMove)playerMove);
+                _mazeEngineManager.MovePlayer((PlayerMove)playerParams.PlayerMove);
             }
 
             return _mazeEngineManager.GetPlayerInfo();

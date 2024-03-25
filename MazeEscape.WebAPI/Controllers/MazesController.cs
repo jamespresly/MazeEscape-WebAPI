@@ -68,13 +68,13 @@ namespace MazeEscape.WebAPI.Controllers
 
         [HttpPost]
         [Route("player")]
-        public IActionResult PostPlayer([FromQuery] PlayerMove? playerMove, [FromBody] MazeState mazeState)
+        public IActionResult PostPlayer([FromBody] PlayerParams playerParams)
         {
             var response = _hypermediaManager.GetEndpointHypermedia(nameof(PostPlayer), Url);
 
             try
             {
-                var playerInfo = _mazeAppManager.GetPlayerInfo(mazeState, playerMove);
+                var playerInfo = _mazeAppManager.GetPlayerInfo(playerParams);
 
                 if (playerInfo.IsEscaped)
                     response.Actions = null;

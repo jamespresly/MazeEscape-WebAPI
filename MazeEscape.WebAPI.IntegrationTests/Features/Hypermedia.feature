@@ -72,11 +72,11 @@ Scenario: Error Scenario: Get Player Info without mazeToken  - Still returns hyp
 	When I make a POST request to:/mazes/player with body:{"mazeToken": ""}
 	Then the status code is:BadRequest
 	And the response contains the following hypermedia array:actions with values:
-	| description         | href                               | method | body                        |
-	| post-player         | /mazes/player                      | POST   | {"mazeToken":"{mazeToken}"} |
-	| player-turn-left    | /mazes/player?playerMove=turnLeft  | POST   | {"mazeToken":"{mazeToken}"} |
-	| player-turn-right   | /mazes/player?playerMove=turnRight | POST   | {"mazeToken":"{mazeToken}"} |
-	| player-move-forward | /mazes/player?playerMove=forward   | POST   | {"mazeToken":"{mazeToken}"} |
+	| description         | href          | method | body                                                 |
+	| post-player         | /mazes/player | POST   | {"mazeToken":"{mazeToken}"}                          |
+	| player-turn-left    | /mazes/player | POST   | {"mazeToken":"{mazeToken}","playerMove":"turnLeft"}  |
+	| player-turn-right   | /mazes/player | POST   | {"mazeToken":"{mazeToken}","playerMove":"turnRight"} |
+	| player-move-forward | /mazes/player | POST   | {"mazeToken":"{mazeToken}","playerMove":"forward"}   |
 	And the response contains the following hypermedia array:links with values:
 	| description    | href          | method | body                         |
 	| get-mazes-root | /mazes        | GET    |                              |
@@ -88,11 +88,11 @@ Scenario: Post Player
 	And I make a POST request to:/mazes/player with saved mazeToken and body:{"mazeToken":"{mazeToken}"}
 	Then the status code is:OK
 	And the response contains the following hypermedia array:actions with values:
-	| description         | href                               | method | body                        |
-	| post-player         | /mazes/player                      | POST   | {"mazeToken":"{mazeToken}"} |
-	| player-turn-left    | /mazes/player?playerMove=turnLeft  | POST   | {"mazeToken":"{mazeToken}"} |
-	| player-turn-right   | /mazes/player?playerMove=turnRight | POST   | {"mazeToken":"{mazeToken}"} |
-	| player-move-forward | /mazes/player?playerMove=forward   | POST   | {"mazeToken":"{mazeToken}"} |
+	| description         | href          | method | body                                                 |
+	| post-player         | /mazes/player | POST   | {"mazeToken":"{mazeToken}"}  |
+	| player-turn-left    | /mazes/player | POST   | {"mazeToken":"{mazeToken}","playerMove":"turnLeft"}  |
+	| player-turn-right   | /mazes/player | POST   | {"mazeToken":"{mazeToken}","playerMove":"turnRight"} |
+	| player-move-forward | /mazes/player | POST   | {"mazeToken":"{mazeToken}","playerMove":"forward"}   |
 	And the response contains the following hypermedia array:links with values:
 	| description    | href   | method | body |
 	| get-mazes-root | /mazes | GET    |      |
@@ -103,9 +103,10 @@ Scenario: No actions available after maze has been escaped
 	And I save the mazeToken
 	And I make a POST request to:/mazes/player with saved mazeToken and body:{"mazeToken":"{mazeToken}"}
 	And I save the mazeToken
-	And I make a POST request to:/mazes/player?playerMove=forward with saved mazeToken and body:{"mazeToken":"{mazeToken}"}
+	And I make a POST request to:/mazes/player with saved mazeToken and body:{"mazeToken":"{mazeToken}","playerMove":"forward"}
 	And I save the mazeToken
-	And I make a POST request to:/mazes/player?playerMove=forward with saved mazeToken and body:{"mazeToken":"{mazeToken}"}
+	And I make a POST request to:/mazes/player with saved mazeToken and body:{"mazeToken":"{mazeToken}","playerMove":"forward"}
+	Then the response message contains:You escaped
 	Then the response message contains:You escaped
 	And the response contains the following hypermedia array:actions with values:
 	| description | href | method | body |

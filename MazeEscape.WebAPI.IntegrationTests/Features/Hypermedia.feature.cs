@@ -439,19 +439,19 @@ this.ScenarioInitialize(scenarioInfo);
                             "{\"mazeToken\":\"{mazeToken}\"}"});
                 table11.AddRow(new string[] {
                             "player-turn-left",
-                            "/mazes/player?playerMove=turnLeft",
+                            "/mazes/player",
                             "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                            "{\"mazeToken\":\"{mazeToken}\",\"playerMove\":\"turnLeft\"}"});
                 table11.AddRow(new string[] {
                             "player-turn-right",
-                            "/mazes/player?playerMove=turnRight",
+                            "/mazes/player",
                             "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                            "{\"mazeToken\":\"{mazeToken}\",\"playerMove\":\"turnRight\"}"});
                 table11.AddRow(new string[] {
                             "player-move-forward",
-                            "/mazes/player?playerMove=forward",
+                            "/mazes/player",
                             "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                            "{\"mazeToken\":\"{mazeToken}\",\"playerMove\":\"forward\"}"});
 #line 74
  testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table11, "And ");
 #line hidden
@@ -518,19 +518,19 @@ this.ScenarioInitialize(scenarioInfo);
                             "{\"mazeToken\":\"{mazeToken}\"}"});
                 table13.AddRow(new string[] {
                             "player-turn-left",
-                            "/mazes/player?playerMove=turnLeft",
+                            "/mazes/player",
                             "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                            "{\"mazeToken\":\"{mazeToken}\",\"playerMove\":\"turnLeft\"}"});
                 table13.AddRow(new string[] {
                             "player-turn-right",
-                            "/mazes/player?playerMove=turnRight",
+                            "/mazes/player",
                             "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                            "{\"mazeToken\":\"{mazeToken}\",\"playerMove\":\"turnRight\"}"});
                 table13.AddRow(new string[] {
                             "player-move-forward",
-                            "/mazes/player?playerMove=forward",
+                            "/mazes/player",
                             "POST",
-                            "{\"mazeToken\":\"{mazeToken}\"}"});
+                            "{\"mazeToken\":\"{mazeToken}\",\"playerMove\":\"forward\"}"});
 #line 90
  testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table13, "And ");
 #line hidden
@@ -586,17 +586,20 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I save the mazeToken", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 106
- testRunner.And("I make a POST request to:/mazes/player?playerMove=forward with saved mazeToken an" +
-                        "d body:{\"mazeToken\":\"{mazeToken}\"}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I make a POST request to:/mazes/player with saved mazeToken and body:{\"mazeToken\"" +
+                        ":\"{mazeToken}\",\"playerMove\":\"forward\"}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 107
  testRunner.And("I save the mazeToken", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 108
- testRunner.And("I make a POST request to:/mazes/player?playerMove=forward with saved mazeToken an" +
-                        "d body:{\"mazeToken\":\"{mazeToken}\"}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I make a POST request to:/mazes/player with saved mazeToken and body:{\"mazeToken\"" +
+                        ":\"{mazeToken}\",\"playerMove\":\"forward\"}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 109
+ testRunner.Then("the response message contains:You escaped", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 110
  testRunner.Then("the response message contains:You escaped", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
@@ -604,7 +607,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "href",
                             "method",
                             "body"});
-#line 110
+#line 111
  testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table15, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
@@ -617,7 +620,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "/mazes",
                             "GET",
                             ""});
-#line 112
+#line 113
  testRunner.And("the response contains the following hypermedia array:links with values:", ((string)(null)), table16, "And ");
 #line hidden
             }

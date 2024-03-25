@@ -13,8 +13,8 @@ public static class ActionLinkDefinitions
 
         { ActionLinkType.PostPlayer, new() { Description = "post-player", Method = "POST" }},
         
-        { ActionLinkType.PlayerTurnLeft, new() { Description = "player-turn-left", Method = "POST", QueryParams = "?playerMove=turnLeft" } },
-        { ActionLinkType.PlayerTurnRight, new(){Description = "player-turn-right", Method = "POST", QueryParams = "?playerMove=turnRight" }},
-        { ActionLinkType.PlayerMoveForward, new(){Description = "player-move-forward", Method = "POST", QueryParams = "?playerMove=forward" }},
+        { ActionLinkType.PlayerTurnLeft, new() { Description = "player-turn-left", Method = "POST" }},
+        { ActionLinkType.PlayerTurnRight, new(){ Description = "player-turn-right", Method = "POST" }},
+        { ActionLinkType.PlayerMoveForward, new(){ Description = "player-move-forward", Method = "POST" }},
     };
 }
