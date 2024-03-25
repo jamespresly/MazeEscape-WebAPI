@@ -21,14 +21,7 @@ namespace MazeEscape.Generator
             var index = RandomNumberGenerator.GetInt32(remainingUnexploredOnPath.Count);
 
             var unvisited = remainingUnexploredOnPath[index];
-
             var direction = unvisited.Direction;
-
-            //if (_mazeChars[_posY][_posX] != MazeChars.Corridor) //todo
-            //{
-            //    //DebugPrint();
-            //    throw new Exception("invalid relocate");
-            //}
 
             return new Vector(unvisited.X, unvisited.Y, direction);
         }

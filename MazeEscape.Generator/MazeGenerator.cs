@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics;
+using System.Security.Cryptography;
 using MazeEscape.Generator.DTO;
 using MazeEscape.Generator.Enums;
 using MazeEscape.Generator.Interfaces;
@@ -106,15 +107,15 @@ public class MazeGenerator : IMazeGenerator
 
                 _remainingUnexploredOnPath = _mazeExplorer.GetUnexploredConnectedToPath(mazeChars);
 
-                //DebugPrint();
+                //DebugPrint(mazeChars, position);
             }
 
-            ProcessEdgeCases(mazeChars);
+            ProcessEdgeCases(position, mazeChars);
 
         }
     }
 
-    private void ProcessEdgeCases(char[][] mazeChars)
+    private void ProcessEdgeCases(Coordinate position, char[][] mazeChars)
     {
   
         var cantProcess = new List<Vector>();
@@ -127,7 +128,7 @@ public class MazeGenerator : IMazeGenerator
                 var random = RandomNumberGenerator.GetInt32(_sharedState.Unvisited.Count);
 
                 var direction = _mazeExplorer.GetRandomDirection();
-                var position = _sharedState.Unvisited[random];
+                position = _sharedState.Unvisited[random];
 
                 if (cantProcess.Contains(new Vector(position.X, position.Y, direction)))
                     continue;
@@ -155,11 +156,10 @@ public class MazeGenerator : IMazeGenerator
                 {
                     throw new Exception("cant process remaining:" + cantProcess.Count + "\n");// + DebugPrint());
                 }
-                    
             }
 
 
-            //DebugPrint();
+            //DebugPrint(mazeChars, position);
         }
     }
 
@@ -237,20 +237,19 @@ public class MazeGenerator : IMazeGenerator
         return final;
     }
 
+    private string DebugPrint(char[][] mazeChars, Coordinate position)
+    {
+        var p = mazeChars[position.Y][position.X];
 
-    //private string DebugPrint()
-    //{
-    //    var p = _mazeChars[position.Y][position.X];
+        mazeChars[position.Y][position.X] = 'P';
+        var concat = string.Join("\n", mazeChars.Select(x => string.Concat(x)));
 
-    //    _mazeChars[position.Y][position.X] = 'P';
+        Debug.WriteLine(concat);
 
-    //    var concat = string.Join("\n", _mazeChars.Select(x => string.Concat(x)));
-    //    Debug.WriteLine(concat);
+        mazeChars[position.Y][position.X] = p;
 
-    //    _mazeChars[position.Y][position.X] = p;
-
-    //    return concat;
-    //}
+        return concat;
+    }
 
 
 }

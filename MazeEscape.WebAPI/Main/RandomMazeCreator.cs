@@ -1,5 +1,4 @@
-﻿using MazeEscape.Engine.Interfaces;
-using MazeEscape.Generator.Interfaces;
+﻿using MazeEscape.Generator.Interfaces;
 using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Interfaces;
 
