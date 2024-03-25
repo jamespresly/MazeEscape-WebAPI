@@ -1,4 +1,5 @@
 ﻿using MazeEscape.Engine.Interfaces;
+using MazeEscape.Engine.Struct;
 using MazeEscape.Model.Domain;
 using MazeEscape.Model.Enums;
 using MazeEscape.Model.Extensions;
@@ -8,13 +9,13 @@ namespace MazeEscape.Engine
     public class PlayerNavigator : IPlayerNavigator
     {
 
-        private readonly Dictionary<Orientation, Tuple<int, int>> _orientationOffsetMap =
+        private readonly Dictionary<Orientation, Offset> _orientationOffsetMap =
             new()
             {
-                { Orientation.North, new(0, -1) },
-                { Orientation.East, new(1, 0) },
-                { Orientation.South, new(0, 1) },
-                { Orientation.West, new(-1, 0) },
+                { Orientation.North, new Offset(0, -1) },
+                { Orientation.East, new Offset(1, 0) },
+                { Orientation.South, new Offset(0, 1) },
+                { Orientation.West, new Offset(-1, 0) },
             };
 
 
@@ -79,8 +80,8 @@ namespace MazeEscape.Engine
 
             var offset = _orientationOffsetMap[inDirection];
 
-            var xOffset = offset.Item1;
-            var yOffset = offset.Item2;
+            var xOffset = offset.X;
+            var yOffset = offset.Y;
 
             var nextLocation = new Location()
             {

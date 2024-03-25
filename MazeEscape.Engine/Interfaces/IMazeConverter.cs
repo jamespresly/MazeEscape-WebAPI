@@ -4,7 +4,7 @@ namespace MazeEscape.Engine.Interfaces;
 
 public interface IMazeConverter
 {
-    Maze GenerateFromText(string text);
+    Maze Parse(string text);
     
 
     string ToText(Maze maze);

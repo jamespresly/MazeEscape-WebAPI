@@ -27,19 +27,19 @@ namespace MazeEscape.Engine
 
         public void Initialise(string text)
         {
-            Maze = _mazeConverter.GenerateFromText(text);
+            Maze = _mazeConverter.Parse(text);
         }
 
         public void Initialise(int width, int height)
         {
-            if (width < 3 || height < 3)
-                throw new ArgumentException("Minimum size: 3 x 3");
+            if (width < 10 || height < 10)
+                throw new ArgumentException("Minimum size: 10 x 10");
 
-            if (width > 100 || height > 100)
-                throw new ArgumentException("Maximum size: 100 x 100");
+            if (width > 50 || height > 50)
+                throw new ArgumentException("Maximum size: 50 x 50");
 
             var mazeText = _mazeGenerator.GenerateRandom(width, height);
-            Maze = _mazeConverter.GenerateFromText(mazeText);
+            Maze = _mazeConverter.Parse(mazeText);
 
         }
 

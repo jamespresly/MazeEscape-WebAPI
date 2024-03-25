@@ -2,12 +2,12 @@
 using MazeEscape.Engine.Interfaces;
 using MazeEscape.Engine.Struct;
 using System.Security.Cryptography;
+using MazeEscape.Model.Constants;
 
 namespace MazeEscape.Engine;
 
 public class MazeGenerator : IMazeGenerator
 {
-
 
     private readonly Dictionary<int, Offset> _directionMap = new()
     {
@@ -25,24 +25,14 @@ public class MazeGenerator : IMazeGenerator
         { 3, new Side(0,2)},
     };
 
-    private readonly Dictionary<int, int> _backMap = new()
-    {
-        { 0, 2 },
-        { 1, 3 },
-        { 2, 0 },
-        { 3, 1 },
-    };
-
     private readonly char[] _doNotOverwrite = new[]
     {
-        CorridorChar, BorderChar, PlayerStartChar
+        MazeChars.Corridor, BorderChar, MazeChars.PlayerStart
     };
 
-    private const char BorderChar = 'X';
-    private const char CorridorChar = ' ';
     private const char UnvisitedChar = '=';
-    private const char WallChar = '+';
-    private const char PlayerStartChar = 'S';
+    private const char BorderChar = 'X';
+
 
     private char[][] _mazeChars;
 
@@ -72,11 +62,11 @@ public class MazeGenerator : IMazeGenerator
 
         _mazeChars = CreateExit(_mazeChars);
 
-        _mazeChars[height / 2][width / 2] = PlayerStartChar;
+        _mazeChars[height / 2][width / 2] = MazeChars.PlayerStart;
 
         var concat = string.Join("\n", _mazeChars.Select(x => string.Concat(x)));
 
-        var final = concat.Replace(BorderChar.ToString(), WallChar.ToString());
+        var final = concat.Replace(BorderChar.ToString(), MazeChars.Wall.ToString());
 
         return final;
     }
@@ -89,12 +79,12 @@ public class MazeGenerator : IMazeGenerator
 
         for (var y = 0; y < maze.Length; y++)
         {
-            if (maze[y][1] == ' ')
+            if (maze[y][1] == MazeChars.Corridor)
             {
                 possibleExits.Add(new Tuple<int, int>(0, y));
             }
 
-            if (maze[y][^2] == ' ')
+            if (maze[y][^2] == MazeChars.Corridor)
             {
                 possibleExits.Add(new Tuple<int, int>(maze[0].Length - 1, y));
             }
@@ -102,12 +92,12 @@ public class MazeGenerator : IMazeGenerator
 
         for (var x = 0; x < maze[0].Length; x++)
         {
-            if (maze[1][x] == ' ')
+            if (maze[1][x] == MazeChars.Corridor)
             {
                 possibleExits.Add(new Tuple<int, int>(x, 0));
             }
 
-            if (maze[^2][x] == ' ')
+            if (maze[^2][x] == MazeChars.Corridor)
             {
                 possibleExits.Add(new Tuple<int, int>(x, maze.Length - 1));
             }
@@ -117,7 +107,7 @@ public class MazeGenerator : IMazeGenerator
 
         var exit = possibleExits[random];
 
-        maze[exit.Item2][exit.Item1] = 'E';
+        maze[exit.Item2][exit.Item1] = MazeChars.Exit;
 
         return maze;
 
@@ -161,7 +151,7 @@ public class MazeGenerator : IMazeGenerator
         var direction = GetRandomDirection();
 
         CreateWallsAtSides(direction);
-        CreateWallBehind(direction);
+        
 
         var relocated = false;
 
@@ -211,7 +201,7 @@ public class MazeGenerator : IMazeGenerator
 
                 _remainingUnexploredOnPath = GetUnexploredConnectedToPath();
 
-                DebugPrint();
+                //DebugPrint();
             }
 
             var cantProcess = new List<Tuple<int, int, int>>();
@@ -248,10 +238,10 @@ public class MazeGenerator : IMazeGenerator
                     //  +===+
                     //  +++++
                     //
-                    if (lookahead.Ahead == WallChar && lookahead.Ahead2 == CorridorChar)
+                    if (lookahead.Ahead == MazeChars.Wall && lookahead.Ahead2 == MazeChars.Corridor)
                     {
                         CreateCorridorAhead(direction);
-                        UpdateChar(_posX, _posY, CorridorChar);
+                        UpdateChar(_posX, _posY, MazeChars.Corridor);
                         break;
                     }
 
@@ -263,9 +253,9 @@ public class MazeGenerator : IMazeGenerator
                     //     +
                     //     +
                     //
-                    if (lookahead.Ahead == WallChar && lookahead.AheadLeft == CorridorChar && lookahead.AheadRight == CorridorChar)
+                    if (lookahead.Ahead == MazeChars.Wall && lookahead.AheadLeft == MazeChars.Corridor && lookahead.AheadRight == MazeChars.Corridor)
                     {
-                        UpdateChar(_posX, _posY, WallChar);
+                        UpdateChar(_posX, _posY, MazeChars.Wall);
                         break;
                     }
 
@@ -276,9 +266,9 @@ public class MazeGenerator : IMazeGenerator
                     //  X=++
                     //  XXXX
                     //
-                    if (lookahead.Ahead == WallChar && (lookahead.AheadLeft == BorderChar || lookahead.AheadRight == BorderChar))
+                    if (lookahead.Ahead == MazeChars.Wall && (lookahead.AheadLeft == BorderChar || lookahead.AheadRight == BorderChar))
                     {
-                        UpdateChar(_posX, _posY, CorridorChar);
+                        UpdateChar(_posX, _posY, MazeChars.Corridor);
                         CreateCorridorAhead(direction);
                         break;
                     }
@@ -292,7 +282,7 @@ public class MazeGenerator : IMazeGenerator
                 }
 
 
-                DebugPrint();
+                //DebugPrint();
             }
 
         }
@@ -316,7 +306,7 @@ public class MazeGenerator : IMazeGenerator
 
         var direction = unvisited.Item3;
 
-        if (_mazeChars[_posY][_posX] != CorridorChar)
+        if (_mazeChars[_posY][_posX] != MazeChars.Corridor)
         {
             DebugPrint();
             throw new Exception("invalid relocate");
@@ -368,10 +358,10 @@ public class MazeGenerator : IMazeGenerator
         var lookahead = GetLookAhead(direction);
 
         return lookahead.Ahead != BorderChar
-               && lookahead.Ahead != CorridorChar
-               && lookahead.Ahead2 != CorridorChar
-               && lookahead.AheadLeft != CorridorChar
-               && lookahead.AheadRight != CorridorChar;
+               && lookahead.Ahead != MazeChars.Corridor
+               && lookahead.Ahead2 != MazeChars.Corridor
+               && lookahead.AheadLeft != MazeChars.Corridor
+               && lookahead.AheadRight != MazeChars.Corridor;
     }
 
     private List<Tuple<int, int, int>> GetUnexploredConnectedToPath()
@@ -470,28 +460,22 @@ public class MazeGenerator : IMazeGenerator
     {
         var sides = _sidesMap[direction];
 
-        CreateCharInDirection(sides.Left, WallChar);
-        CreateCharInDirection(sides.Right, WallChar);
+        CreateCharInDirection(sides.Left, MazeChars.Wall);
+        CreateCharInDirection(sides.Right, MazeChars.Wall);
 
-        UpdateChar(_posX, _posY, CorridorChar);
+        UpdateChar(_posX, _posY, MazeChars.Corridor);
     }
 
     private void CreateWallAhead(int direction)
     {
-        CreateCharInDirection(direction, WallChar);
+        CreateCharInDirection(direction, MazeChars.Wall);
     }
 
     private void CreateCorridorAhead(int direction)
     {
-        CreateCharInDirection(direction, CorridorChar);
+        CreateCharInDirection(direction, MazeChars.Corridor);
     }
 
-    private void CreateWallBehind(int direction)
-    {
-        var behind = _backMap[direction];
-
-        CreateCharInDirection(behind, WallChar);
-    }
 
 
     private void CreateCharInDirection(int direction, char c)
@@ -514,7 +498,7 @@ public class MazeGenerator : IMazeGenerator
             _unvisited.Remove(new Tuple<int, int>(x, y));
         }
 
-        if (c == CorridorChar)
+        if (c == MazeChars.Corridor)
         {
             _corridorsToCheck.Add(new Tuple<int, int>(x, y));
         }

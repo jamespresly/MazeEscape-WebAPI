@@ -1,5 +1,6 @@
 ﻿using MazeEscape.Engine.Interfaces;
 using System.Text;
+using MazeEscape.Model.Constants;
 using MazeEscape.Model.Domain;
 using MazeEscape.Model.Enums;
 using MazeEscape.Model.Extensions;
@@ -19,17 +20,17 @@ public class MazeConverter : IMazeConverter
 
     private readonly Dictionary<SquareType, char> _squareMap = new()
     {
-        { SquareType.Wall, '+'},
-        { SquareType.Corridor, ' '},
-        { SquareType.Exit, 'E'}
+        { SquareType.Wall, MazeChars.Wall},
+        { SquareType.Corridor, MazeChars.Corridor},
+        { SquareType.Exit, MazeChars.Exit}
     };
 
     private readonly Dictionary<char, SquareType> _charMap = new()
     {
-        { '+', SquareType.Wall},
-        { ' ',SquareType.Corridor},
-        { 'E', SquareType.Exit },
-        { 'S', SquareType.Corridor},
+        { MazeChars.Wall, SquareType.Wall},
+        { MazeChars.Corridor, SquareType.Corridor},
+        { MazeChars.Exit, SquareType.Exit },
+        { MazeChars.PlayerStart, SquareType.Corridor},
         { '▲', SquareType.Corridor},
         { '►', SquareType.Corridor},
         { '▼', SquareType.Corridor},
@@ -43,7 +44,7 @@ public class MazeConverter : IMazeConverter
     };
 
 
-    public Maze GenerateFromText(string text)
+    public Maze Parse(string text)
     {
 
         var maze = new Maze
@@ -78,12 +79,12 @@ public class MazeConverter : IMazeConverter
                     SquareType = _charMap[col]
                 };
 
-                if (col == 'E')
+                if (col == MazeChars.Exit)
                 {
                     square.IsExit = true;
                     maze.ExitLocation = location;
                 }
-                else if (col == 'S')
+                else if (col == MazeChars.PlayerStart)
                 {
                     maze.Player = new Player()
                     {

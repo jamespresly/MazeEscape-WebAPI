@@ -129,7 +129,7 @@ public class MazeGeneratorTests
           
             Console.WriteLine(random);
 
-            var maze = mazeConverter.GenerateFromText(random);
+            var maze = mazeConverter.Parse(random);
 
             Debug.WriteLine("getting paths");
 
@@ -178,7 +178,7 @@ public class MazeGeneratorTests
 
         Console.WriteLine(random);
 
-        var maze = mazeConverter.GenerateFromText(random);
+        var maze = mazeConverter.Parse(random);
 
         var tree = pathTreeBuilder.BuildTree(maze);
         var paths = tree.GetPaths(tree);

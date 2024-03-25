@@ -23,7 +23,7 @@ namespace MazeEscape.Engine.Tests
             IMazeConverter mazeConverter = new MazeConverter();
             
 
-            var maze = mazeConverter.GenerateFromText(minmaze);
+            var maze = mazeConverter.Parse(minmaze);
 
             IPlayerNavigator playerNavigator = new PlayerNavigator();
 
