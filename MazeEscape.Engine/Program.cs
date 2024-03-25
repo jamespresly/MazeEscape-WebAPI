@@ -43,9 +43,13 @@ namespace MazeEscape.Engine
             {
                 Console.Clear();
 
-                Console.WriteLine("Use 'w', 'a' and 'd' to navigate\n\n" + mazeGame.PrintMaze());
+                Console.WriteLine(" Use 'w', 'a' and 'd' to navigate\n");
 
-                Console.WriteLine(status);
+                var maze = mazeGame.PrintMaze();
+
+                Console.WriteLine("".PadRight(8) + maze.Replace("\n", "\n".PadRight(9)));
+
+                Console.WriteLine(" " + status);
 
                 if (status.Contains("escaped"))
                 {
@@ -57,11 +61,11 @@ namespace MazeEscape.Engine
 
                 var vision = mazeGame.GetPlayerVision();
 
-                Console.WriteLine("Facing:" + vision.FacingDirection);
+                Console.WriteLine(" Facing:" + vision.FacingDirection);
 
-                Console.WriteLine("\nAhead:" + vision.Ahead);
+                Console.WriteLine("\n Ahead:" + vision.Ahead);
 
-                Console.WriteLine("\nLeft:" + vision.Left.ToString().PadRight(8) + "    Right:" + vision.Right + "\n");
+                Console.WriteLine("\n Left:" + vision.Left.ToString().PadRight(8) + "    Right:" + vision.Right + "\n");
 
 
                 var x = Console.ReadKey();
