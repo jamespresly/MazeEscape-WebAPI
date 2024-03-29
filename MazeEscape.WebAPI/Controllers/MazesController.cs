@@ -1,5 +1,4 @@
 ﻿using MazeEscape.WebAPI.DTO;
-using MazeEscape.WebAPI.Enums;
 using MazeEscape.WebAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MazeEscape.Encoder\MazeEscape.Encoder.csproj" />
+    <ProjectReference Include="..\MazeEscape.Engine\MazeEscape.Engine.csproj" />
+    <ProjectReference Include="..\MazeEscape.Generator\MazeEscape.Generator.csproj" />
+    <ProjectReference Include="..\MazeEscape.Model\MazeEscape.Model.csproj" />
+  </ItemGroup>
+
+</Project>

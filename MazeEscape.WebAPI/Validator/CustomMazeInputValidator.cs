@@ -2,11 +2,11 @@
 using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Interfaces;
 
-namespace MazeEscape.WebAPI.Main;
+namespace MazeEscape.WebAPI.Validator;
 
-public class CustomMazeCreator : IMazeCreator
+public class CustomMazeInputValidator : IMazeInputValidator
 {
-    public string GetMazeInputText(CreateParams createParams)
+    public void Validate(CreateParams createParams)
     {
         var mazeText = createParams.Custom?.MazeText;
 
@@ -18,12 +18,12 @@ public class CustomMazeCreator : IMazeCreator
 
         var chars = mazeText.ToCharArray();
 
-        for (var i = 0; i < chars.Length; i++)
+        foreach (var c in chars)
         {
-            if (!allowedChars.Contains(chars[i]))
+            if (!allowedChars.Contains(c))
             {
                 throw new ArgumentException("mazeText format is incorrect. "
-                                            + $"Must contain only '{MazeChars.Wall}' for walls, '{MazeChars.Corridor}' for corridor, '{MazeChars.PlayerStart}' for start point, '{MazeChars.Exit}' for end point and '\\n' only." 
+                                            + $"Must contain only '{MazeChars.Wall}' for walls, '{MazeChars.Corridor}' for corridor, '{MazeChars.PlayerStart}' for start point, '{MazeChars.Exit}' for end point and '\\n' only."
                                             + $" e.g. "
                                             + $"\n{MazeChars.Wall}{MazeChars.Exit}{MazeChars.Wall}"
                                             + $"\n{MazeChars.Wall}{MazeChars.Corridor}{MazeChars.Wall}"
@@ -32,8 +32,7 @@ public class CustomMazeCreator : IMazeCreator
             }
         }
 
-        return mazeText;
     }
 
-    
+
 }

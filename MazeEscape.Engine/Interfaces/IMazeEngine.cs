@@ -3,7 +3,7 @@ using MazeEscape.Model.Enums;
 
 namespace MazeEscape.Engine.Interfaces;
 
-public interface IMazeGame
+public interface IMazeEngine
 {
     void Initialise(string text);
 

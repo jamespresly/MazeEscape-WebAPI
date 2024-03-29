@@ -1,4 +1,4 @@
-﻿namespace MazeEscape.WebAPI.DTO.Internal
+﻿namespace MazeEscape.Driver.DTO
 {
     public class MazeManagerConfig
     {

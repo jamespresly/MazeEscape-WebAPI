@@ -1,34 +1,45 @@
-﻿using MazeEscape.WebAPI.DTO;
+﻿using MazeEscape.Driver.Interfaces;
+using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Enums;
 using MazeEscape.WebAPI.Interfaces;
+using MazeEscape.WebAPI.Validator;
 
 
 namespace MazeEscape.WebAPI.Main
 {
     public class MazeAppManager : IMazeAppManager
     {
-
-        private readonly IPresetFileManager _presetFileManager;
+        private readonly IMazeCreator _mazeCreator;
         private readonly IMazeOperator _mazeOperator;
-        private readonly IEnumerable<IMazeCreator> _mazeCreators;
+
+        private readonly IEnumerable<IMazeInputValidator> _mazeInputValidators;
 
         private readonly Dictionary<CreateMode, Type> _creatorMap = new()
         {
-            { CreateMode.Preset, typeof(PresetMazeCreator)},
-            { CreateMode.Custom, typeof(CustomMazeCreator)},
-            { CreateMode.Random, typeof(RandomMazeCreator)}
+            { CreateMode.Preset, typeof(PresetMazeInputValidator)},
+            { CreateMode.Custom, typeof(CustomMazeInputValidator)},
+            { CreateMode.Random, typeof(RandomMazeInputValidator)}
         };
 
-        public MazeAppManager( IMazeOperator mazeOperator, IEnumerable<IMazeCreator> mazeCreators, IPresetFileManager presetFileManager)
+        private readonly Dictionary<PlayerMove, Model.Enums.PlayerMove> _moveMap = new()
         {
-            _mazeOperator = mazeOperator;
-            _mazeCreators = mazeCreators;
-            _presetFileManager = presetFileManager;
+            { PlayerMove.Forward, Model.Enums. PlayerMove.Forward},
+            { PlayerMove.TurnLeft,  Model.Enums. PlayerMove.Left},
+            { PlayerMove.TurnRight, Model.Enums.  PlayerMove.Right}
+        };
+
+
+        public MazeAppManager(IMazeDriver mazeDriver, IEnumerable<IMazeInputValidator> mazeInputValidators)
+        {
+            _mazeCreator = mazeDriver.InitMazeCreator();
+            _mazeOperator = mazeDriver.InitMazeOperator();
+
+            _mazeInputValidators = mazeInputValidators;
         }
 
         public List<string> GetPresets()
         {
-            return _presetFileManager.GetPresetFileNames();
+            return _mazeCreator.GetPresets();
         }
 
         public PlayerInfo GetPlayerInfo(PlayerParams playerParams)
@@ -37,28 +48,71 @@ namespace MazeEscape.WebAPI.Main
 
             if (playerParams.PlayerMove != null)
             {
-                _mazeOperator.MovePlayer((PlayerMove)playerParams.PlayerMove);
+                var move = _moveMap[(PlayerMove)playerParams.PlayerMove];
+                _mazeOperator.MovePlayer(move);
             }
 
-            return _mazeOperator.GetPlayerInfo();
+            var player = _mazeOperator.GetPlayerInfo();
+            var position = player.Position;
+            var vision = player.Vision;
+
+            return new PlayerInfo()
+            {
+                MazeToken = player.MazeToken,
+                Info = player.Info,
+                Facing =  player.Facing,
+                Position = new Position()
+                {
+                    X = position.X,
+                    Y = position.Y,
+                },
+                Vision = player.Vision == null ? null : new Vision()
+                {
+                    Ahead = vision.Ahead,
+                    Left = vision.Left,
+                    Right = vision.Right
+                },
+                IsEscaped = player.IsEscaped
+            };
         }
 
         public MazeCreated CreateMaze(CreateParams createParams)
         {
-            var creator = _mazeCreators.FirstOrDefault(x => x.GetType() == _creatorMap[createParams.CreateMode]);
+            var validator =
+                _mazeInputValidators.FirstOrDefault(x => x.GetType() == _creatorMap[createParams.CreateMode]);
 
-            if (creator == null)
-                throw new ArgumentException("mazecreator not found");
+            if (validator == null)
+                throw new ArgumentException("maze input validator not found");
 
-            var mazeText = creator.GetMazeInputText(createParams);
+            validator.Validate(createParams);
 
-            if (string.IsNullOrEmpty(mazeText))
-                throw new ArgumentException("mazeText cannot be empty");
+            Driver.DTO.MazeCreated? created = null;
 
-            var created = _mazeOperator.CreateMazeFromText(mazeText);
+            if (createParams.CreateMode == CreateMode.Custom)
+            {
+                created = _mazeCreator.CreateCustomMaze(createParams.Custom.MazeText);
+            }
 
-            return created;
+            if (createParams.CreateMode == CreateMode.Preset)
+            {
+                created = _mazeCreator.CreatePresetMaze(createParams.Preset.PresetName);
+            }
+
+            if (createParams.CreateMode == CreateMode.Random)
+            {
+                created = _mazeCreator.CreateRandomMaze((int)createParams.Random.Width, (int)createParams.Random.Height);
+            }
+
+            if (created == null)
+                throw new ArgumentException("maze creation failed");
+
+            return new MazeCreated()
+            {
+                MazeToken = created.MazeToken,
+                Width = created.Width,
+                Height = created.Height
+            };
+
         }
-
     }
 }

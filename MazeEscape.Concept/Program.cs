@@ -32,9 +32,9 @@ namespace MazeEscape.Concept
             IMazeConverter mazeConverter = new MazeConverter();
             IPlayerNavigator playerNavigator = new PlayerNavigator();
 
-            IMazeGame mazeGame = new MazeGame(mazeConverter, playerNavigator);
+            IMazeEngine mazeEngine = new MazeEngine(mazeConverter, playerNavigator);
 
-            mazeGame.Initialise(testmaze);
+            mazeEngine.Initialise(testmaze);
 
             var status = "";
 
@@ -45,7 +45,7 @@ namespace MazeEscape.Concept
 
                 Console.WriteLine(" Use 'w', 'a' and 'd' to navigate\n");
 
-                var maze = mazeGame.PrintMaze();
+                var maze = mazeEngine.PrintMaze();
 
                 Console.WriteLine("".PadRight(8) + maze.Replace("\n", "\n".PadRight(9)));
 
@@ -59,7 +59,7 @@ namespace MazeEscape.Concept
                 status = "";
 
 
-                var vision = mazeGame.GetPlayerVision();
+                var vision = mazeEngine.GetPlayerVision();
 
                 Console.WriteLine(" Facing:" + vision.FacingDirection);
 
@@ -72,18 +72,18 @@ namespace MazeEscape.Concept
 
                 if (x.KeyChar == 'w')
                 {
-                    status = mazeGame.MovePlayer(PlayerMove.Forward);
+                    status = mazeEngine.MovePlayer(PlayerMove.Forward);
 
                 }
 
                 if (x.KeyChar == 'a')
                 {
-                    mazeGame.MovePlayer(PlayerMove.Left);
+                    mazeEngine.MovePlayer(PlayerMove.Left);
                 }
 
                 if (x.KeyChar == 'd')
                 {
-                    mazeGame.MovePlayer(PlayerMove.Right);
+                    mazeEngine.MovePlayer(PlayerMove.Right);
                 }
 
             }

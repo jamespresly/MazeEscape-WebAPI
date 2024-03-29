@@ -2,17 +2,12 @@
 using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Interfaces;
 
-namespace MazeEscape.WebAPI.Main;
+namespace MazeEscape.WebAPI.Validator;
 
-public class RandomMazeCreator : IMazeCreator
+public class RandomMazeInputValidator : IMazeInputValidator
 {
-    private readonly IMazeGenerator _mazeGenerator;
 
-    public RandomMazeCreator(IMazeGenerator mazeGenerator)
-    {
-        _mazeGenerator = mazeGenerator;
-    }
-    public string GetMazeInputText(CreateParams createParams)
+    public void Validate(CreateParams createParams)
     {
         var width = createParams?.Random?.Width;
         var height = createParams?.Random?.Height;
@@ -27,8 +22,5 @@ public class RandomMazeCreator : IMazeCreator
             throw new ArgumentException("width and height must be between 10 and 50");
         }
 
-        var maze = _mazeGenerator.GenerateRandom((int)width, (int)height);
-
-        return maze;
     }
 }

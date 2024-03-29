@@ -4,7 +4,7 @@ using MazeEscape.Model.Enums;
 
 namespace MazeEscape.Engine
 {
-    public class MazeGame : IMazeGame
+    public class MazeEngine : IMazeEngine
     {
         public Maze Maze { get; set; }
 
@@ -13,7 +13,7 @@ namespace MazeEscape.Engine
         private readonly IPlayerNavigator _playerNavigator;
 
         
-        public MazeGame(IMazeConverter mazeConverter, IPlayerNavigator playerNavigator)
+        public MazeEngine(IMazeConverter mazeConverter, IPlayerNavigator playerNavigator)
         {
             _mazeConverter = mazeConverter;
             _playerNavigator = playerNavigator;

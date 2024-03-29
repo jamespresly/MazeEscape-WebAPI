@@ -1,4 +1,4 @@
-﻿namespace MazeEscape.WebAPI.Interfaces;
+﻿namespace MazeEscape.Driver.Interfaces;
 
 public interface IPresetFileManager
 {

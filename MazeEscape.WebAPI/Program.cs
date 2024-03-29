@@ -1,13 +1,10 @@
-using MazeEscape.Encoder;
-using MazeEscape.Encoder.Interfaces;
-using MazeEscape.Engine;
-using MazeEscape.Engine.Interfaces;
-using MazeEscape.Generator.Interfaces;
-using MazeEscape.Generator.Main;
-using MazeEscape.WebAPI.DTO.Internal;
+using MazeEscape.Driver.DTO;
+using MazeEscape.Driver.Interfaces;
+using MazeEscape.Driver.Main;
 using MazeEscape.WebAPI.Hypermedia;
 using MazeEscape.WebAPI.Interfaces;
 using MazeEscape.WebAPI.Main;
+using MazeEscape.WebAPI.Validator;
 using Microsoft.AspNetCore.HttpLogging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -37,23 +34,14 @@ namespace MazeEscape.WebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+
+            builder.Services.AddScoped<IMazeDriver, MazeDriver>();
             builder.Services.AddScoped<IMazeAppManager, MazeAppManager>();
             builder.Services.AddScoped<IHypermediaManager,HypermediaManager>();
 
-            builder.Services.AddScoped<IMazeGame, MazeGame>();
-            builder.Services.AddScoped<IMazeEncoder, MazeEncoder>();
-            builder.Services.AddScoped<IMazeConverter, MazeConverter>();
-
-            builder.Services.AddScoped<IPlayerNavigator, PlayerNavigator>();
-            builder.Services.AddScoped<IMazeGenerator, MazeGenerator>();
-
-            builder.Services.AddScoped<IPresetFileManager, PresetMazeCreator>();
-
-            builder.Services.AddScoped<IMazeCreator, PresetMazeCreator>();
-            builder.Services.AddScoped<IMazeCreator, CustomMazeCreator>();
-            builder.Services.AddScoped<IMazeCreator, RandomMazeCreator>();
-
-            builder.Services.AddScoped<IMazeOperator, MazeOperator>();
+            builder.Services.AddScoped<IMazeInputValidator, PresetMazeInputValidator>();
+            builder.Services.AddScoped<IMazeInputValidator, CustomMazeInputValidator>();
+            builder.Services.AddScoped<IMazeInputValidator, RandomMazeInputValidator>();
 
 
             builder.Services.AddHttpLogging(x =>
