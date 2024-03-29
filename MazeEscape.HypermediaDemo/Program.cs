@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using MazeEscape.TestClient.DTO;
+using MazeEscape.HypermediaDemo.DTO;
 using Newtonsoft.Json;
 
-namespace MazeEscape.TestClient
+namespace MazeEscape.HypermediaDemo
 {
     internal class Program
     {

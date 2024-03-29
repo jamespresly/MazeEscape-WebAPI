@@ -1,4 +1,4 @@
-﻿namespace MazeEscape.TestClient.DTO;
+﻿namespace MazeEscape.HypermediaDemo.DTO;
 
 public class Link
 {

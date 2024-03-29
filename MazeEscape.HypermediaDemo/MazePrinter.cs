@@ -1,4 +1,4 @@
-﻿namespace MazeEscape.TestClient
+﻿namespace MazeEscape.HypermediaDemo
 {
     internal class MazePrinter
     {

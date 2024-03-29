@@ -1,10 +1,10 @@
 ﻿using System.Net;
-using MazeEscape.TestClient.DTO;
-using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
+using MazeEscape.HypermediaDemo.DTO;
+using Newtonsoft.Json;
 
-namespace MazeEscape.TestClient
+namespace MazeEscape.HypermediaDemo
 {
     internal class HttpClientWrapper
     {
