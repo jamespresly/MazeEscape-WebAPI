@@ -5,7 +5,7 @@ using MazeEscape.Model.Constants;
 using System.Security.Cryptography;
 using MazeEscape.Generator.Reference;
 
-namespace MazeEscape.Generator
+namespace MazeEscape.Generator.Main
 {
     internal class MazeWriter
     {
@@ -91,31 +91,31 @@ namespace MazeEscape.Generator
             _sharedState.MazeChars[position.Y][position.X] = MazeChars.PlayerStart;
         }
 
-        public void CreateWallsAtSides(Coordinate coordinate, Direction direction)
+        public void CreateWallsAtSides(Vector vector)
         {
-            var sides = Maps.SidesMap[direction];
+            var sides = Maps.SidesMap[vector.Direction];
 
-            CreateCharInDirection(coordinate, sides.Left, MazeChars.Wall);
-            CreateCharInDirection(coordinate, sides.Right, MazeChars.Wall);
+            CreateCharInDirection(vector.Position, sides.Left, MazeChars.Wall);
+            CreateCharInDirection(vector.Position, sides.Right, MazeChars.Wall);
 
-            UpdateChar(coordinate.X, coordinate.Y, MazeChars.Corridor);
+            UpdateChar(vector.Position.X, vector.Position.Y, MazeChars.Corridor);
         }
 
-        public void CreateWallAhead(Coordinate coordinate, Direction direction)
+        public void CreateWallAhead(Vector vector)
         {
-            CreateCharInDirection(coordinate, direction, MazeChars.Wall);
+            CreateCharInDirection(vector.Position, vector.Direction, MazeChars.Wall);
         }
 
-        public void CreateCorridorAhead(Coordinate coordinate, Direction direction)
+        public void CreateCorridorAhead(Vector vector)
         {
-            CreateCharInDirection(coordinate, direction, MazeChars.Corridor);
+            CreateCharInDirection(vector.Position, vector.Direction, MazeChars.Corridor);
         }
 
-        public void CreateCharInDirection(Coordinate coordinate, Direction direction, char c)
+        public void CreateCharInDirection(Coordinate position, Direction direction, char c)
         {
             var offset = Maps.DirectionMap[direction];
 
-            UpdateChar(coordinate.X + offset.X, coordinate.Y + offset.Y, c);
+            UpdateChar(position.X + offset.X, position.Y + offset.Y, c);
         }
 
         public void UpdateChar(int x, int y, char c)

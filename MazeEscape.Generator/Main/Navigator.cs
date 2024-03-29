@@ -4,14 +4,14 @@ using MazeEscape.Generator.Struct;
 using System.Security.Cryptography;
 using MazeEscape.Generator.Reference;
 
-namespace MazeEscape.Generator
+namespace MazeEscape.Generator.Main
 {
-    internal class MazeExplorer
+    internal class Navigator
     {
- 
+
         private readonly SharedState _sharedState;
 
-        public MazeExplorer(SharedState sharedState)
+        public Navigator(SharedState sharedState)
         {
             _sharedState = sharedState;
         }
@@ -33,14 +33,24 @@ namespace MazeEscape.Generator
         }
 
 
-        internal Coordinate MoveInDirection(Coordinate position, Direction direction)
+        internal Vector MoveInDirection(Vector vector)
         {
-            var offsets = Maps.DirectionMap[direction];
+            var offsets = Maps.DirectionMap[vector.Direction];
+
+            var position = vector.Position;
 
             position.X += offsets.X;
             position.Y += offsets.Y;
 
-            return position;
+            vector.Position = position;
+
+            if (position.X == 0 || position.Y == 0
+                || _sharedState.MazeChars.Length == position.Y || _sharedState.MazeChars[0].Length == position.X)
+            {
+                throw new Exception("out of bounds");
+            }
+
+            return vector;
         }
 
 

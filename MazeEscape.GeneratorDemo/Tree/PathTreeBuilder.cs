@@ -41,7 +41,7 @@ namespace MazeEscape.Tests.Helper
             foreach (var square in path)
             {
                 var row = charRows[square.Location.YCoordinate];
-                row[square.Location.XCoordinate] = '|';
+                row[square.Location.XCoordinate] = '#';
             }
 
             var concat = string.Join("\n", charRows.Select(x => string.Concat(x)));
@@ -70,7 +70,7 @@ namespace MazeEscape.Tests.Helper
                         if (mazeSquare.IsExit)
                         {
                             corridor.MarkAsExitPath();
-                            //break;
+                            //break; // todo
                         }
 
                         corridorCount++;

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using FluentAssertions;
 using MazeEscape.Engine;
 using MazeEscape.Generator;
+using MazeEscape.Generator.Main;
 using MazeEscape.Tests.Helper;
 
 namespace MazeEscape.Tests;
@@ -170,7 +171,7 @@ public class MazeGeneratorTests
     public void PathTest()
     {
         var mazeGenerator = new MazeGenerator();
-        var random = mazeGenerator.GenerateRandom(30, 30);
+        var random = mazeGenerator.GenerateRandom(50, 50);
 
         random.Should().NotContain("=");
 
@@ -178,7 +179,7 @@ public class MazeGeneratorTests
         var pathTreeBuilder = new PathTreeBuilder();
         var mazeConverter = new MazeConverter();
 
-        Console.WriteLine(random);
+        //Console.WriteLine(random);
 
         var maze = mazeConverter.Parse(random);
 

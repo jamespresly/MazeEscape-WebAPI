@@ -1,0 +1,65 @@
+﻿namespace MazeEscape.GeneratorDemo.Helper
+{
+    internal static class ConsoleHelper
+    {
+        internal static void WriteFirstFrame(ConsoleColor backgroundColour, ConsoleColor borderColour, string first)
+        {
+            Console.Clear();
+            Console.BackgroundColor = backgroundColour;
+            Console.ForegroundColor = borderColour;
+            Console.WriteLine(first);
+        }
+        internal static void PromptIfNotContinousMode(bool continuousMode)
+        {
+            if (!continuousMode)
+            {
+                var lastRow = Console.WindowHeight - 2;
+                Console.SetCursorPosition(0, lastRow);
+                Console.WriteLine("press any key to continue...");
+                Console.ReadKey();
+            }
+        }
+
+        internal static void WriteDiffsToConsole(List<string> allStrings, int delay, ConsoleColor color = ConsoleColor.White)
+        {
+            Console.CursorVisible = false;
+            Console.ForegroundColor = color;
+
+            var first = allStrings[0];
+
+            var currentString = first.Split("\n");
+
+            for (var stringCount = 0; stringCount < allStrings.Count; stringCount++)
+            {
+                var nextString = allStrings[stringCount].Split("\n");
+
+                for (int line = 0; line < nextString.Length; line++)
+                {
+                    if (currentString[line] != nextString[line])
+                    {
+                        var currentChars = currentString[line].ToCharArray();
+                        var nextChars = nextString[line].ToCharArray();
+
+                        for (int ch = 0; ch < nextChars.Length; ch++)
+                        {
+                            if (currentChars[ch] != nextChars[ch])
+                            {
+                                Console.SetCursorPosition(ch, line);
+                                Console.Write(nextChars[ch]);
+                            }
+                        }
+                    }
+                }
+
+                currentString = nextString;
+
+                if (delay > 0)
+                {
+                    Thread.Sleep(delay);
+                }
+            }
+
+            Console.ResetColor();
+        }
+    }
+}
