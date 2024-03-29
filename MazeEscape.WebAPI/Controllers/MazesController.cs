@@ -40,13 +40,13 @@ namespace MazeEscape.WebAPI.Controllers
 
         [HttpPost]
         [Route("")]
-        public IActionResult CreateMaze([FromQuery] CreateMode createMode, [FromBody] CreateParams createParams)
+        public IActionResult CreateMaze([FromBody] CreateParams createParams)
         {
             var response = _hypermediaManager.GetEndpointHypermedia(nameof(CreateMaze), Url);
 
             try
             {
-                response.Data = _mazeAppManager.CreateMaze(createMode, createParams);
+                response.Data = _mazeAppManager.CreateMaze(createParams);
             }
             catch (ArgumentException e)
             {

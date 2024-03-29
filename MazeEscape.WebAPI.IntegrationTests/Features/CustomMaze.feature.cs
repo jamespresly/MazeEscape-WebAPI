@@ -94,8 +94,8 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 7
- testRunner.When("I make a POST request to:/mazes?createMode=custom with body:{\"custom\": {\"mazeText" +
-                        "\": \"+E+\\n+ +\\n+S+\\n+++\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I make a POST request to:/mazes with body:{\"createMode\":\"custom\", \"custom\": {\"maz" +
+                        "eText\": \"+E+\\n+ +\\n+S+\\n+++\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 8
  testRunner.Then("the status code is:Created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -134,8 +134,8 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 15
- testRunner.When("I make a POST request to:/mazes?createMode=custom with body:{\"custom\": {\"mazeText" +
-                        "\": \"\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I make a POST request to:/mazes with body:{\"createMode\":\"custom\", \"custom\": {\"maz" +
+                        "eText\": \"\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 16
  testRunner.Then("the status code is:BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -168,8 +168,8 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 21
- testRunner.When("I make a POST request to:/mazes?createMode=custom with body:{\"custom\": {\"mazeText" +
-                        "\": \"abcd\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I make a POST request to:/mazes with body:{\"createMode\":\"custom\", \"custom\": {\"maz" +
+                        "eText\": \"abcd\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 22
  testRunner.Then("the status code is:BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

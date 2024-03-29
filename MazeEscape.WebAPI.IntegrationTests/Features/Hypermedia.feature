@@ -8,10 +8,10 @@ Scenario: Get mazes root
 	When I make a GET request to:/mazes
 	Then the status code is:OK
 	And the response contains the following hypermedia array:actions with values:
-	| description             | href                     | method | body                                               |
-	| create-maze-from-preset | /mazes?createMode=preset | POST   | {"preset":{"presetName":"{presetName}"}}           |
-	| create-maze-from-text   | /mazes?createMode=custom | POST   | {"custom":{"mazeText":"{mazeText}"}}               |
-	| create-random-maze      | /mazes?createMode=random | POST   | {"random":{"width":"{width}","height":"{height}"}} |
+	| description             | href   | method | body                                                                      |
+	| create-maze-from-preset | /mazes | POST   | {"createMode":"preset","preset":{"presetName":"{presetName}"}}           |
+	| create-maze-from-text   | /mazes | POST   | {"createMode":"custom","custom":{"mazeText":"{mazeText}"}}               |
+	| create-random-maze      | /mazes | POST   | {"createMode":"random","random":{"width":"{width}","height":"{height}"}} |
 	And the response contains the following hypermedia array:links with values:
 	| description            | href           | method | body |
 	| get-mazes-root         | /mazes         | GET    |      |
@@ -22,8 +22,8 @@ Scenario: Get mazes presets
 	When I make a GET request to:/mazes/presets
 	Then the status code is:OK
 	And the response contains the following hypermedia array:actions with values:
-	| description             | href                     | method | body                                     |
-	| create-maze-from-preset | /mazes?createMode=preset | POST   | {"preset":{"presetName":"{presetName}"}} |
+	| description             | href   | method | body                                                            |
+	| create-maze-from-preset | /mazes | POST   | {"createMode":"preset","preset":{"presetName":"{presetName}"}} |
 	And the response contains the following hypermedia array:links with values:
 	| description    | href   | method | body |
 	| get-mazes-root | /mazes | GET    |      |
@@ -33,10 +33,10 @@ Scenario: Error Scenario: Create maze from empty preset - Returns root hypermedi
 	When I make a POST request to:/mazes?createMode=preset with body:{"preset": {"presetName": ""}}
 	Then the status code is:BadRequest
 	And the response contains the following hypermedia array:actions with values:
-	| description             | href                     | method | body                                               |
-	| create-maze-from-preset | /mazes?createMode=preset | POST   | {"preset":{"presetName":"{presetName}"}}           |
-	| create-maze-from-text   | /mazes?createMode=custom | POST   | {"custom":{"mazeText":"{mazeText}"}}               |
-	| create-random-maze      | /mazes?createMode=random | POST   | {"random":{"width":"{width}","height":"{height}"}} |
+	| description             | href   | method | body                                                                      |
+	| create-maze-from-preset | /mazes | POST   | {"createMode":"preset","preset":{"presetName":"{presetName}"}}           |
+	| create-maze-from-text   | /mazes | POST   | {"createMode":"custom","custom":{"mazeText":"{mazeText}"}}               |
+	| create-random-maze      | /mazes | POST   | {"createMode":"random","random":{"width":"{width}","height":"{height}"}} |
 	And the response contains the following hypermedia array:links with values:
 	| description            | href           | method | body |
 	| get-mazes-root         | /mazes         | GET    |      |
@@ -47,10 +47,10 @@ Scenario: Error Scenario: Create maze from a non-existent preset - Returns root 
 	When I make a POST request to:/mazes?createMode=preset with body:{"preset": {"presetName": "doesntExist"}}
 	Then the status code is:NotFound
 	And the response contains the following hypermedia array:actions with values:
-	| description             | href                     | method | body                                               |
-	| create-maze-from-preset | /mazes?createMode=preset | POST   | {"preset":{"presetName":"{presetName}"}}           |
-	| create-maze-from-text   | /mazes?createMode=custom | POST   | {"custom":{"mazeText":"{mazeText}"}}               |
-	| create-random-maze      | /mazes?createMode=random | POST   | {"random":{"width":"{width}","height":"{height}"}} |
+	| description             | href   | method | body                                                                      |
+	| create-maze-from-preset | /mazes | POST   | {"createMode":"preset","preset":{"presetName":"{presetName}"}}           |
+	| create-maze-from-text   | /mazes | POST   | {"createMode":"custom","custom":{"mazeText":"{mazeText}"}}               |
+	| create-random-maze      | /mazes | POST   | {"createMode":"random","random":{"width":"{width}","height":"{height}"}} |
 	And the response contains the following hypermedia array:links with values:
 	| description            | href           | method | body |
 	| get-mazes-root         | /mazes         | GET    |      |
@@ -99,7 +99,7 @@ Scenario: Post Player
 
 Scenario: No actions available after maze has been escaped
 	Given the MazeEscape client is running
-	When I make a POST request to:/mazes?createMode=preset with body:{"preset": {"presetName": "minmaze"}}
+	When I make a POST request to:/mazes with body:{"createMode":"preset", "preset": {"presetName": "minmaze"}}
 	And I save the mazeToken
 	And I make a POST request to:/mazes/player with saved mazeToken and body:{"mazeToken":"{mazeToken}"}
 	And I save the mazeToken

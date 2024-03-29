@@ -17,9 +17,21 @@ public static class ActionLinkBodyDefinitions
 
     public static Dictionary<ActionLinkType, Dictionary<string, object>> ActionBodyMap = new()
     {
-        { ActionLinkType.CreatePresetMaze, new() {{ CreateParamsPreset, new BuildPreset(){ PresetName = "{" +BuildPresetName + "}" }}}},
-        { ActionLinkType.CreateCustomMaze, new() {{ CreateParamsCustom, new BuildCustom(){ MazeText = "{" + BuildCustomMazeTest + "}" }}}},
-        { ActionLinkType.CreateRandomMaze, new() {{ CreateParamsRandom, new { width = "{width}", height = "{height}" }}}},
+        { ActionLinkType.CreatePresetMaze, new()
+        {
+            { nameof(CreateMode), CreateMode.Preset.ToString().ToCamelCase()}, 
+            { CreateParamsPreset, new BuildPreset(){ PresetName = "{" +BuildPresetName + "}" }}
+        }},
+        { ActionLinkType.CreateCustomMaze, new()
+        {
+            { nameof(CreateMode), CreateMode.Custom.ToString().ToCamelCase()},
+            { CreateParamsCustom, new BuildCustom(){ MazeText = "{" + BuildCustomMazeTest + "}" }}
+        }},
+        { ActionLinkType.CreateRandomMaze, new()
+        {
+            { nameof(CreateMode), CreateMode.Random.ToString().ToCamelCase()},
+            { CreateParamsRandom, new { width = "{width}", height = "{height}" }}
+        }},
           
         { ActionLinkType.PostPlayer, new() {{ MazeStateMazeToken, "{" + MazeStateMazeToken + "}" }}},
           

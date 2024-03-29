@@ -43,9 +43,9 @@ namespace MazeEscape.WebAPI.Main
             return _mazeOperator.GetPlayerInfo();
         }
 
-        public MazeCreated CreateMaze(CreateMode createMode, CreateParams createParams)
+        public MazeCreated CreateMaze(CreateParams createParams)
         {
-            var creator = _mazeCreators.FirstOrDefault(x => x.GetType() == _creatorMap[createMode]);
+            var creator = _mazeCreators.FirstOrDefault(x => x.GetType() == _creatorMap[createParams.CreateMode]);
 
             if (creator == null)
                 throw new ArgumentException("mazecreator not found");

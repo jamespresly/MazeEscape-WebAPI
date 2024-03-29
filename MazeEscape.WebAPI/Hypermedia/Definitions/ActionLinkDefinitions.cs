@@ -7,9 +7,9 @@ public static class ActionLinkDefinitions
 {
     public static Dictionary<ActionLinkType, ActionLink> ActionsMap = new()
     {
-        { ActionLinkType.CreatePresetMaze, new() { Description = "create-maze-from-preset", Method = "POST", QueryParams = "?createMode=preset" }},
-        { ActionLinkType.CreateCustomMaze, new() { Description = "create-maze-from-text", Method = "POST", QueryParams = "?createMode=custom" }},
-        { ActionLinkType.CreateRandomMaze, new() { Description = "create-random-maze", Method = "POST", QueryParams = "?createMode=random" }},
+        { ActionLinkType.CreatePresetMaze, new() { Description = "create-maze-from-preset", Method = "POST"}},
+        { ActionLinkType.CreateCustomMaze, new() { Description = "create-maze-from-text", Method = "POST"}},
+        { ActionLinkType.CreateRandomMaze, new() { Description = "create-random-maze", Method = "POST"}},
 
         { ActionLinkType.PostPlayer, new() { Description = "post-player", Method = "POST" }},
         

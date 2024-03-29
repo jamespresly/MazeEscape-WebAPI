@@ -127,8 +127,8 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 13
- testRunner.When("I make a POST request to:/mazes?createMode=preset with body:{\"preset\": {\"presetNa" +
-                        "me\": \"minmaze\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I make a POST request to:/mazes with body:{\"createMode\":\"preset\", \"preset\": {\"pre" +
+                        "setName\": \"minmaze\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 14
  testRunner.And("I save the mazeToken", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

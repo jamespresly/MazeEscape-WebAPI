@@ -106,19 +106,19 @@ this.ScenarioInitialize(scenarioInfo);
                             "body"});
                 table1.AddRow(new string[] {
                             "create-maze-from-preset",
-                            "/mazes?createMode=preset",
+                            "/mazes",
                             "POST",
-                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
+                            "{\"createMode\":\"preset\",\"preset\":{\"presetName\":\"{presetName}\"}}"});
                 table1.AddRow(new string[] {
                             "create-maze-from-text",
-                            "/mazes?createMode=custom",
+                            "/mazes",
                             "POST",
-                            "{\"custom\":{\"mazeText\":\"{mazeText}\"}}"});
+                            "{\"createMode\":\"custom\",\"custom\":{\"mazeText\":\"{mazeText}\"}}"});
                 table1.AddRow(new string[] {
                             "create-random-maze",
-                            "/mazes?createMode=random",
+                            "/mazes",
                             "POST",
-                            "{\"random\":{\"width\":\"{width}\",\"height\":\"{height}\"}}"});
+                            "{\"createMode\":\"random\",\"random\":{\"width\":\"{width}\",\"height\":\"{height}\"}}"});
 #line 10
  testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table1, "And ");
 #line hidden
@@ -177,9 +177,9 @@ this.ScenarioInitialize(scenarioInfo);
                             "body"});
                 table3.AddRow(new string[] {
                             "create-maze-from-preset",
-                            "/mazes?createMode=preset",
+                            "/mazes",
                             "POST",
-                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
+                            "{\"createMode\":\"preset\",\"preset\":{\"presetName\":\"{presetName}\"}}"});
 #line 24
  testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table3, "And ");
 #line hidden
@@ -234,19 +234,19 @@ this.ScenarioInitialize(scenarioInfo);
                             "body"});
                 table5.AddRow(new string[] {
                             "create-maze-from-preset",
-                            "/mazes?createMode=preset",
+                            "/mazes",
                             "POST",
-                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
+                            "{\"createMode\":\"preset\",\"preset\":{\"presetName\":\"{presetName}\"}}"});
                 table5.AddRow(new string[] {
                             "create-maze-from-text",
-                            "/mazes?createMode=custom",
+                            "/mazes",
                             "POST",
-                            "{\"custom\":{\"mazeText\":\"{mazeText}\"}}"});
+                            "{\"createMode\":\"custom\",\"custom\":{\"mazeText\":\"{mazeText}\"}}"});
                 table5.AddRow(new string[] {
                             "create-random-maze",
-                            "/mazes?createMode=random",
+                            "/mazes",
                             "POST",
-                            "{\"random\":{\"width\":\"{width}\",\"height\":\"{height}\"}}"});
+                            "{\"createMode\":\"random\",\"random\":{\"width\":\"{width}\",\"height\":\"{height}\"}}"});
 #line 35
  testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table5, "And ");
 #line hidden
@@ -306,19 +306,19 @@ this.ScenarioInitialize(scenarioInfo);
                             "body"});
                 table7.AddRow(new string[] {
                             "create-maze-from-preset",
-                            "/mazes?createMode=preset",
+                            "/mazes",
                             "POST",
-                            "{\"preset\":{\"presetName\":\"{presetName}\"}}"});
+                            "{\"createMode\":\"preset\",\"preset\":{\"presetName\":\"{presetName}\"}}"});
                 table7.AddRow(new string[] {
                             "create-maze-from-text",
-                            "/mazes?createMode=custom",
+                            "/mazes",
                             "POST",
-                            "{\"custom\":{\"mazeText\":\"{mazeText}\"}}"});
+                            "{\"createMode\":\"custom\",\"custom\":{\"mazeText\":\"{mazeText}\"}}"});
                 table7.AddRow(new string[] {
                             "create-random-maze",
-                            "/mazes?createMode=random",
+                            "/mazes",
                             "POST",
-                            "{\"random\":{\"width\":\"{width}\",\"height\":\"{height}\"}}"});
+                            "{\"createMode\":\"random\",\"random\":{\"width\":\"{width}\",\"height\":\"{height}\"}}"});
 #line 49
  testRunner.And("the response contains the following hypermedia array:actions with values:", ((string)(null)), table7, "And ");
 #line hidden
@@ -572,8 +572,8 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the MazeEscape client is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 102
- testRunner.When("I make a POST request to:/mazes?createMode=preset with body:{\"preset\": {\"presetNa" +
-                        "me\": \"minmaze\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I make a POST request to:/mazes with body:{\"createMode\":\"preset\", \"preset\": {\"pre" +
+                        "setName\": \"minmaze\"}}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 103
  testRunner.And("I save the mazeToken", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
