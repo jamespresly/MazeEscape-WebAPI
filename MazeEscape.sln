@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeEscape.Tests", "MazeEsc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.GeneratorDemo", "MazeEscape.GeneratorDemo\MazeEscape.GeneratorDemo.csproj", "{6025DC9B-104B-4EE1-B645-B96620AF5418}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeEscape.Concept", "MazeEscape.Concept\MazeEscape.Concept.csproj", "{046FE143-07CA-49C9-81A7-46B751391954}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{6025DC9B-104B-4EE1-B645-B96620AF5418}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6025DC9B-104B-4EE1-B645-B96620AF5418}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6025DC9B-104B-4EE1-B645-B96620AF5418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{046FE143-07CA-49C9-81A7-46B751391954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{046FE143-07CA-49C9-81A7-46B751391954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{046FE143-07CA-49C9-81A7-46B751391954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{046FE143-07CA-49C9-81A7-46B751391954}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{B062451C-7D12-45CA-91AB-AF22975FDF7B} = {5CD75DBD-B233-4CD7-9D80-7843E52791FE}
 		{D9593BF9-F43E-4C7A-BC5A-A498928ACA21} = {58D078E4-0B7B-4287-9FB6-0BAE74F23BE0}
 		{6025DC9B-104B-4EE1-B645-B96620AF5418} = {5CD75DBD-B233-4CD7-9D80-7843E52791FE}
+		{046FE143-07CA-49C9-81A7-46B751391954} = {5CD75DBD-B233-4CD7-9D80-7843E52791FE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E00404C-4B95-41B3-A63B-173814AF1EE1}

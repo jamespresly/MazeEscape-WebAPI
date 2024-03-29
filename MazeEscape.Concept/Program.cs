@@ -1,7 +1,8 @@
-﻿using MazeEscape.Engine.Interfaces;
+﻿using MazeEscape.Engine;
+using MazeEscape.Engine.Interfaces;
 using MazeEscape.Model.Enums;
 
-namespace MazeEscape.Engine
+namespace MazeEscape.Concept
 {
     internal class Program
     {
