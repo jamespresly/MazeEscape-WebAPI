@@ -22,8 +22,6 @@ public class MazeOperator : IMazeOperator
         _mazeEncoder = mazeEncoder;
         _config = config;
     }
-
-
     public void InitialiseMazeFromToken(string token)
     {
         if (string.IsNullOrEmpty(token))

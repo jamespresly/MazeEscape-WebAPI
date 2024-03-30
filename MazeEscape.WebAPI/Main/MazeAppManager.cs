@@ -9,9 +9,8 @@ namespace MazeEscape.WebAPI.Main
 {
     public class MazeAppManager : IMazeAppManager
     {
-        private readonly IMazeCreator _mazeCreator;
-        private readonly IMazeOperator _mazeOperator;
 
+        private readonly IMazeDriver _mazeDriver;
         private readonly IEnumerable<IMazeInputValidator> _mazeInputValidators;
 
         private readonly Dictionary<CreateMode, Type> _creatorMap = new()
@@ -28,31 +27,32 @@ namespace MazeEscape.WebAPI.Main
             { PlayerMove.TurnRight, Model.Enums.  PlayerMove.Right}
         };
 
-
         public MazeAppManager(IMazeDriver mazeDriver, IEnumerable<IMazeInputValidator> mazeInputValidators)
         {
-            _mazeCreator = mazeDriver.InitMazeCreator();
-            _mazeOperator = mazeDriver.InitMazeOperator();
-
+            _mazeDriver = mazeDriver;
             _mazeInputValidators = mazeInputValidators;
         }
 
         public List<string> GetPresets()
         {
-            return _mazeCreator.GetPresets();
+            var mazeCreator = _mazeDriver.InitMazeCreator();
+
+            return mazeCreator.GetPresets();
         }
 
         public PlayerInfo GetPlayerInfo(PlayerParams playerParams)
         {
-            _mazeOperator.InitialiseMazeFromToken(playerParams.MazeToken);
+            var mazeOperator = _mazeDriver.InitMazeOperator();
+
+            mazeOperator.InitialiseMazeFromToken(playerParams.MazeToken);
 
             if (playerParams.PlayerMove != null)
             {
                 var move = _moveMap[(PlayerMove)playerParams.PlayerMove];
-                _mazeOperator.MovePlayer(move);
+                mazeOperator.MovePlayer(move);
             }
 
-            var player = _mazeOperator.GetPlayerInfo();
+            var player = mazeOperator.GetPlayerInfo();
             var position = player.Position;
             var vision = player.Vision;
 
@@ -78,30 +78,14 @@ namespace MazeEscape.WebAPI.Main
 
         public MazeCreated CreateMaze(CreateParams createParams)
         {
-            var validator =
-                _mazeInputValidators.FirstOrDefault(x => x.GetType() == _creatorMap[createParams.CreateMode]);
+            var validator = _mazeInputValidators.FirstOrDefault(x => x.GetType() == _creatorMap[createParams.CreateMode]);
 
             if (validator == null)
                 throw new ArgumentException("maze input validator not found");
 
             validator.Validate(createParams);
 
-            Driver.DTO.MazeCreated? created = null;
-
-            if (createParams.CreateMode == CreateMode.Custom)
-            {
-                created = _mazeCreator.CreateCustomMaze(createParams.Custom.MazeText);
-            }
-
-            if (createParams.CreateMode == CreateMode.Preset)
-            {
-                created = _mazeCreator.CreatePresetMaze(createParams.Preset.PresetName);
-            }
-
-            if (createParams.CreateMode == CreateMode.Random)
-            {
-                created = _mazeCreator.CreateRandomMaze((int)createParams.Random.Width, (int)createParams.Random.Height);
-            }
+            Driver.DTO.MazeCreated? created = Create(createParams);
 
             if (created == null)
                 throw new ArgumentException("maze creation failed");
@@ -113,6 +97,30 @@ namespace MazeEscape.WebAPI.Main
                 Height = created.Height
             };
 
+        }
+
+        private Driver.DTO.MazeCreated? Create(CreateParams createParams)
+        {
+            var mazeCreator = _mazeDriver.InitMazeCreator();
+
+            Driver.DTO.MazeCreated? created = null;
+
+            if (createParams.CreateMode == CreateMode.Custom)
+            {
+                created = mazeCreator.CreateCustomMaze(createParams.Custom.MazeText);
+            }
+
+            if (createParams.CreateMode == CreateMode.Preset)
+            {
+                created = mazeCreator.CreatePresetMaze(createParams.Preset.PresetName);
+            }
+
+            if (createParams.CreateMode == CreateMode.Random)
+            {
+                created = mazeCreator.CreateRandomMaze((int)createParams.Random.Width, (int)createParams.Random.Height);
+            }
+
+            return created;
         }
     }
 }

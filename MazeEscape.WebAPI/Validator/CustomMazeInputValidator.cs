@@ -9,6 +9,7 @@ public class CustomMazeInputValidator : IMazeInputValidator
     private const char Corridor = ' ';
     private const char Start = 'S';
     private const char Exit = 'E';
+
     public void Validate(CreateParams createParams)
     {
         var mazeText = createParams.Custom?.MazeText;

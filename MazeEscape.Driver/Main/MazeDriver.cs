@@ -1,5 +1,11 @@
 ﻿using MazeEscape.Driver.DTO;
 using MazeEscape.Driver.Interfaces;
+using MazeEscape.Encoder.Interfaces;
+using MazeEscape.Encoder;
+using MazeEscape.Engine.Interfaces;
+using MazeEscape.Engine;
+using MazeEscape.Generator.Interfaces;
+using MazeEscape.Generator.Main;
 
 namespace MazeEscape.Driver.Main;
 
@@ -14,11 +20,27 @@ public class MazeDriver : IMazeDriver
     }
     public IMazeOperator InitMazeOperator()
     {
-        return Bootstrapper.GetMazeOperator(_config);
+        IMazeEncoder mazeEncoder = new MazeEncoder();
+        IMazeConverter mazeConverter = new MazeConverter();
+
+        IPlayerNavigator playerNavigator = new PlayerNavigator();
+        IMazeEngine mazeEngine = new MazeEngine(mazeConverter, playerNavigator);
+
+        IMazeOperator mazeOperator = new MazeOperator(mazeEngine, mazeConverter, mazeEncoder, _config);
+
+        return mazeOperator;
     }
 
     public IMazeCreator InitMazeCreator()
     {
-        return Bootstrapper.GetMazeCreator(_config);
+        IMazeGenerator mazeGenerator = new MazeGenerator();
+        IMazeEncoder mazeEncoder = new MazeEncoder();
+        IMazeConverter mazeConverter = new MazeConverter();
+
+        IPresetFileManager presetFileManager = new PresetFileManager(_config.FullPresetsPath);
+
+        IMazeCreator mazeCreator = new MazeCreator(mazeGenerator, mazeEncoder, mazeConverter, presetFileManager, _config);
+
+        return mazeCreator;
     }
 }
