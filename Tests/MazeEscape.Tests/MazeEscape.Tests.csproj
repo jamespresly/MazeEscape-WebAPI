@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -19,10 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MazeEscape.Encoder\MazeEscape.Encoder.csproj" />
-    <ProjectReference Include="..\MazeEscape.Engine\MazeEscape.Engine.csproj" />
-    <ProjectReference Include="..\MazeEscape.Generator\MazeEscape.Generator.csproj" />
-    <ProjectReference Include="..\MazeEscape.Model\MazeEscape.Model.csproj" />
+    <ProjectReference Include="..\..\Libs\MazeEscape.Encoder\MazeEscape.Encoder.csproj" />
+    <ProjectReference Include="..\..\Libs\MazeEscape.Engine\MazeEscape.Engine.csproj" />
+    <ProjectReference Include="..\..\Libs\MazeEscape.Generator\MazeEscape.Generator.csproj" />
   </ItemGroup>
 
 </Project>

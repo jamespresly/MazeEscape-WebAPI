@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MazeEscape.Engine\MazeEscape.Engine.csproj" />
-    <ProjectReference Include="..\MazeEscape.Generator\MazeEscape.Generator.csproj" />
+    <ProjectReference Include="..\..\Libs\MazeEscape.Engine\MazeEscape.Engine.csproj" />
+    <ProjectReference Include="..\..\Libs\MazeEscape.Generator\MazeEscape.Generator.csproj" />
   </ItemGroup>
 
 </Project>
