@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MazeEscape.Engine\MazeEscape.Engine.csproj" />
-    <ProjectReference Include="..\MazeEscape.Model\MazeEscape.Model.csproj" />
   </ItemGroup>
 
 </Project>

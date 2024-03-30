@@ -1,5 +1,4 @@
-﻿using MazeEscape.Generator.Interfaces;
-using MazeEscape.WebAPI.DTO;
+﻿using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Interfaces;
 
 namespace MazeEscape.WebAPI.Validator;

@@ -1,11 +1,14 @@
-﻿using MazeEscape.Model.Constants;
-using MazeEscape.WebAPI.DTO;
+﻿using MazeEscape.WebAPI.DTO;
 using MazeEscape.WebAPI.Interfaces;
 
 namespace MazeEscape.WebAPI.Validator;
 
 public class CustomMazeInputValidator : IMazeInputValidator
 {
+    private const char Wall = '+';
+    private const char Corridor = ' ';
+    private const char Start = 'S';
+    private const char Exit = 'E';
     public void Validate(CreateParams createParams)
     {
         var mazeText = createParams.Custom?.MazeText;
@@ -13,8 +16,8 @@ public class CustomMazeInputValidator : IMazeInputValidator
         if (string.IsNullOrEmpty(mazeText))
             throw new ArgumentException("mazeText is required");
 
-        var allowedChars = new char[] { MazeChars.Wall, MazeChars.Corridor, MazeChars.PlayerStart, MazeChars.Exit, '\n' };
 
+        var allowedChars = new char[] { Wall, Corridor, Start, Exit, '\n' };
 
         var chars = mazeText.ToCharArray();
 
@@ -23,12 +26,12 @@ public class CustomMazeInputValidator : IMazeInputValidator
             if (!allowedChars.Contains(c))
             {
                 throw new ArgumentException("mazeText format is incorrect. "
-                                            + $"Must contain only '{MazeChars.Wall}' for walls, '{MazeChars.Corridor}' for corridor, '{MazeChars.PlayerStart}' for start point, '{MazeChars.Exit}' for end point and '\\n' only."
+                                            + $"Must contain only '{Wall}' for walls, '{Corridor}' for corridor, '{Start}' for start point, '{Exit}' for end point and '\\n' only."
                                             + $" e.g. "
-                                            + $"\n{MazeChars.Wall}{MazeChars.Exit}{MazeChars.Wall}"
-                                            + $"\n{MazeChars.Wall}{MazeChars.Corridor}{MazeChars.Wall}"
-                                            + $"\n{MazeChars.Wall}{MazeChars.PlayerStart}{MazeChars.Wall}"
-                                            + $"\n{MazeChars.Wall}{MazeChars.Wall}{MazeChars.Wall}");
+                                            + $"\n{Wall}{Exit}{Wall}"
+                                            + $"\n{Wall}{Corridor}{Wall}"
+                                            + $"\n{Wall}{Start}{Wall}"
+                                            + $"\n{Wall}{Wall}{Wall}");
             }
         }
 

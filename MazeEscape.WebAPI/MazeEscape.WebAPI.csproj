@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MazeEscape.Driver\MazeEscape.Driver.csproj" />
-    <ProjectReference Include="..\MazeEscape.Model\MazeEscape.Model.csproj" />
   </ItemGroup>
 
 </Project>
