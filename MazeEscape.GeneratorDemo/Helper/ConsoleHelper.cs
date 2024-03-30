@@ -1,26 +1,28 @@
 ﻿namespace MazeEscape.GeneratorDemo.Helper
 {
-    internal static class ConsoleHelper
+    internal class ConsoleHelper
     {
-        internal static void WriteFirstFrame(ConsoleColor backgroundColour, ConsoleColor borderColour, string first)
+        public void InitialiseConsole(ConsoleColor backgroundColour, ConsoleColor borderColour)
         {
-            Console.Clear();
             Console.BackgroundColor = backgroundColour;
             Console.ForegroundColor = borderColour;
-            Console.WriteLine(first);
-        }
-        internal static void PromptIfNotContinousMode(bool continuousMode)
-        {
-            if (!continuousMode)
-            {
-                var lastRow = Console.WindowHeight - 2;
-                Console.SetCursorPosition(0, lastRow);
-                Console.WriteLine("press any key to continue...");
-                Console.ReadKey();
-            }
         }
 
-        internal static void WriteDiffsToConsole(List<string> allStrings, int delay, ConsoleColor color = ConsoleColor.White)
+        internal void WriteFirstFrame(string first)
+        {
+            Console.Clear();
+            Console.WriteLine(first);
+        }
+
+        internal void PromptUser()
+        {
+            var lastRow = Console.WindowHeight - 2;
+            Console.SetCursorPosition(0, lastRow);
+            Console.WriteLine("press any key to continue...");
+            Console.ReadKey();
+        }
+
+        internal void WriteDiffsToConsole(List<string> allStrings, int delay, ConsoleColor color = ConsoleColor.White)
         {
             Console.CursorVisible = false;
             Console.ForegroundColor = color;

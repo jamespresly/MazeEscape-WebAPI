@@ -1,13 +1,22 @@
-﻿using MazeEscape.Engine;
-using MazeEscape.Model.Domain;
-using MazeEscape.Tests.Helper;
-using MazeEscape.Generator.Main;
+﻿using MazeEscape.Generator.Main;
 using MazeEscape.GeneratorDemo.Helper;
 
 namespace MazeEscape.GeneratorDemo
 {
     internal class Program
     {
+        private readonly DemoHelper _dh;
+
+        public Program()
+        {
+            var generator = new MazeGenerator();
+            var treeHelper = new TreeHelper();
+            var formattingHelper = new FormattingHelper();
+            var consoleHelper = new ConsoleHelper();
+
+            _dh = new DemoHelper(generator, treeHelper, formattingHelper, consoleHelper);
+        }
+
         static void Main(string[] args)
         {
             var p = new Program();
@@ -16,10 +25,10 @@ namespace MazeEscape.GeneratorDemo
 
         private void Run()
         {
-            var width = 30;
-            var height = 30;
+            var width = 50;
+            var height = 50;
 
-            var continuousMode = false;
+            var continuousMode = true;
             var iterations = 500;
 
             var backgroundColour = ConsoleColor.Black;
@@ -27,163 +36,61 @@ namespace MazeEscape.GeneratorDemo
             var mazeColour = ConsoleColor.White;
 
             var escapeRouteColour = ConsoleColor.DarkGreen;
-            var pathDfsColour = ConsoleColor.DarkGreen;
-            var pathBfsColour = ConsoleColor.Blue;
+            var BfsColour = ConsoleColor.Blue;
+            var DfsBranchesColour = ConsoleColor.DarkGreen;
+            var DfsLeavesColour = ConsoleColor.DarkRed;
 
             var plotMazeBuild = true;
             var plotEscapeRoute = true;
 
-            var plotBfsRoute = false;
-            var plotDfsRoute = false;
+            var plotBfsRoute = true;
+            var plotDfsRoute = true;
 
 
             Console.WriteLine("press any key to start...");
             Console.ReadKey();
 
-            var generator = new MazeGenerator();
-
+            _dh.InitialiseConsole(backgroundColour, borderColour);
+            
             for (var i = 0; i < iterations; i++)
             {
-                var steps = generator.GenerateRandomWithDebugSteps(width, height);
-                var formatted = FormatMazeSteps(steps);
-                var lastFrame = steps.Last();
+                var formattedMazeSteps = _dh.GetMazeBuildSteps(width, height);
+                
+                var border = formattedMazeSteps.First();
+                var completedMaze = formattedMazeSteps.Last();
 
-                ConsoleHelper.WriteFirstFrame(backgroundColour, borderColour, formatted.First());
+                _dh.PlotBorderAndBackground(border);
 
                 if (plotMazeBuild)
                 {
-                    ConsoleHelper.WriteDiffsToConsole(formatted, 1, mazeColour);
-                }
-                else
-                {
-                    ConsoleHelper.WriteDiffsToConsole(new List<string>() { formatted.First(), lastFrame }, 1, mazeColour);
+                    _dh.PlotMazeBuild(formattedMazeSteps, mazeColour);
                 }
 
-                Thread.Sleep(500);
-
-                ConsoleHelper.PromptIfNotContinousMode(continuousMode);
+                _dh.PromptIfNotContinuousMode(continuousMode, 500);
 
                 if (plotBfsRoute)
                 {
-                    PlotPathsBFS(lastFrame, pathBfsColour);
+                    _dh.ResetConsole(border, completedMaze, mazeColour);
+
+                    _dh.PlotPathsBreadthFirst(completedMaze, BfsColour);
                 }
 
                 if (plotDfsRoute)
                 {
-                    PlotPathsDFS(lastFrame, pathDfsColour);
+                    _dh.ResetConsole(border, completedMaze, mazeColour);
+
+                    _dh.PlotPathsDepthFirst(completedMaze, DfsBranchesColour, DfsLeavesColour);
                 }
 
                 if (plotEscapeRoute)
                 {
-                    PlotExitRoute(lastFrame, escapeRouteColour);
+                    _dh.ResetConsole(border, completedMaze, mazeColour);
+
+                    _dh.PlotExitRoute(completedMaze, escapeRouteColour);
                 }
 
-
-                Thread.Sleep(1000);
-
-                ConsoleHelper.PromptIfNotContinousMode(continuousMode);
+                _dh.PromptIfNotContinuousMode(continuousMode, 1000);
             }
-        }
-
-        private static void PlotExitRoute(string lastFrame, ConsoleColor pathColour)
-        {
-            var pathTreeBuilder = new PathTreeBuilder();
-            var mazeConverter = new MazeConverter();
-
-            var maze = mazeConverter.Parse(lastFrame);
-
-            var tree = pathTreeBuilder.BuildTree(maze);
-            var paths = tree.GetPaths(tree).ToList();
-
-            var mazeText = mazeConverter.ToText(maze);
-
-            paths = paths.Where(p => p[^1].IsExit).ToList();
-
-
-            var pathPlots = new List<List<string>>();
-
-            var squares = new List<MazeSquare>();
-
-            foreach (var path in paths)
-            {
-                var pathPlot = new List<string>();
-
-
-                for (var i = 0; i < path.Count; i++)
-                {
-                    squares.Add(path[i]);
-
-                    var pathFormatted = pathTreeBuilder.GetPathString(mazeText, squares);
-                    pathFormatted = pathFormatted.Replace("#", "█");
-
-                    pathPlot.Add(pathFormatted);
-                }
-
-                pathPlots.Add(pathPlot);
-            }
-
-            foreach (var pathPlot in pathPlots)
-            {
-                //ConsoleHelper.WriteDiffsToConsole(new List<string>() { lastFrame, pathPlots[0] }, 20, ConsoleColor.DarkGreen);
-                ConsoleHelper.WriteDiffsToConsole(pathPlot, 5, pathColour);
-            }
-
-      
-
-
-        }
-        private static void PlotPathsBFS(string lastFrame, ConsoleColor pathColour)
-        {
-            var pathPlots = TreeHelper.GetPathsBFS(lastFrame);
-
-            ConsoleHelper.WriteDiffsToConsole(new List<string>() { lastFrame, pathPlots[0] }, 20, ConsoleColor.DarkGreen);
-
-            ConsoleHelper.WriteDiffsToConsole(pathPlots, 5, pathColour);
-        }
-
-        private static void PlotPathsDFS(string lastFrame,ConsoleColor pathColour)
-        {
-            var pathPlots = TreeHelper.GetPathsDFS(lastFrame);
-
-            int count = 0;
-
-            string last = lastFrame;
-
-            foreach (var pathPlot in pathPlots)
-            {
-                if (count > 0)
-                    ConsoleHelper.WriteDiffsToConsole(new List<string>() { lastFrame, pathPlot[0] }, 1, ConsoleColor.DarkRed);
-                else
-                {
-                    ConsoleHelper.WriteDiffsToConsole(new List<string>() { last, pathPlot[0] }, 1, ConsoleColor.DarkGreen);
-                }
-
-                //pathPlot.Insert(0, lastFrame);
-                //pathPlot.Insert(0, pathPlot[0]);
-
-                last = pathPlot.Last();
-
-
-                //pathPlot.Add(lastFrame);
-                //pathPlot.Add(pathPlot[0]);
-
-                ConsoleHelper.WriteDiffsToConsole(pathPlot, 1, pathColour);
-
-                count++;
-
-            }
-        }
-
-        private static List<string> FormatMazeSteps(List<string> steps)
-        {
-            for (var j = 0; j < steps.Count; j++)
-            {
-                steps[j] = steps[j].Replace("X", "█")
-                                   .Replace("+", "█")
-                                   .Replace("=", "-");
-            }
-
-            return steps;
         }
 
     }

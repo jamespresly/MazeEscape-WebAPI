@@ -9,22 +9,19 @@ namespace MazeEscape.Engine
     public class PlayerNavigator : IPlayerNavigator
     {
 
-        private readonly Dictionary<Orientation, Offset> _orientationOffsetMap =
-            new()
-            {
-                { Orientation.North, new Offset(0, -1) },
-                { Orientation.East, new Offset(1, 0) },
-                { Orientation.South, new Offset(0, 1) },
-                { Orientation.West, new Offset(-1, 0) },
-            };
-
-
+        private readonly Dictionary<Orientation, Offset> _orientationOffsetMap = new()
+        {
+            { Orientation.North, new Offset(0, -1) },
+            { Orientation.East, new Offset(1, 0) },
+            { Orientation.South, new Offset(0, 1) },
+            { Orientation.West, new Offset(-1, 0) },
+        };
 
         public string Move(PlayerMove move, Maze maze)
         {
             var player = maze.Player;
 
-            if (move == PlayerMove.Forward)
+            if(move == PlayerMove.Forward)
             {
                 var vision = GetVision(maze);
 
@@ -77,7 +74,6 @@ namespace MazeEscape.Engine
         }
         private Location GetNextLocation(Location location, Orientation inDirection)
         {
-
             var offset = _orientationOffsetMap[inDirection];
 
             var xOffset = offset.X;

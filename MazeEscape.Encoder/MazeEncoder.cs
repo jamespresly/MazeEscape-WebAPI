@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using MazeEscape.Encoder.Helper;
 using MazeEscape.Encoder.Interfaces;
+using MazeEscape.Model.Constants;
 
 namespace MazeEscape.Encoder
 {
@@ -9,16 +10,19 @@ namespace MazeEscape.Encoder
 
         private readonly Dictionary<char, int> _charMap = new()
         {
-            { '+', 0},
-            { ' ', 1},
-            { '\n', 2},
-            { 'E',4},
-            { 'S',5},
-            { '▲', 6},
-            { '►', 7},
-            { '▼', 8},
-            { '◄', 9},
+            { MazeChars.Wall, 0},
+            { MazeChars.Corridor , 1},
+            { MazeChars.LineSeparator, 2},
+            { MazeChars.Exit,4},
+            { MazeChars.PlayerStart,5},
+
+            { MazeChars.UpArrow , 6},
+            { MazeChars.RightArrow, 7},
+            { MazeChars.DownArrow , 8},
+            { MazeChars.LeftArrow, 9},
         };
+
+ 
 
         public string MazeEncode(string mazeString, string encryptionKey)
         {

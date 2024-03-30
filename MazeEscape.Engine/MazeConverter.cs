@@ -12,10 +12,10 @@ public class MazeConverter : IMazeConverter
 
     private readonly Dictionary<Orientation, char> _arrowMap = new()
     {
-        { Orientation.North, '▲' },
-        { Orientation.East, '►' },
-        { Orientation.South, '▼' },
-        { Orientation.West, '◄' },
+        { Orientation.North,MazeChars.UpArrow },
+        { Orientation.East, MazeChars.RightArrow },
+        { Orientation.South,MazeChars.DownArrow },
+        { Orientation.West, MazeChars.LeftArrow},
     };
 
     private readonly Dictionary<SquareType, char> _squareMap = new()
@@ -31,16 +31,15 @@ public class MazeConverter : IMazeConverter
         { MazeChars.Corridor, SquareType.Corridor},
         { MazeChars.Exit, SquareType.Exit },
         { MazeChars.PlayerStart, SquareType.Corridor},
-        { '▲', SquareType.Corridor},
-        { '►', SquareType.Corridor},
-        { '▼', SquareType.Corridor},
-        { '◄', SquareType.Corridor},
-        
+        { MazeChars.UpArrow , SquareType.Corridor},
+        { MazeChars.RightArrow, SquareType.Corridor},
+        { MazeChars.DownArrow , SquareType.Corridor},
+        { MazeChars.LeftArrow, SquareType.Corridor},
     };
 
     private readonly List<char> _playerArrows = new()
     {
-        '▲', '►', '▼', '◄'
+        MazeChars.UpArrow, MazeChars.RightArrow, MazeChars.DownArrow, MazeChars.LeftArrow
     };
 
 

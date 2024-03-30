@@ -88,14 +88,15 @@ public class MazeGenerator : IMazeGenerator
 
                 if (surround.CanMoveForward)
                 {
-
-                    var direction = GetDirection(vector, mazeChars, moveForwardCount, surround);
-                    if (vector.Direction != direction)
+                    if (moveForwardCount % 2 == 0)
                     {
-                        vector.Direction = direction;
-                        moveForwardCount = 0;
+                        var direction = GetDirection(vector, mazeChars, moveForwardCount, surround);
+                        if (vector.Direction != direction)
+                        {
+                            vector.Direction = direction;
+                            moveForwardCount = 0;
+                        }
                     }
-
 
                     vector = _navigator.MoveInDirection(vector);
                     _mazeWriter.CreateWallsAtSides(vector);
@@ -160,26 +161,24 @@ public class MazeGenerator : IMazeGenerator
 
     private Direction GetDirection(Vector vector, char[][] mazeChars, int moveForwardCount, Surround surround)
     {
-        if (moveForwardCount % 2 == 0)
+        
+        if (surround.LeftView.IsDoubleWallBlockAhead)
         {
-            if (surround.LeftView.IsDoubleWallBlockAhead)
-            {
-                vector.Direction = surround.LeftView.Direction;
-            }
-
-            if (surround.RightView.IsDoubleWallBlockAhead)
-            {
-                vector.Direction = surround.RightView.Direction;
-            }
-
-            if (surround.LeftView.IsDoubleWallBlockAhead && surround.RightView.IsDoubleWallBlockAhead)
-            {
-                var random = RandomNumberGenerator.GetInt32(2);
-
-                vector.Direction = random == 0 ? surround.LeftView.Direction : surround.RightView.Direction;
-            }
+            vector.Direction = surround.LeftView.Direction;
         }
 
+        if (surround.RightView.IsDoubleWallBlockAhead)
+        {
+            vector.Direction = surround.RightView.Direction;
+        }
+
+        if (surround.LeftView.IsDoubleWallBlockAhead && surround.RightView.IsDoubleWallBlockAhead)
+        {
+            var random = RandomNumberGenerator.GetInt32(2);
+
+            vector.Direction = random == 0 ? surround.LeftView.Direction : surround.RightView.Direction;
+        }
+        
         return vector.Direction;
     }
 
@@ -187,7 +186,7 @@ public class MazeGenerator : IMazeGenerator
     {
         var cantProcess = new List<Coordinate>();
 
-        bool processedAnEdgeCase = false;
+        var processedAnEdgeCase = false;
 
         while (cantProcess.Count != _sharedState.Unvisited.Count)
         {

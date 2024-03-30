@@ -1,7 +1,7 @@
 ﻿using MazeEscape.Model.Domain;
 using MazeEscape.Model.Enums;
 
-namespace MazeEscape.Tests.Helper
+namespace MazeEscape.GeneratorDemo.Tree
 {
     internal class PathTreeBuilder
     {
@@ -70,14 +70,10 @@ namespace MazeEscape.Tests.Helper
                         if (mazeSquare.IsExit)
                         {
                             corridor.MarkAsExitPath();
-                            //break; // todo
                         }
 
                         corridorCount++;
-
                         corridorNodes.Add(corridor);
-
-                        
                     }
                 }
             }
@@ -116,7 +112,5 @@ namespace MazeEscape.Tests.Helper
             return surrounding;
         }
 
-
-       
     }
 }

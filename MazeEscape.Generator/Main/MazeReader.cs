@@ -62,7 +62,7 @@ namespace MazeEscape.Generator.Main
         internal Direction GetNewDirection(Surround surround)
         {
             if (!surround.CanMove)
-                throw new ArgumentException("no vector.Directions available");
+                throw new ArgumentException("no directions available");
 
             if (surround.CanMoveLeft && surround.CanMoveRight)
             {

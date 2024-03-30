@@ -1,6 +1,6 @@
 using MazeEscape.Model.Domain;
 
-namespace MazeEscape.Tests.Helper;
+namespace MazeEscape.GeneratorDemo.Tree;
 
 public class MazeNode
 {

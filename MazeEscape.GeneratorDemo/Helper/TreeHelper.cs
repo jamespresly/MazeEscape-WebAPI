@@ -1,135 +1,127 @@
 ﻿using MazeEscape.Engine;
+using MazeEscape.GeneratorDemo.Tree;
 using MazeEscape.Model.Domain;
-using MazeEscape.Tests.Helper;
 
 namespace MazeEscape.GeneratorDemo.Helper
 {
     internal class TreeHelper
     {
-        internal static List<string> GetPathsBFS(string mazeString, bool toExit = false)
+        private readonly PathTreeBuilder _pathTreeBuilder = new PathTreeBuilder();
+        private readonly MazeConverter _mazeConverter = new MazeConverter();
+
+        private string _mazeText;
+        private List<List<MazeSquare>> _paths;
+
+        private void BuildTree(string mazeString)
         {
-            var pathTreeBuilder = new PathTreeBuilder();
-            var mazeConverter = new MazeConverter();
+            var maze = _mazeConverter.Parse(mazeString);
+            var tree = _pathTreeBuilder.BuildTree(maze);
 
-            var maze = mazeConverter.Parse(mazeString);
-
-            var tree = pathTreeBuilder.BuildTree(maze);
-            var paths = tree.GetPaths(tree).ToList();
-
-            var mazeText = mazeConverter.ToText(maze);
-
-            if (toExit)
-            {
-                paths = paths.Where(p => p[^1].IsExit).ToList();
-            }
-
-
-            var squares = new List<MazeSquare>();
-            var max = paths.Max(c => c.Count);
-            var full = new List<string>();
-
-            for (var i = 0; i < max; i++)
-            {
-
-                var x = paths.Where(c => i < c.Count)
-                                .Select(x => x.ElementAt(i))
-                                .Distinct().ToList();
-
-                squares.AddRange(x);
-
-                var pathFormatted = pathTreeBuilder.GetPathString(mazeText, squares);
-                pathFormatted = pathFormatted.Replace("#", "█");
-
-                full.Add(pathFormatted);
-            }
-
-
-            return full;
+            _paths = tree.GetPaths(tree).ToList();
+            _mazeText = _mazeConverter.ToText(maze);
         }
 
-        internal static List<List<string>> GetPathsDFS(string mazeString, bool toExit = false)
+        internal List<string> GetBreadthFirstSearchPlot(string mazeString)
         {
-            var pathTreeBuilder = new PathTreeBuilder();
-            var mazeConverter = new MazeConverter();
+            BuildTree(mazeString);
 
-            var maze = mazeConverter.Parse(mazeString);
+            var longestPathSize = _paths.Max(c => c.Count);
 
-            var tree = pathTreeBuilder.BuildTree(maze);
-            var paths = tree.GetPaths(tree);
+            var currentPath = new List<MazeSquare>();
+            var plot = new List<string>();
 
-            var mazeText = mazeConverter.ToText(maze);
-
-            if (toExit)
+            for (var i = 0; i < longestPathSize; i++)
             {
-                paths = paths.Where(p => p[^1].IsExit).ToList();
+                var allUnique = _paths.Where(c => i < c.Count)
+                                      .Select(x => x.ElementAt(i))
+                                      .Distinct()
+                                      .ToList();
+
+                currentPath.AddRange(allUnique);
+                var pathFormatted = _pathTreeBuilder.GetPathString(_mazeText, currentPath);
+                plot.Add(pathFormatted);
             }
 
-            var pathPlots = new List<List<string>>();
+            return plot;
+        }
 
+        internal List<List<string>> GetDepthFirstSearchPlots(string mazeString)
+        {
+            BuildTree(mazeString);
 
-            var squares = new List<MazeSquare>();
+            var currentPath = new List<MazeSquare>();
+            var plots = new List<List<string>>();
 
-            foreach (var path in paths)
+            foreach (var path in _paths)
             {
-                var pathPlot = new List<string>();
-
+                var plot = new List<string>();
 
                 for (var i = 0; i < path.Count; i++)
                 {
-                    var mazeSquare = path[i];
+                    var squareToAdd = path[i];
 
-                    if (squares.Count < i + 1)
+                    var add = false;
+
+                    if (currentPath.Count < i + 1)
                     {
-                        squares.Add(mazeSquare);
+                        add = true;
+                    }
+                    else if (currentPath[i] != squareToAdd)
+                    {
+                        currentPath.RemoveRange(i, currentPath.Count - i);
 
-                        var pathFormatted = pathTreeBuilder.GetPathString(mazeText, squares);
-                        pathFormatted = pathFormatted.Replace("#", "█");
+                        var plotFrame = _pathTreeBuilder.GetPathString(_mazeText, currentPath);
+                        plot.Add(plotFrame);
 
-                        pathPlot.Add(pathFormatted);
+                        add = true;
+                    }
+                    else
+                    {
+                        // square is already added in the right place
                     }
 
-                    else if (squares[i] != mazeSquare)
+                    if (add)
                     {
-                        if (i == 0)
-                        {
-                            squares = new List<MazeSquare>();
-                            squares.Add(mazeSquare);
-
-                            var pathFormatted = pathTreeBuilder.GetPathString(mazeText, squares);
-                            pathFormatted = pathFormatted.Replace("#", "█");
-
-                            pathPlot.Add(pathFormatted);
-                        }
-                        else
-                        {
-                            squares.RemoveRange(i, squares.Count - i);
-
-                            var pathFormatted = pathTreeBuilder.GetPathString(mazeText, squares);
-                            pathFormatted = pathFormatted.Replace("#", "█");
-
-                            pathPlot.Add(pathFormatted);
-
-
-                            squares.Add(mazeSquare);
-
-                            pathFormatted = pathTreeBuilder.GetPathString(mazeText, squares);
-                            pathFormatted = pathFormatted.Replace("#", "█");
-
-                            pathPlot.Add(pathFormatted);
-                        }
-
-
+                        currentPath.Add(squareToAdd);
+                        var plotFrame = _pathTreeBuilder.GetPathString(_mazeText, currentPath);
+                        plot.Add(plotFrame);
                     }
-
-
-
-
                 }
 
-                pathPlots.Add(pathPlot);
+                plots.Add(plot);
             }
 
-            return pathPlots;
+            return plots;
         }
+
+        internal List<List<string>> GetExitPathsPlots(string mazeString)
+        {
+            var plots = new List<List<string>>();
+
+            BuildTree(mazeString);
+
+            _paths = _paths.Where(p => p[^1].IsExit).ToList();
+
+            var currentPath = new List<MazeSquare>();
+
+            foreach (var path in _paths)
+            {
+                var plot = new List<string>();
+
+                for (var i = 0; i < path.Count; i++)
+                {
+                    var squareToAdd = path[i];
+                    currentPath.Add(squareToAdd);
+
+                    var plotFrame = _pathTreeBuilder.GetPathString(_mazeText, currentPath);
+                    plot.Add(plotFrame);
+                }
+
+                plots.Add(plot);
+            }
+
+            return plots;
+        }
+
     }
 }
