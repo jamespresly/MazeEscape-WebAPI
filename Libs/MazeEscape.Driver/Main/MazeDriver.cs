@@ -6,6 +6,7 @@ using MazeEscape.Engine.Interfaces;
 using MazeEscape.Engine;
 using MazeEscape.Generator.Interfaces;
 using MazeEscape.Generator.Main;
+using MazeEscape.Generator.Strategies;
 
 namespace MazeEscape.Driver.Main;
 
@@ -33,7 +34,8 @@ public class MazeDriver : IMazeDriver
 
     public IMazeCreator InitMazeCreator()
     {
-        IMazeGenerator mazeGenerator = new MazeGenerator();
+        IGeneratorStrategyBuilder generatorStrategyBuilder = new GeneratorStrategyBuilder();
+        IMazeGenerator mazeGenerator = new MazeGenerator(generatorStrategyBuilder);
         IMazeEncoder mazeEncoder = new MazeEncoder();
         IMazeConverter mazeConverter = new MazeConverter();
 

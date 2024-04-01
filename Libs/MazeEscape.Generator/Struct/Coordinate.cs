@@ -1,6 +1,6 @@
 ﻿namespace MazeEscape.Generator.Struct;
 
-internal struct Coordinate
+public struct Coordinate
 {
     public Coordinate(int x, int y)
     {

@@ -19,7 +19,9 @@ namespace MazeEscape.GeneratorDemo.Helper
 
         public List<string> GetMazeBuildSteps(int width, int height)
         {
-            var steps = _mazeGenerator.GenerateRandomWithDebugSteps(width, height);
+            var final = _mazeGenerator.GenerateRandom(width, height);
+            var steps = _mazeGenerator.Steps;
+            steps.Add(final);
             var formattedMazeSteps = _formattingHelper.FormatMazeStepsForConsole(steps);
 
             return formattedMazeSteps;

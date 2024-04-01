@@ -1,6 +1,6 @@
 ﻿namespace MazeEscape.Generator.Reference
 {
-    internal class Consts
+    internal class GeneratorConsts
     {
 
         internal const char UnvisitedChar = '=';

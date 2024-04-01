@@ -4,7 +4,7 @@ using MazeEscape.Model.Struct;
 
 namespace MazeEscape.Generator.Reference;
 
-internal class Maps
+internal class GeneratorMaps
 {
     internal static readonly Dictionary<Direction, Offset> DirectionMap = new()
     {
@@ -14,11 +14,11 @@ internal class Maps
         { Direction.Left, new Offset(-1, 0) },
     };
 
-    internal static readonly Dictionary<Direction, Side> SidesMap = new()
+    internal static readonly Dictionary<Direction, Sides> SidesMap = new()
     {
-        { Direction.Up, new Side(Direction.Left, Direction.Right)},
-        { Direction.Right, new Side(Direction.Up,Direction.Down)},
-        { Direction.Down, new Side(Direction.Right,Direction.Left)},
-        { Direction.Left, new Side(Direction.Down,Direction.Up)},
+        { Direction.Up, new Sides(Direction.Left, Direction.Right)},
+        { Direction.Right, new Sides(Direction.Up,Direction.Down)},
+        { Direction.Down, new Sides(Direction.Right,Direction.Left)},
+        { Direction.Left, new Sides(Direction.Down,Direction.Up)},
     };
 }

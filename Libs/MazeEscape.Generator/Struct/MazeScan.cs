@@ -2,17 +2,17 @@
 
 namespace MazeEscape.Generator.Struct;
 
-struct Surround
+struct MazeScan
 {
     public Coordinate Position { get; set; }
     public Direction Direction { get; set; }
 
-    public View ForwardView { get; set; }
-    public View LeftView { get; set; }
-    public View RightView { get; set; }
-    public View Back { get; set; }
+    public MazeView ForwardView { get; set; }
+    public MazeView LeftView { get; set; }
+    public MazeView RightView { get; set; }
+    public MazeView Back { get; set; }
 
-    public List<View> Views => new List<View>(){ ForwardView, RightView, Back, LeftView};
+    public List<MazeView> Views => new List<MazeView>(){ ForwardView, RightView, Back, LeftView};
 
     public bool CanMoveForward { get; set; }
     public bool CanMoveLeft { get; set; }

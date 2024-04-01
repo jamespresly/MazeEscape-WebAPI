@@ -1,4 +1,5 @@
 ﻿using MazeEscape.Generator.Main;
+using MazeEscape.Generator.Strategies;
 using MazeEscape.GeneratorDemo.Helper;
 
 namespace MazeEscape.GeneratorDemo
@@ -9,7 +10,8 @@ namespace MazeEscape.GeneratorDemo
 
         public Program()
         {
-            var generator = new MazeGenerator();
+            var generatorStrategyBuilder = new GeneratorStrategyBuilder(true);
+            var generator = new MazeGenerator(generatorStrategyBuilder);
             var treeHelper = new TreeHelper();
             var formattingHelper = new FormattingHelper();
             var consoleHelper = new ConsoleHelper();
@@ -28,7 +30,7 @@ namespace MazeEscape.GeneratorDemo
             var width = 50;
             var height = 50;
 
-            var continuousMode = true;
+            var continuousMode = false;
             var iterations = 500;
 
             var backgroundColour = ConsoleColor.Black;
@@ -40,18 +42,17 @@ namespace MazeEscape.GeneratorDemo
             var DfsBranchesColour = ConsoleColor.DarkGreen;
             var DfsLeavesColour = ConsoleColor.DarkRed;
 
-            var plotMazeBuild = true;
+            var plotMazeBuildSteps = true;
             var plotEscapeRoute = true;
 
             var plotBfsRoute = true;
-            var plotDfsRoute = true;
+            var plotDfsRoute = false;
 
 
             Console.WriteLine("press any key to start...");
             Console.ReadKey();
 
-            _dh.InitialiseConsole(backgroundColour, borderColour);
-            
+
             for (var i = 0; i < iterations; i++)
             {
                 var formattedMazeSteps = _dh.GetMazeBuildSteps(width, height);
@@ -59,11 +60,17 @@ namespace MazeEscape.GeneratorDemo
                 var border = formattedMazeSteps.First();
                 var completedMaze = formattedMazeSteps.Last();
 
+                _dh.InitialiseConsole(backgroundColour, borderColour);
+
                 _dh.PlotBorderAndBackground(border);
 
-                if (plotMazeBuild)
+                if (plotMazeBuildSteps)
                 {
                     _dh.PlotMazeBuild(formattedMazeSteps, mazeColour);
+                }
+                else
+                {
+                    _dh.ResetConsole(border, completedMaze, mazeColour);
                 }
 
                 _dh.PromptIfNotContinuousMode(continuousMode, 500);
@@ -89,7 +96,8 @@ namespace MazeEscape.GeneratorDemo
                     _dh.PlotExitRoute(completedMaze, escapeRouteColour);
                 }
 
-                _dh.PromptIfNotContinuousMode(continuousMode, 1000);
+                if(plotBfsRoute || plotDfsRoute || plotEscapeRoute)
+                    _dh.PromptIfNotContinuousMode(continuousMode, 1000);
             }
         }
 

@@ -2,9 +2,9 @@
 
 namespace MazeEscape.Generator.Struct;
 
-internal struct Side
+internal struct Sides
 {
-    public Side(Direction left, Direction right)
+    public Sides(Direction left, Direction right)
     {
         Left = left;
         Right = right;

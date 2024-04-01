@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using FluentAssertions;
 using MazeEscape.Engine;
-using MazeEscape.Generator;
 using MazeEscape.Generator.Main;
+using MazeEscape.Generator.Strategies;
+using MazeEscape.Tests.Extensions;
 using MazeEscape.Tests.Helper;
 
 namespace MazeEscape.Tests;
@@ -14,22 +15,23 @@ public class MazeGeneratorTests
     {
     }
 
+
+
     [Test]
     public void CreateSmallRandomTest()
     {
-        var mazeGenerator = new MazeGenerator();
+        var generatorStrategyBuilder = new GeneratorStrategyBuilder();
+        var mazeGenerator = new MazeGenerator(generatorStrategyBuilder);
 
         var stopwatch = new Stopwatch();
         stopwatch.Start();
 
         for (var size = 3; size < 10; size++)
         {
-          
-
             var random = mazeGenerator.GenerateRandom(size, size);
 
             Console.WriteLine("time:" + stopwatch.ElapsedMilliseconds);
-            Console.WriteLine(random);
+            Console.WriteLine(random.FormatForConsole());
 
             random.Should().NotContain("=");
 
@@ -42,7 +44,8 @@ public class MazeGeneratorTests
     [Test]
     public void CreateLargeRandomTest()
     {
-        var mazeGenerator = new MazeGenerator();
+        var strategyBuilder = new GeneratorStrategyBuilder();
+        var mazeGenerator = new MazeGenerator(strategyBuilder);
 
         var stopwatch = new Stopwatch();
         stopwatch.Start();
@@ -51,7 +54,7 @@ public class MazeGeneratorTests
         var random = mazeGenerator.GenerateRandom(size, size);
 
         Console.WriteLine("time:" + stopwatch.ElapsedMilliseconds);
-        Console.WriteLine(random);
+        Console.WriteLine(random.FormatForConsole());
 
         random.Should().NotContain("=");
 
@@ -63,7 +66,8 @@ public class MazeGeneratorTests
     [Test]
     public void CreateNonSquareRandomTest()
     {
-        var mazeGenerator = new MazeGenerator();
+        var strategyBuilder = new GeneratorStrategyBuilder();
+        var mazeGenerator = new MazeGenerator(strategyBuilder);
 
         var stopwatch = new Stopwatch();
         stopwatch.Start();
@@ -71,7 +75,7 @@ public class MazeGeneratorTests
         var random = mazeGenerator.GenerateRandom(30, 20);
 
         Console.WriteLine("time:" + stopwatch.ElapsedMilliseconds);
-        Console.WriteLine(random);
+        Console.WriteLine(random.FormatForConsole());
 
         random.Should().NotContain("=");
 
@@ -85,7 +89,8 @@ public class MazeGeneratorTests
     [Test]
     public void CreateManyRandomsTest()
     {
-        var mazeGenerator = new MazeGenerator();
+        var strategyBuilder = new GeneratorStrategyBuilder();
+        var mazeGenerator = new MazeGenerator(strategyBuilder);
 
         var stopwatch = new Stopwatch();
 
@@ -96,7 +101,7 @@ public class MazeGeneratorTests
             var random = mazeGenerator.GenerateRandom(i, i);
 
             Console.WriteLine("time:" + stopwatch.ElapsedMilliseconds);
-            Console.WriteLine(random);
+            Console.WriteLine(random.FormatForConsole());
 
             random.Should().NotContain("=");
 
@@ -114,14 +119,15 @@ public class MazeGeneratorTests
     {
         var pathTreeBuilder = new PathTreeBuilder();
         var mazeConverter = new MazeConverter();
-
+        var strategyBuilder = new GeneratorStrategyBuilder();
+        var mazeGenerator = new MazeGenerator(strategyBuilder);
 
         var stopwatch = new Stopwatch();
 
 
         for (var size = 10; size < 50; size++)
         {
-            var mazeGenerator = new MazeGenerator();
+            
 
             stopwatch.Start();
 
@@ -130,7 +136,7 @@ public class MazeGeneratorTests
             random.Should().NotContain("=");
 
           
-            Console.WriteLine(random);
+            Console.WriteLine(random.FormatForConsole());
 
             var maze = mazeConverter.Parse(random);
 
@@ -159,7 +165,7 @@ public class MazeGeneratorTests
 
             if (!hasExitPath)
             {
-                Console.WriteLine(random);
+                Console.WriteLine(random.FormatForConsole());
                 Console.WriteLine("no exit path found");
             }
                 
@@ -170,7 +176,9 @@ public class MazeGeneratorTests
     [Test]
     public void PathTest()
     {
-        var mazeGenerator = new MazeGenerator();
+        var strategyBuilder = new GeneratorStrategyBuilder();
+        var mazeGenerator = new MazeGenerator(strategyBuilder);
+
         var random = mazeGenerator.GenerateRandom(50, 50);
 
         random.Should().NotContain("=");
@@ -196,7 +204,7 @@ public class MazeGeneratorTests
 
             if (path[^1].IsExit)
             {
-                Console.WriteLine(pathFormatted);
+                Console.WriteLine(pathFormatted.FormatForConsole());
                 hasExitPath = true;
                 break;
             }

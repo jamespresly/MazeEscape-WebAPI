@@ -2,7 +2,7 @@
 
 namespace MazeEscape.Generator.Struct;
 
-struct View
+struct MazeView
 {
     public Direction Direction { get; set; }
     public LookAhead LookAhead { get; set; }

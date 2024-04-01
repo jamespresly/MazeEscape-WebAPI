@@ -2,7 +2,7 @@
 using MazeEscape.Generator.Struct;
 using MazeEscape.Model.Constants;
 using MazeEscape.Model.Struct;
-using System.Security.Cryptography;
+using MazeEscape.Generator.Helper;
 using MazeEscape.Generator.Reference;
 
 namespace MazeEscape.Generator.Main
@@ -18,9 +18,9 @@ namespace MazeEscape.Generator.Main
         };
 
 
-        internal Surround GetFullSurround(Vector vector, char[][] mazeChars)
+        internal MazeScan GetFullScan(Vector vector, char[][] mazeChars)
         {
-            var surround = GetSurround(vector, mazeChars);
+            var surround = GetScan(vector, mazeChars);
 
             var back = new Vector(vector.Position, _backMap[vector.Direction]);
 
@@ -29,9 +29,9 @@ namespace MazeEscape.Generator.Main
             return surround;
         }
 
-        internal Surround GetSurround(Vector vector, char[][] mazeChars)
+        internal MazeScan GetScan(Vector vector, char[][] mazeChars)
         {
-            var sides = Maps.SidesMap[vector.Direction];
+            var sides = GeneratorMaps.SidesMap[vector.Direction];
 
             var ahead = GetView(vector, mazeChars);
 
@@ -42,7 +42,7 @@ namespace MazeEscape.Generator.Main
             var right = GetView(rightVector, mazeChars);
 
 
-            var surround = new Surround
+            var surround = new MazeScan
             {
                 Position = vector.Position,
                 Direction = ahead.Direction,
@@ -59,39 +59,38 @@ namespace MazeEscape.Generator.Main
             return surround;
         }
 
-        internal Direction GetNewDirection(Surround surround)
+        internal Direction GetNewDirection(MazeScan mazeScan)
         {
-            if (!surround.CanMove)
+            if (!mazeScan.CanMove)
                 throw new ArgumentException("no directions available");
 
-            if (surround.CanMoveLeft && surround.CanMoveRight)
+            if (mazeScan.CanMoveLeft && mazeScan.CanMoveRight)
             {
-                var random = RandomNumberGenerator.GetInt32(2);
+                var random = RandomHelper.GetRandomIntLessThan(2);
 
-                var direction = random == 0 ? surround.LeftView.Direction : surround.RightView.Direction;
+                var direction = random == 0 ? mazeScan.LeftView.Direction : mazeScan.RightView.Direction;
 
                 return direction;
             }
 
-            if (!surround.CanMoveLeft)
-                return surround.RightView.Direction;
+            if (!mazeScan.CanMoveLeft)
+                return mazeScan.RightView.Direction;
 
-            if (!surround.CanMoveRight)
-                return surround.LeftView.Direction;
+            if (!mazeScan.CanMoveRight)
+                return mazeScan.LeftView.Direction;
 
-            throw new Exception("bad direction");
-
+            throw new Exception("no new direction available");
 
         }
 
-        private View GetView(Vector vector, char[][] mazeChars)
+        private MazeView GetView(Vector vector, char[][] mazeChars)
         {
             var lookahead = GetLookAhead(vector, mazeChars);
             var canMoveAhead = CanMoveAhead(lookahead);
             var doubleWall = IsDoubleWallBlockAhead(lookahead);
-            var aheadUnvisited = lookahead.Ahead == Consts.UnvisitedChar;
+            var aheadUnvisited = lookahead.Ahead == GeneratorConsts.UnvisitedChar;
 
-            return new View()
+            return new MazeView()
             {
                 Direction = vector.Direction,
                 LookAhead = lookahead,
@@ -105,7 +104,7 @@ namespace MazeEscape.Generator.Main
 
         private bool CanMoveAhead(LookAhead lookAhead)
         {
-            return lookAhead.Ahead != Consts.BorderChar
+            return lookAhead.Ahead != GeneratorConsts.BorderChar
                    && lookAhead.Ahead != MazeChars.Corridor
                    && lookAhead.Ahead2 != MazeChars.Corridor
                    && lookAhead.AheadLeft != MazeChars.Corridor
@@ -117,7 +116,7 @@ namespace MazeEscape.Generator.Main
         private bool IsDoubleWallBlockAhead(LookAhead lookAhead)
         {
             return lookAhead.Ahead == MazeChars.Wall
-                    && (lookAhead.Ahead2 == MazeChars.Wall || lookAhead.Ahead2 == Consts.BorderChar)
+                    && (lookAhead.Ahead2 == MazeChars.Wall || lookAhead.Ahead2 == GeneratorConsts.BorderChar)
                     && lookAhead.AheadLeft != MazeChars.Corridor
                     && lookAhead.AheadLeft2 != MazeChars.Corridor
                     && lookAhead.AheadRight != MazeChars.Corridor
@@ -125,12 +124,11 @@ namespace MazeEscape.Generator.Main
                 ;
         }
 
-        // todo make private
-        internal LookAhead GetLookAhead(Vector vector, char[][] _mazeChars)
+        private LookAhead GetLookAhead(Vector vector, char[][] _mazeChars)
         {
-            var aheadOffset = Maps.DirectionMap[vector.Direction];
+            var aheadOffset = GeneratorMaps.DirectionMap[vector.Direction];
 
-            var offsetList = Maps.DirectionMap.ToList();
+            var offsetList = GeneratorMaps.DirectionMap.ToList();
             var index = offsetList.IndexOf(new(vector.Direction, aheadOffset));
 
             var prevIndex = index == 0 ? offsetList.Count - 1 : index - 1;
