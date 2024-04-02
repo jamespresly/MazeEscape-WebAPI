@@ -34,8 +34,8 @@ public class GeneratorStrategyBuilder : IGeneratorStrategyBuilder
 
         var edgeCases = new List<IEdgeCase>()
         {
-            new WallCrossEdgeCase(_mazeWriter),
             new EnclosureEdgeCase(_mazeWriter),
+            new WallCrossEdgeCase(_mazeWriter),
             new PartEnclosureEdgeCase(_mazeWriter)
         };
 
