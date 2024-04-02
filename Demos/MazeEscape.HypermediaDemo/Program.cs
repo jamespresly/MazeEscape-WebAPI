@@ -46,6 +46,7 @@ namespace MazeEscape.HypermediaDemo
                 if (link != null)
                 {
                     var resp = _clientWrapper.GetEndpoint(link.Href);
+                    Console.Clear();
                     Console.WriteLine(resp);
 
                     continue;
@@ -65,6 +66,7 @@ namespace MazeEscape.HypermediaDemo
 
 
                     var resp = _clientWrapper.PostEndpoint(action.Href, body);
+                    Console.Clear();
                     Console.WriteLine(resp);
 
                     continue;
