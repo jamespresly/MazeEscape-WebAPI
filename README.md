@@ -53,21 +53,35 @@ The life of this project began as a simple console app. After building the funct
 
 The maze is inputted in text form and then parsed into the object model. Using strings to represent mazes is a useful way of making them human readable and serialisable for transportation.
 
-Four characters are used to define a maze:
-- <code>'+'</code> for walls
+Five characters are used to define a new maze:
+- <code>'+'</code> for walls 
 - <code>' '</code> (space) for corridors
 - <code>'S'</code> for the start point
 - <code>'E'</code> for the exit
+- <code>'\n'</code> for the end of a row of the maze
 
-So the smallest possible valid maze which contains all characters would be:
+Additionally, when a maze is being played the arrow symbols are used to represent player location and direction <code>'▲''►''▼''◄'</code>
 
-<pre>
-+E+
-+ +
-+S+
-+++
+From here onwards I'll use the █ character to represent walls for convenience.
+So the smallest valid maze which contains all characters would be:
+
+
+<pre style="line-height:1.04;font-weight:bold;">
+█E█
+█ █
+█S█
+███
 </pre>
+This is our 'minmaze'. In string format it reads as:<br>
+<code>+E+\n+ +\n+S+\n+++</code>
 
+If we encode each character to a number and convert it to a base64 string then it encodes to:<br> 
+<code>AAQAAgABAAIABQACAAAA</code>
+
+Then we encrypt it using AES256 to get our {mazeToken}:<br>
+<code>LeC814YvVJttEgWzd9j9yA==r84XK9e6cVFjqcap3Au6C6d7XNajTqXVAbWgRQ6qiQE=</code>
+
+The {mazeToken} can be passed to the client and is a permanent reference to a maze state. The client is unable to determine the structure of the maze from the token as the encryption key is stored server-side. This process is reversible, so the player can send a {mazeToken} to the API with a requested player move and that can be carried out.
 
 
 ### Maze Creation Workflow
@@ -77,8 +91,8 @@ So the smallest possible valid maze which contains all characters would be:
 
 e.g.
   
-```
-█E████████
+<pre style="line-height:1.04;font-weight:bold;">
+██████████
 █        █
 █ █ ████ █
 █ █ █ ██ █
@@ -87,8 +101,9 @@ e.g.
 █ ███ █  █
 █   █ ██ █
 █ █ █    █
-██████████
-```
+███E██████
+</pre>
+
 - Turn text into {mazeToken} and return to client with position info
 
 e.g.
@@ -117,12 +132,13 @@ stateDiagram-v2
         state "Client POSTS /mazes" as Post
         state "Client Receives {mazeToken}" as ReceiveMazeToken            
     }
-     state "Driver" as Driver{  
-    state "Encoder/Decoder" as Encoder {            
+    
+    state "Driver" as Driver {  
+        state "Encoder/Decoder" as Encoder {            
             state "Encode and Encrypt Text To {mazeToken}" as EncryptText        
-            }
-    state "Generator" as Generator {
-        state "Generates Maze Text" as Generate
+        }
+        state "Generator" as Generator {
+            state "Generates Maze Text" as Generate
         }
     }
 
@@ -149,10 +165,10 @@ e.g.
 - Decrypts {mazeToken} to text
 - Engine parses text and moves player forward
 
-```
-e.g.
 
-█E████████           █E████████
+e.g.
+<pre style="line-height:1.04;font-weight:bold;">
+██████████           ██████████
 █        █           █        █
 █ █ ████ █    Move   █ █ ████ █
 █ █ █ ██ █  Forward  █ █ █ ██ █
@@ -161,8 +177,8 @@ e.g.
 █ ███ █  █           █ ███▼█  █
 █   █ ██ █           █   █ ██ █
 █ █ █    █           █ █ █    █
-██████████           ██████████
-```
+███E██████           ███E██████
+</pre>
 - Turn text into {mazeToken} and return to client with position info
 
 e.g.
@@ -171,8 +187,8 @@ e.g.
 {
   "mazeToken": "+OyrCUXVFRJnyLVPzuKZzg==r5O9KyhtpJ5b5J8LYEdO84eZ4oC69fdAo...",
   "position": {
-      "x": 1,
-      "y": 1
+      "x": 5,
+      "y": 6
     },
     "facing": "South",
     "vision": {
@@ -207,18 +223,18 @@ stateDiagram-v2
         }
 
         state "Model" as Model {
-            state "Maze Object" as Obj
+            state "Maze Object" as Object
         }
     }
 
     PostMazeToken --> DecryptText
     DecryptText --> ParseText
-    ParseText --> Obj
-    Obj --> ParseText
+    ParseText --> Object
+    Object --> ParseText
     ParseText --> EngineMove
     EngineMove --> ConvertText
-    ConvertText --> Obj
-    Obj --> ConvertText
+    ConvertText --> Object
+    Object --> ConvertText
     ConvertText --> EncryptText
     EncryptText --> ReceiveMazeToken
 ```  
@@ -257,7 +273,7 @@ graph TD
     Engine --> Model
     Generator --> Model
 
-    classDef webapi fill:#4287f5, color:#fff;
+    classDef webapi fill:#4287f5, color:#fff, stroke:#333;
    
     class WebAPI webapi;
     class Driver driver;
@@ -429,8 +445,8 @@ Response:
   "data": {
     "mazeToken": "+OyrCUXVFRJnyLVPzuKZzg==r5O9KyhtpJ5b5J8LYEdO84eZ4oC69fdAosVsICdv69FZiVh8e...",
     "position": {
-      "x": 1,
-      "y": 1
+      "x": 6,
+      "y": 7
     },
     "facing": "North",
     "vision": {
@@ -455,72 +471,55 @@ The following state diagram depicts how the hypermedia returned for each endpoin
 stateDiagram-v2
 
     direction LR
-    state "GET /mazes" as Root{
-           
-            state "Create Maze From Preset\n{presetName}\nPOST /mazes" as CreatePreset
-            state "Create Maze From Text\n{customText}\nPOST /mazes" as CreateCustom
-            state "Create Random Maze\n{height}\n{width}\nPOST /mazes" as CreateRandom
+    state "GET /mazes" as Root{           
+        state "Create Maze From Preset\n{presetName}\nPOST /mazes" as CreatePreset
+        state "Create Maze From Text\n{customText}\nPOST /mazes" as CreateCustom
+        state "Create Random Maze\n{height}\n{width}\nPOST /mazes" as CreateRandom
          
-            state "Get Mazes Root\nGET /mazes" as GetRoot
-            state "Get Mazes Presets List\nGET /mazes/presets" as GetPresets       
+        state "Get Mazes Root\nGET /mazes" as GetRoot
+        state "Get Mazes Presets List\nGET /mazes/presets" as GetPresets       
     }
 
-    state "POST /mazes Response" as PostRoot{
-          
+    state "POST /mazes Response" as PostRoot{          
         state "Post Player\n{mazeToken}\nPOST /mazes/player" as PostPlayer
-        state "Get Mazes Root\nGET /mazes" as GetRoot3
-    }
-
-    state "POST /mazes/player" as PlayerRoot{
-            
-            state "Post Player\n{mazeToken}\nPOST /mazes/player" as PostPlayer2
-            state "Move Forward | Turn Left | Turn Right\n{mazeToken}\n{playerMove}\nPOST /mazes/player" as TurnLeft
-                  
-            state "Get Mazes Root\nGET /mazes" as GetRoot4
-    }
-
-    state "GET /mazes/presets" as Presets{
-             
-        state "Create Maze From Preset\n{presetName}\nPOST /mazes" as CreatePreset2
-
         state "Get Mazes Root\nGET /mazes" as GetRoot2
     }
 
+    state "POST /mazes/player" as Player{            
+        state "Post Player\n{mazeToken}\nPOST /mazes/player" as PostPlayer2
+        state "Move Forward | Turn Left | Turn Right\n{mazeToken}\n{playerMove}\nPOST /mazes/player" as MovePlayer                  
+        state "Get Mazes Root\nGET /mazes" as GetRoot3
+    }
+
+    state "GET /mazes/presets" as Presets{             
+        state "Create Maze From Preset\n{presetName}\nPOST /mazes" as CreatePreset2
+        state "Get Mazes Root\nGET /mazes" as GetRoot4
+    }
+
     state "POST /mazes/player Response" as Response2
+    state "Back to Root\nGET /mazes" as BackToRoot
 
-    state "Back to Root\nGET /mazes" as back2
-
-    [*] --> Root
-   
-    
-    PostPlayer --> PlayerRoot
+    [*] --> Root    
+    PostPlayer --> Player
     GetPresets --> Presets
-   
-
     PostPlayer2 --> Response2
-    TurnLeft --> Response2
-
-    Response2 --> PlayerRoot
-
+    MovePlayer --> Response2
+    Response2 --> Player
+    BackToRoot --> [*]
     
-
-    back2 --> [*]
-    
-    state join_state2 <<join>>
-    GetRoot --> join_state2
-    GetRoot2 --> join_state2
-    GetRoot3 --> join_state2
-    GetRoot4 --> join_state2
-    join_state2 --> back2
+    state RootJoin <<join>>
+    GetRoot --> RootJoin
+    GetRoot2 --> RootJoin
+    GetRoot3 --> RootJoin
+    GetRoot4 --> RootJoin
+    RootJoin --> BackToRoot
    
-    state join_state <<join>>
-     CreatePreset2 --> join_state
-    CreatePreset --> join_state
-    CreateCustom --> join_state
-    CreateRandom --> join_state
-    join_state --> PostRoot
-
-
+    state CreateJoin <<join>>
+    CreatePreset2 --> CreateJoin
+    CreatePreset --> CreateJoin
+    CreateCustom --> CreateJoin
+    CreateRandom --> CreateJoin
+    CreateJoin --> PostRoot
 ```
 
 ### **GET /mazes**
