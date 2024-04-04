@@ -4,11 +4,11 @@
 - [Introduction](#introduction)
 - [Concept](#the-concept)
 - [Project Structure](#project-structure)
-- [BDD/TDD](#testing)
+- [BDD/TDD](#bddtdd)
 - [The API](#the-api)
 - [The Algorithm](#the-algorithm)
-- [Demos](#demos)
-- [Further work](#further)
+- [Further work](#further-work)
+
   
 
 ![Banner Maze](./Images/wide-bfs-rgb.gif)
@@ -16,17 +16,22 @@
 
 # Introduction
 
-This project explores and demonstrates some software engineering concepts such as taking a BDD approach to building a RESTful JSON API. Making the API fully stateless and utilising HATEOAS (hypermedia as the engine of application state) to make it discoverable and self-documenting. 
+This project explores and demonstrates some software engineering concepts such as:
+- Taking a BDD approach to building a REST API
+- Making the API stateless, cachable and utilising HATEOAS (hypermedia as the engine of application state) to make it discoverable and self-documenting
+- Writing an algorithm to produce random mazes
 
- - The API client creates a maze by either:
-   - using a preset
-   - generating a random maze 
-   - submitting their own in text form
- - The client then receives a {mazeToken}. This contains all the information about the maze but its encrypted so the client cant "cheat".
- - The client can now use the API to navigate the maze. Each call will return another maze token and information about what the player can see in the maze.
- - Each time the client makes a move, they include their maze token in the body of the request. The token is decrypted server-side and the next move is played. Then the maze is reencryped and sent back to the client. This way the API is completely stateless. There is no database and no session variables keeping track of any state. All the information necessary is encrypted in the maze token.
- - Each request response contains hypermedia which the client can use to make their next move. The API is fully discoverable and can be used without documentation.
+<br>
 
+The basic API definition is as follows:
+
+- The client creates a new maze by posting to an endpoint
+- The client receives a {mazeToken} in response. This contains all the information about the maze but its encrypted so the client cant "cheat"
+- The client can now use the API to navigate the maze. Each call will return another {mazeToken} and information about what the player can see in the maze
+- Each time the client makes a move, they include their maze token in the body of the request
+- Each request response contains hypermedia which the client can use to make their next move
+
+On each client move request the {mazeToken} is decrypted server-side and the next move is played. Then the maze is reencryped and sent back to the client. This way the API is completely stateless. There is no database and no session variables keeping track of any state. All the information necessary is encrypted in the maze token.
 
 ### Concepts Explored
 
@@ -391,7 +396,7 @@ Or
 {
   "createMode": "custom",  
   "custom": {
-   "mazeText" : "+E+\n+S+\n+++"
+   "mazeText" : "+E+\n+ +\n+S+\n+++"
   }
 }
 ```
@@ -711,18 +716,35 @@ We can replicate our proof of concept functionality using the API hypermedia to 
 
 # The Algorithm
 
-The maze generating algorithm works by keeping track of unvisited squares in the maze. Because of this it has a complexity of O(n). 
+The maze generating algorithm works by keeping track of unvisited squares in the maze. Because of this it has a complexity of O(n). The work flow is as follows:
 
- - Move forward creating corridor on the current square and walls to the sides
- - Change direction at random
+Rules:
+
+ - Move onto unvisited squares only 
  - Don't build over any corridors
- - If it can't move forward any further turn left or right
- - If it can't move left, right or forward go to another corridor next to an unvisited square
- - Keep doing this until there are no unvisited squares on the current path
+ - Change direction if: 
+   - You can't move forward any further  
+   - At random
+ - If you can't move in any direction teleport to a corridor next to an unvisited square
 
- Due to not building over corridors and backtracking to adjoining unvisited squares, all corridors will be connected to each other and their will be no isolated bits of maze.
+Steps:
+
+ - Move forward into an unvisited square 
+   - Build a corridor on the current square
+   - Build walls on the left and right sides
+   - Remove the built-on squares from the unvisited list
+- Change direction according to rules
+- Repeat until there are no unvisited squares on the current path
+
+
+
+There will be some edge cases with this algorithm which have to be dealt with separately but this is the basic idea. 
+
+The below animations were created using the MazeEscape.GeneratorDemo console application which is included in the Demos section of the codebase. 
 
 ![Maze Build](./Images/mazebuild50.gif)
+
+Due to not building over corridors and backtracking to adjoining unvisited squares, all corridors will be connected to each other and their will be no isolated bits of maze.
 
 This means we can theoretically place the exit in any corridor and it will join up to the start point. For now we will pick a random border square next to a corridor for the exit. This mostly works ok, but sometimes the route to the exit is a bit short.
 
@@ -731,11 +753,22 @@ Here are some examples of varying route length.
 
 ![Exit Route Finder](./Images/exit-route-finder.gif)
 
-### Demos
+# Further Work
 
-The following animations compare a BFS with DFS.
+The maze generating algorithm has the potential for much further development. Even small changes in the variables used in the algorithm have a big impact on the character and aesthetic of the maze. As such there is the possibility to develop a far more detailed maze generator with many extra inputs to define each one. 
 
+- Further refactoring and componentisation of the algorithm
+- A set of tests built for each component
 
+A javascript frontend could also be of use here to bring the whole project together. Due to the cachability of the {mazeToken} maze searching and pathfinding in the browser in interesting ways could be possible. Any point in the maze can be returned to by resubmitting the {mazeToken} allowing the client to teleport back to points of interest.
 
-### Further Work
+## Misc. Demos
+
+As a breadth-first search is used to calculate the shortest route to the exit in the unit-testing code, I repurposed some of it to demonstrate the searching of a maze.
+
+Here is a comparison of a breadth-first search and a depth-first search of the same maze. 
+
+![Breadth First Search](./Images/compare-bfs.gif)
+
+![Depth First Search](./Images/compare-dfs.gif)
 
