@@ -38,9 +38,9 @@ namespace MazeEscape.GeneratorDemo
             var mazeColour = ConsoleColor.White;
 
             var escapeRouteColour = ConsoleColor.DarkGreen;
-            var BfsColour = ConsoleColor.Blue;
-            var DfsBranchesColour = ConsoleColor.DarkGreen;
-            var DfsLeavesColour = ConsoleColor.DarkRed;
+            var bfsColour = ConsoleColor.Blue;
+            var dfsBranchesColour = ConsoleColor.DarkGreen;
+            var dfsLeavesColour = ConsoleColor.DarkRed;
 
             var plotMazeBuildSteps = true;
             var plotEscapeRoute = true;
@@ -79,14 +79,14 @@ namespace MazeEscape.GeneratorDemo
                 {
                     _dh.ResetConsole(border, completedMaze, mazeColour);
 
-                    _dh.PlotPathsBreadthFirst(completedMaze, BfsColour);
+                    _dh.PlotPathsBreadthFirst(completedMaze, bfsColour);
                 }
 
                 if (plotDfsRoute)
                 {
                     _dh.ResetConsole(border, completedMaze, mazeColour);
 
-                    _dh.PlotPathsDepthFirst(completedMaze, DfsBranchesColour, DfsLeavesColour);
+                    _dh.PlotPathsDepthFirst(completedMaze, dfsBranchesColour, dfsLeavesColour);
                 }
 
                 if (plotEscapeRoute)
