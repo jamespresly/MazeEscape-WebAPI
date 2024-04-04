@@ -50,18 +50,34 @@ The life of this project began as a simple console app. After building the funct
 
 ![Concept](./Images/concept.gif)
 
-## Workflow
 
-Now we need to build an API around the concept
+The maze is inputted in text form and then parsed into the object model. Using strings to represent mazes is a useful way of making them human readable and serialisable for transportation.
+
+Four characters are used to define a maze:
+- <code>'+'</code> for walls
+- <code>' '</code> (space) for corridors
+- <code>'S'</code> for the start point
+- <code>'E'</code> for the exit
+
+So the smallest possible valid maze which contains all characters would be:
+
+<pre>
++E+
++ +
++S+
++++
+</pre>
+
+
 
 ### Maze Creation Workflow
 
 - Client POSTS to /mazes endpoint with some creation parameters
 - Maze Text is created
+
+e.g.
   
 ```
-e.g.
-
 █E████████
 █        █
 █ █ ████ █
@@ -75,9 +91,8 @@ e.g.
 ```
 - Turn text into {mazeToken} and return to client with position info
 
-```
 e.g.
-
+```json
 {
   "mazeToken": "+OyrCUXVFRJnyLVPzuKZzg==r5O9KyhtpJ5b5J8LYEdO84eZ4oC69fdAo...",
   "position": {
@@ -121,9 +136,9 @@ stateDiagram-v2
 
 - Client POSTS to /mazes/player endpoint
 
-```
 e.g.
 
+```json
 {
     "mazeToken": "CJ8xBWHq3To9T5lyNhLxWg==9TkWL6BxVDKNBt16LaNKerRsNMO1Ou..."
     "playerMove": "forward"
@@ -150,9 +165,9 @@ e.g.
 ```
 - Turn text into {mazeToken} and return to client with position info
 
-```
 e.g.
 
+```json
 {
   "mazeToken": "+OyrCUXVFRJnyLVPzuKZzg==r5O9KyhtpJ5b5J8LYEdO84eZ4oC69fdAo...",
   "position": {
@@ -346,7 +361,25 @@ Hypermedia has been excluded from these examples as it's addressed in the next s
 
 ### **POST /mazes**
 
+```json
+{
+  "createMode": "preset",  
+  "preset": {
+    "presetName" : "spiral"
+  }
+}
+```
 
+Or
+```json
+{
+  "createMode": "custom",  
+  "custom": {
+   "mazeText" : "+E+\n+S+\n+++"
+  }
+}
+```
+Or
 ```json
 {
   "createMode": "random",  
@@ -455,7 +488,7 @@ stateDiagram-v2
 
     state "POST /mazes/player Response" as Response2
 
-    
+    state "Back to Root\nGET /mazes" as back2
 
     [*] --> Root
    
@@ -469,10 +502,16 @@ stateDiagram-v2
 
     Response2 --> PlayerRoot
 
-    GetRoot --> [*]
-    GetRoot2 --> [*]
-    GetRoot3 --> [*]
-    GetRoot4 --> [*]
+    
+
+    back2 --> [*]
+    
+    state join_state2 <<join>>
+    GetRoot --> join_state2
+    GetRoot2 --> join_state2
+    GetRoot3 --> join_state2
+    GetRoot4 --> join_state2
+    join_state2 --> back2
    
     state join_state <<join>>
      CreatePreset2 --> join_state
@@ -673,7 +712,7 @@ We can replicate our proof of concept functionality using the API hypermedia to 
 
 # The Algorithm
 
-The maze generating algorithm work by keeping track of unvisited squares in the maze. Because of this it has a complexity of O(n). 
+The maze generating algorithm works by keeping track of unvisited squares in the maze. Because of this it has a complexity of O(n). 
 
  - Move forward creating corridor on the current square and walls to the sides
  - Change direction at random
