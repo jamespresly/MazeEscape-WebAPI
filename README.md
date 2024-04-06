@@ -31,7 +31,7 @@ The basic API definition is as follows:
 - Each time the client makes a move, they include their maze token in the body of the request
 - Each request response contains hypermedia which the client can use to make their next move
 
-On each client move request the {mazeToken} is decrypted server-side and the next move is played. Then the maze is reencryped and sent back to the client. This way the API is completely stateless. There is no database and no session variables keeping track of any state. All the information necessary is encrypted in the maze token.
+On each client move request the {mazeToken} is decrypted server-side and the next move is played. Then the maze is re-encryped and sent back to the client. This way the API is completely stateless. There is no database and no session variables keeping track of any state. All the information necessary is encrypted in the maze token.
 
 ### Concepts Explored
 
@@ -744,25 +744,25 @@ The below animations were created using the MazeEscape.GeneratorDemo console app
 
 ![Maze Build](./Images/mazebuild50.gif)
 
-Due to not building over corridors and backtracking to adjoining unvisited squares, all corridors will be connected to each other and their will be no isolated bits of maze.
+[Here is a gif of a big maze being built](./Images/big-maze-build.gif). Its quite large (around 100mb) so I didn't put it on this page.
 
-[Here is a gif of a big maze being built](./Images/big-maze-build.gif). Its quite large (around 150mb) so I didn't put it on this page.
+Due to not building over corridors and backtracking to adjoining unvisited squares, all corridors will be connected to each other and their will be no isolated bits of maze.
 
 This means we can theoretically place the exit in any corridor and it will join up to the start point. For now we will pick a random border square next to a corridor for the exit. This mostly works ok, but sometimes the route to the exit is a bit short.
 
-Here are some examples of varying route length.
-
+Here are some examples of varying exit route length.
 
 ![Exit Route Finder](./Images/exit-route-finder.gif)
 
 # Further Work
 
-The maze generating algorithm has the potential for much further development. Even small changes in the variables used in the algorithm have a big impact on the character and aesthetic of the maze. As such there is the possibility to develop a far more detailed maze generator with many extra inputs to define each one. 
+The maze generating algorithm has the potential for much further development. Even small changes in the variables used in the algorithm have a big impact on the character and aesthetic of the maze. As such there is the possibility to develop a far more detailed maze generator with many extra inputs to define each one. Additional work could include:
 
 - Further refactoring and componentisation of the algorithm
 - A set of tests built for each component
+- Strategies which combine the components in various ways to provide different maze types
 
-A javascript frontend could also be of use here to bring the whole project together. Due to the cachability of the {mazeToken} maze searching and pathfinding in the browser in interesting ways could be possible. Any point in the maze can be returned to by resubmitting the {mazeToken} allowing the client to teleport back to points of interest.
+A javascript frontend could also be of use here to bring the whole project together. Due to the cacheability of the {mazeToken} maze searching and pathfinding in the browser in interesting ways could be possible. Any point in the maze can be returned to by resubmitting the {mazeToken} allowing the client to teleport back to points of interest.
 
 ## Misc. Demos
 
