@@ -746,6 +746,8 @@ The below animations were created using the MazeEscape.GeneratorDemo console app
 
 Due to not building over corridors and backtracking to adjoining unvisited squares, all corridors will be connected to each other and their will be no isolated bits of maze.
 
+[Here is a gif of a big maze being built](./Images/big-maze-build.gif). Its quite large (around 150mb) so I didn't put it on this page.
+
 This means we can theoretically place the exit in any corridor and it will join up to the start point. For now we will pick a random border square next to a corridor for the exit. This mostly works ok, but sometimes the route to the exit is a bit short.
 
 Here are some examples of varying route length.
@@ -768,7 +770,13 @@ As a breadth-first search is used to calculate the shortest route to the exit in
 
 Here is a comparison of a breadth-first search and a depth-first search of the same maze. 
 
+Breadth-first search
+
 ![Breadth First Search](./Images/compare-bfs.gif)
 
+Depth-first search
+
 ![Depth First Search](./Images/compare-dfs.gif)
+
+We can see how the breadth-first search is a clear winner for this type of maze (though memory intensive). This is partially because of the exit placement which is always at the border. If the exit was at the end of a long winding dead-end then the depth-first search might do better at least some of the time.
 
