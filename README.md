@@ -81,10 +81,10 @@ This is our 'minmaze'. In string format it reads as:<br>
 <code>+E+\n+ +\n+S+\n+++</code>
 
 If we encode each character to a number and convert it to a base64 string then it encodes to:<br> 
-<code>AAQAAgABAAIABQACAAAA</code>
+<code>0BAIBAgUCAAo=</code>
 
 Then we encrypt it using AES256 to get our {mazeToken}:<br>
-<code>LeC814YvVJttEgWzd9j9yA==r84XK9e6cVFjqcap3Au6C6d7XNajTqXVAbWgRQ6qiQE=</code>
+<code>VNH10y5WfZU6pSsmjkuxdQ==jdm7MXbRcclJr34rsBqmmQ==</code>
 
 The {mazeToken} can be passed to the client and is a permanent reference to a maze state. The client is unable to determine the structure of the maze from the token as the encryption key is stored server-side. This process is reversible, so the player can send a {mazeToken} to the API with a requested player move and that can be carried out.
 
