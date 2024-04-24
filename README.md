@@ -18,7 +18,7 @@
 
 This project explores and demonstrates some software engineering concepts such as:
 - Taking a BDD approach to building a REST API
-- Making the API stateless, cachable and utilising HATEOAS (hypermedia as the engine of application state) to make it discoverable and self-documenting
+- Making the API stateless, cacheable and utilising HATEOAS (hypermedia as the engine of application state) to make it discoverable and self-documenting
 - Writing an algorithm to produce random mazes
 
 <br>
@@ -31,7 +31,7 @@ The basic API definition is as follows:
 - Each time the client makes a move, they include their maze token in the body of the request
 - Each request response contains hypermedia which the client can use to make their next move
 
-On each client move request the {mazeToken} is decrypted server-side and the next move is played. Then the maze is re-encryped and sent back to the client. This way the API is completely stateless. There is no database and no session variables keeping track of any state. All the information necessary is encrypted in the maze token.
+On each client move request the {mazeToken} is decrypted server-side and the next move is played. Then the maze is re-encrypted and sent back to the client. This way the API is completely stateless. There is no database and no session variables keeping track of any state. All the information necessary is encrypted in the maze token.
 
 ### Concepts Explored
 
@@ -746,7 +746,7 @@ The below animations were created using the MazeEscape.GeneratorDemo console app
 
 [Here is a gif of a big maze being built](./Images/big-maze-build.gif). Its quite large (around 100mb) so I didn't put it on this page.
 
-Due to not building over corridors and backtracking to adjoining unvisited squares, all corridors will be connected to each other and their will be no isolated bits of maze.
+Due to not building over corridors and backtracking to adjoining unvisited squares, all corridors will be connected to each other and there will be no isolated bits of maze.
 
 This means we can theoretically place the exit in any corridor and it will join up to the start point. For now we will pick a random border square next to a corridor for the exit. This mostly works ok, but sometimes the route to the exit is a bit short.
 
@@ -762,7 +762,7 @@ The maze generating algorithm has the potential for much further development. Ev
 - A set of tests built for each component
 - Strategies which combine the components in various ways to provide different maze types
 
-A javascript frontend could also be of use here to bring the whole project together. Due to the cacheability of the {mazeToken} maze searching and pathfinding in the browser in interesting ways could be possible. Any point in the maze can be returned to by resubmitting the {mazeToken} allowing the client to teleport back to points of interest.
+A JavaScript frontend could also be of use here to bring the whole project together. Due to the cacheability of the {mazeToken} maze searching and pathfinding in the browser in interesting ways could be possible. Any point in the maze can be returned to by resubmitting the {mazeToken} allowing the client to teleport back to points of interest.
 
 ## Misc. Demos
 
